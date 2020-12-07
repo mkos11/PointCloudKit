@@ -19,7 +19,6 @@
 		8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE6257DACA400978446 /* MetalBuffer.swift */; };
 		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
 		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
-		8E26BB05257DAE1B00978446 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BB04257DAE1B00978446 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +58,7 @@
 		8E26BAE7257DACA400978446 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SceneDepthPointCloud-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,18 +135,6 @@
 			path = MetraUITests;
 			sourceTree = "<group>";
 		};
-		8E26BAF1257DACBC00978446 /* Rendering */ = {
-			isa = PBXGroup;
-			children = (
-				8E26BAE7257DACA400978446 /* Helpers.swift */,
-				8E26BAE6257DACA400978446 /* MetalBuffer.swift */,
-				8E26BAE8257DACA400978446 /* Renderer.swift */,
-				8E26BAE5257DACA400978446 /* Shaders.metal */,
-				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
-			);
-			path = Rendering;
-			sourceTree = "<group>";
-		};
 		8E26BAF5257DAD0500978446 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,7 +147,7 @@
 		8E26BAF6257DAD1000978446 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				8E26BAF1257DACBC00978446 /* Rendering */,
+				EEE9034B257DD41700A682D8 /* Renderer */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -181,6 +169,19 @@
 				8E26BB04257DAE1B00978446 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		EEE9034B257DD41700A682D8 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				8E26BAE5257DACA400978446 /* Shaders.metal */,
+				EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */,
+				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
+				8E26BAE8257DACA400978446 /* Renderer.swift */,
+				8E26BAE7257DACA400978446 /* Helpers.swift */,
+				8E26BAE6257DACA400978446 /* MetalBuffer.swift */,
+			);
+			path = Renderer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,7 +290,6 @@
 				8E26BAB4257DAC0200978446 /* art.scnassets in Resources */,
 				8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */,
 				8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */,
-				8E26BB05257DAE1B00978446 /* Info.plist in Resources */,
 				8E26BAB9257DAC0200978446 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,13 +426,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -481,12 +482,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -497,16 +499,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
-				INFOPLIST_FILE = Metra/Info.plist;
+				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Renderer/SceneDepthPointCloud-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -516,16 +521,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
-				INFOPLIST_FILE = Metra/Info.plist;
+				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Renderer/SceneDepthPointCloud-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
