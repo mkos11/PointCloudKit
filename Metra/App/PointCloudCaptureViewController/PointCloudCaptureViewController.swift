@@ -13,6 +13,7 @@ import ARKit
 final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate {
     private let isUIEnabled = true
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
+    private let maxPointsSlider = UISlider()
     private let particleSizeSlider = UISlider()
     private let rgbRadiusSlider = UISlider()
     
@@ -21,63 +22,8 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let device = MTLCreateSystemDefaultDevice() else {
-            print("Metal is not supported on this device")
-            return
-        }
-        
         session.delegate = self
-        
-        // Set the view to use the default device
-        if let view = view as? MTKView {
-            view.device = device
-            
-            view.backgroundColor = UIColor.clear
-            // we need this to enable depth test
-            view.depthStencilPixelFormat = .depth32Float
-            view.contentScaleFactor = 1
-            view.delegate = self
-            
-            // Configure the renderer to draw to the view
-            renderer = Renderer(session: session, metalDevice: device, renderDestination: view)
-            renderer.drawRectResized(size: view.bounds.size)
-        }
-        
-        // Confidence control
-        confidenceControl.selectedSegmentIndex = renderer.confidenceThreshold
-        confidenceControl.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
-        
-        // Point Size Control
-        particleSizeSlider.minimumValueImage = UIImage.init(systemName: "smallcircle.fill.circle")
-        particleSizeSlider.maximumValueImage = UIImage.init(systemName: "largecircle.fill.circle")
-        particleSizeSlider.minimumValue = 0
-        particleSizeSlider.maximumValue = 10
-        particleSizeSlider.isContinuous = true
-        particleSizeSlider.value = renderer.particleSize
-        particleSizeSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
-        
-        // RGB Radius control
-        rgbRadiusSlider.minimumValueImage = UIImage.init(systemName: "video")
-        rgbRadiusSlider.maximumValueImage = UIImage.init(systemName: "video.fill")
-        rgbRadiusSlider.minimumValue = 0
-        rgbRadiusSlider.maximumValue = 1.5
-        rgbRadiusSlider.isContinuous = true
-        rgbRadiusSlider.value = renderer.rgbRadius
-        rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
-        
-        let stackView = UIStackView(arrangedSubviews: [confidenceControl,
-                                                       particleSizeSlider,
-                                                       rgbRadiusSlider])
-        stackView.isHidden = !isUIEnabled
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        view.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
-        ])
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,6 +46,8 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         switch view {
         case confidenceControl:
             renderer.confidenceThreshold = confidenceControl.selectedSegmentIndex
+        case maxPointsSlider:
+            renderer.maxPoints = Int(maxPointsSlider.value)
         case particleSizeSlider:
             renderer.particleSize = particleSizeSlider.value
         case rgbRadiusSlider:
@@ -141,6 +89,86 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
             alertController.addAction(restartAction)
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+}
+
+// MARK: - UI Setup
+
+extension PointCloudCaptureViewController {
+    private func setupUI() {
+        setupMetalRenderer()
+        setupControls()
+        setupOverlay()
+    }
+    
+    private func setupMetalRenderer() {
+        guard let device = MTLCreateSystemDefaultDevice() else {
+            print("Metal is not supported on this device")
+            return
+        }
+        
+        // Set the view to use the default device
+        if let view = view as? MTKView {
+            view.device = device
+            
+            view.backgroundColor = UIColor.clear
+            // we need this to enable depth test
+            view.depthStencilPixelFormat = .depth32Float
+            view.contentScaleFactor = 1
+            view.delegate = self
+            
+            // Configure the renderer to draw to the view
+            renderer = Renderer(session: session, metalDevice: device, renderDestination: view)
+            renderer.drawRectResized(size: view.bounds.size)
+        }
+    }
+    
+    private func setupControls() {
+        // Confidence control
+        confidenceControl.selectedSegmentIndex = renderer.confidenceThreshold
+        confidenceControl.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
+        
+        // Max Points Control
+        maxPointsSlider.maximumValueImage = UIImage.init(systemName: "aqi.low")
+        maxPointsSlider.minimumValue = 50_000
+        maxPointsSlider.maximumValue = 20_000_000
+        maxPointsSlider.isContinuous = true
+        maxPointsSlider.value = Float(renderer.maxPoints)
+        maxPointsSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
+        
+        // Point Size Control
+        particleSizeSlider.minimumValueImage = UIImage.init(systemName: "smallcircle.fill.circle")
+        particleSizeSlider.maximumValueImage = UIImage.init(systemName: "largecircle.fill.circle")
+        particleSizeSlider.minimumValue = 0
+        particleSizeSlider.maximumValue = 10
+        particleSizeSlider.isContinuous = true
+        particleSizeSlider.value = renderer.particleSize
+        particleSizeSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
+        
+        // RGB Radius control
+        rgbRadiusSlider.minimumValueImage = UIImage.init(systemName: "video")
+        rgbRadiusSlider.maximumValueImage = UIImage.init(systemName: "video.fill")
+        rgbRadiusSlider.minimumValue = 0
+        rgbRadiusSlider.maximumValue = 1.5
+        rgbRadiusSlider.isContinuous = true
+        rgbRadiusSlider.value = renderer.rgbRadius
+        rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
+    }
+    
+    private func setupOverlay() {
+        let stackView = UIStackView(arrangedSubviews: [confidenceControl,
+                                                       maxPointsSlider,
+                                                       particleSizeSlider,
+                                                       rgbRadiusSlider])
+        stackView.isHidden = !isUIEnabled
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        view.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+        ])
     }
 }
 

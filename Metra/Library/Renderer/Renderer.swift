@@ -10,8 +10,6 @@ import MetalKit
 import ARKit
 
 final class Renderer {
-    // Maximum number of points we store in the point cloud
-    private let maxPoints = 500_000
     // Number of sample points on the grid
     private let numGridPoints = 500
     // We only use portrait
@@ -97,6 +95,14 @@ final class Renderer {
             rgbUniforms.radius = rgbRadius
         }
     }
+    
+    // Maximum number of points we store in the point cloud
+    var maxPoints = 500_000 {
+        didSet {
+            pointCloudUniforms.maxPoints = Int32(maxPoints)
+        }
+    }
+    
     // Particle's size in pixels
     var particleSize: Float = 5 {
         didSet {
