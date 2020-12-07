@@ -9,12 +9,17 @@
 /* Begin PBXBuildFile section */
 		8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAB1257DAC0200978446 /* AppDelegate.swift */; };
 		8E26BAB4257DAC0200978446 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BAB3257DAC0200978446 /* art.scnassets */; };
-		8E26BAB6257DAC0200978446 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAB5257DAC0200978446 /* ViewController.swift */; };
+		8E26BAB6257DAC0200978446 /* PointCloudViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAB5257DAC0200978446 /* PointCloudViewController.swift */; };
 		8E26BAB9257DAC0200978446 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BAB7257DAC0200978446 /* Main.storyboard */; };
 		8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BABA257DAC0500978446 /* Assets.xcassets */; };
 		8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */; };
 		8E26BAC9257DAC0500978446 /* MetraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAC8257DAC0500978446 /* MetraTests.swift */; };
 		8E26BAD4257DAC0500978446 /* MetraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAD3257DAC0500978446 /* MetraUITests.swift */; };
+		8E26BAE9257DACA400978446 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE5257DACA400978446 /* Shaders.metal */; };
+		8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE6257DACA400978446 /* MetalBuffer.swift */; };
+		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
+		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
+		8E26BB05257DAE1B00978446 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BB04257DAE1B00978446 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,17 +43,22 @@
 		8E26BAAE257DAC0200978446 /* Metra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAB1257DAC0200978446 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E26BAB3257DAC0200978446 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		8E26BAB5257DAC0200978446 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8E26BAB5257DAC0200978446 /* PointCloudViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudViewController.swift; sourceTree = "<group>"; };
 		8E26BAB8257DAC0200978446 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E26BABA257DAC0500978446 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E26BABD257DAC0500978446 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8E26BABF257DAC0500978446 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E26BAC4257DAC0500978446 /* MetraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAC8257DAC0500978446 /* MetraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetraTests.swift; sourceTree = "<group>"; };
 		8E26BACA257DAC0500978446 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E26BACF257DAC0500978446 /* MetraUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetraUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAD3257DAC0500978446 /* MetraUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetraUITests.swift; sourceTree = "<group>"; };
 		8E26BAD5257DAC0500978446 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E26BAE4257DACA400978446 /* ShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
+		8E26BAE5257DACA400978446 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		8E26BAE6257DACA400978446 /* MetalBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalBuffer.swift; sourceTree = "<group>"; };
+		8E26BAE7257DACA400978446 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +109,10 @@
 		8E26BAB0257DAC0200978446 /* Metra */ = {
 			isa = PBXGroup;
 			children = (
-				8E26BAB1257DAC0200978446 /* AppDelegate.swift */,
-				8E26BAB3257DAC0200978446 /* art.scnassets */,
-				8E26BAB5257DAC0200978446 /* ViewController.swift */,
-				8E26BAB7257DAC0200978446 /* Main.storyboard */,
-				8E26BABA257DAC0500978446 /* Assets.xcassets */,
-				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
-				8E26BABF257DAC0500978446 /* Info.plist */,
+				8E26BAF5257DAD0500978446 /* App */,
+				8E26BAF6257DAD1000978446 /* Library */,
+				8E26BAF7257DAD1E00978446 /* Model */,
+				8E26BAF8257DAD2200978446 /* Resources */,
 			);
 			path = Metra;
 			sourceTree = "<group>";
@@ -126,6 +133,54 @@
 				8E26BAD5257DAC0500978446 /* Info.plist */,
 			);
 			path = MetraUITests;
+			sourceTree = "<group>";
+		};
+		8E26BAF1257DACBC00978446 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				8E26BAE7257DACA400978446 /* Helpers.swift */,
+				8E26BAE6257DACA400978446 /* MetalBuffer.swift */,
+				8E26BAE8257DACA400978446 /* Renderer.swift */,
+				8E26BAE5257DACA400978446 /* Shaders.metal */,
+				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
+			);
+			path = Rendering;
+			sourceTree = "<group>";
+		};
+		8E26BAF5257DAD0500978446 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8E26BAB1257DAC0200978446 /* AppDelegate.swift */,
+				8E26BAB5257DAC0200978446 /* PointCloudViewController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		8E26BAF6257DAD1000978446 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				8E26BAF1257DACBC00978446 /* Rendering */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		8E26BAF7257DAD1E00978446 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8E26BAF8257DAD2200978446 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8E26BAB3257DAC0200978446 /* art.scnassets */,
+				8E26BAB7257DAC0200978446 /* Main.storyboard */,
+				8E26BABA257DAC0500978446 /* Assets.xcassets */,
+				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
+				8E26BB04257DAE1B00978446 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +289,7 @@
 				8E26BAB4257DAC0200978446 /* art.scnassets in Resources */,
 				8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */,
 				8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */,
+				8E26BB05257DAE1B00978446 /* Info.plist in Resources */,
 				8E26BAB9257DAC0200978446 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,7 +315,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E26BAB6257DAC0200978446 /* ViewController.swift in Sources */,
+				8E26BAE9257DACA400978446 /* Shaders.metal in Sources */,
+				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
+				8E26BAB6257DAC0200978446 /* PointCloudViewController.swift in Sources */,
+				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
+				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
 				8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
