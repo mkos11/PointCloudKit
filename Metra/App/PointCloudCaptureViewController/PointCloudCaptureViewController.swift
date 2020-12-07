@@ -10,7 +10,7 @@ import Metal
 import MetalKit
 import ARKit
 
-final class PointCloudViewController: UIViewController, ARSessionDelegate {
+final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate {
    private let isUIEnabled = true
    private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
    private let rgbRadiusSlider = UISlider()
@@ -134,7 +134,7 @@ final class PointCloudViewController: UIViewController, ARSessionDelegate {
 
 // MARK: - MTKViewDelegate
 
-extension PointCloudViewController: MTKViewDelegate {
+extension PointCloudCaptureViewController: MTKViewDelegate {
    // Called whenever view changes orientation or layout is changed
    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
       renderer.drawRectResized(size: size)
