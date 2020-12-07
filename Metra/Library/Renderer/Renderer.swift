@@ -10,12 +10,8 @@ import MetalKit
 import ARKit
 
 final class Renderer {
-    // Maximum number of points we store in the point cloud
-    private let maxPoints = 500_000
     // Number of sample points on the grid
     private let numGridPoints = 500
-    // Particle's size in pixels
-    private let particleSize: Float = 10
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
@@ -60,7 +56,7 @@ final class Renderer {
         var uniforms = RGBUniforms()
         uniforms.radius = rgbRadius
         uniforms.viewToCamera.copy(from: viewToCamera)
-        uniforms.viewRatio = Float(viewportSize.width / viewportSize.height)
+        uniforms.viewRatio = Float(viewportSize.height / viewportSize.width)
         return uniforms
     }()
     private var rgbUniformsBuffers = [MetalBuffer<RGBUniforms>]()
@@ -97,6 +93,20 @@ final class Renderer {
         didSet {
             // apply the change for the shader
             rgbUniforms.radius = rgbRadius
+        }
+    }
+    
+    // Maximum number of points we store in the point cloud
+    var maxPoints = 500_000 {
+        didSet {
+            pointCloudUniforms.maxPoints = Int32(maxPoints)
+        }
+    }
+    
+    // Particle's size in pixels
+    var particleSize: Float = 5 {
+        didSet {
+            pointCloudUniforms.particleSize = particleSize
         }
     }
 
