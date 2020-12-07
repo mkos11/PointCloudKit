@@ -20,6 +20,7 @@
 		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
 		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
 		EEE90365257DFFB700A682D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EEE90364257DFFB700A682D8 /* SnapKit */; };
+		EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE90369257E02C100A682D8 /* UIView+blur.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SceneDepthPointCloud-Bridging-Header.h"; sourceTree = "<group>"; };
+		EEE90369257E02C100A682D8 /* UIView+blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+blur.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 		8E26BAF6257DAD1000978446 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				EEE90369257E02C100A682D8 /* UIView+blur.swift */,
 				EEE9034B257DD41700A682D8 /* Renderer */,
 			);
 			path = Library;
@@ -357,6 +360,7 @@
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
 				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
+				EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */,
 				8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
