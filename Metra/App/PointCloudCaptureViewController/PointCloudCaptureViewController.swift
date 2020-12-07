@@ -13,6 +13,7 @@ import ARKit
 final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate {
     private let isUIEnabled = true
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
+    private let particleSizeSlider = UISlider()
     private let rgbRadiusSlider = UISlider()
     
     private let session = ARSession()
@@ -48,14 +49,27 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         confidenceControl.selectedSegmentIndex = renderer.confidenceThreshold
         confidenceControl.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
         
+        // Point Size Control
+        particleSizeSlider.minimumValueImage = UIImage.init(systemName: "smallcircle.fill.circle")
+        particleSizeSlider.maximumValueImage = UIImage.init(systemName: "largecircle.fill.circle")
+        particleSizeSlider.minimumValue = 0
+        particleSizeSlider.maximumValue = 10
+        particleSizeSlider.isContinuous = true
+        particleSizeSlider.value = renderer.particleSize
+        particleSizeSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
+        
         // RGB Radius control
+        rgbRadiusSlider.minimumValueImage = UIImage.init(systemName: "video")
+        rgbRadiusSlider.maximumValueImage = UIImage.init(systemName: "video.fill")
         rgbRadiusSlider.minimumValue = 0
         rgbRadiusSlider.maximumValue = 1.5
         rgbRadiusSlider.isContinuous = true
         rgbRadiusSlider.value = renderer.rgbRadius
         rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
         
-        let stackView = UIStackView(arrangedSubviews: [confidenceControl, rgbRadiusSlider])
+        let stackView = UIStackView(arrangedSubviews: [confidenceControl,
+                                                       particleSizeSlider,
+                                                       rgbRadiusSlider])
         stackView.isHidden = !isUIEnabled
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -85,13 +99,12 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     @objc
     private func viewValueChanged(view: UIView) {
         switch view {
-        
         case confidenceControl:
             renderer.confidenceThreshold = confidenceControl.selectedSegmentIndex
-            
+        case particleSizeSlider:
+            renderer.particleSize = particleSizeSlider.value
         case rgbRadiusSlider:
             renderer.rgbRadius = rgbRadiusSlider.value
-            
         default:
             break
         }

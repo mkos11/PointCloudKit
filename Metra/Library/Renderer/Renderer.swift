@@ -14,8 +14,6 @@ final class Renderer {
     private let maxPoints = 500_000
     // Number of sample points on the grid
     private let numGridPoints = 500
-    // Particle's size in pixels
-    private let particleSize: Float = 10
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
@@ -97,6 +95,12 @@ final class Renderer {
         didSet {
             // apply the change for the shader
             rgbUniforms.radius = rgbRadius
+        }
+    }
+    // Particle's size in pixels
+    var particleSize: Float = 5 {
+        didSet {
+            pointCloudUniforms.particleSize = particleSize
         }
     }
 
