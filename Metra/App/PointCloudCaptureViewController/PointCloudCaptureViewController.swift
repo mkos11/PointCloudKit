@@ -45,7 +45,6 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         }
         
         // Confidence control
-        confidenceControl.backgroundColor = .white
         confidenceControl.selectedSegmentIndex = renderer.confidenceThreshold
         confidenceControl.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
         

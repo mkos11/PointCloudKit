@@ -58,7 +58,7 @@ final class Renderer {
         var uniforms = RGBUniforms()
         uniforms.radius = rgbRadius
         uniforms.viewToCamera.copy(from: viewToCamera)
-        uniforms.viewRatio = Float(viewportSize.width / viewportSize.height)
+        uniforms.viewRatio = Float(viewportSize.height / viewportSize.width)
         return uniforms
     }()
     private var rgbUniformsBuffers = [MetalBuffer<RGBUniforms>]()
