@@ -8,10 +8,31 @@ The host app renderer.
 import Metal
 import MetalKit
 import ARKit
+import Combine
+
+struct Constants {}
+
+extension Constants {
+    struct Renderer {
+        static let defaultNumGridPoints = 5000
+        
+        static let defaultMaxPoints = 500_000
+        static let minMaxPoints = 50_000
+        static let maxMaxPoints = 5_000_000
+        
+        static let defaultParticleSize: Float = 5.0
+        static let minParticleSize: Float = 0.0
+        static let maxParticleSize: Float = 10.0
+        
+        static let defaultRgbRadius: Float = 1.0
+        static let minRgbRadius: Float = 0.0
+        static let maxRgbRadius: Float = 1.5
+    }
+}
 
 final class Renderer {
     // Number of sample points on the grid
-    private let numGridPoints = 500
+    private let numGridPoints = Constants.Renderer.defaultNumGridPoints
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
@@ -73,7 +94,7 @@ final class Renderer {
     // Particles buffer
     private var particlesBuffer: MetalBuffer<ParticleUniforms>
     private var currentPointIndex = 0
-    private var currentPointCount = 0
+    @Published private (set) var currentPointCount = 0
 
     // Camera data
     private var sampleFrame: ARFrame { session.currentFrame! }
@@ -89,7 +110,7 @@ final class Renderer {
         }
     }
 
-    var rgbRadius: Float = 0 {
+    @Published var rgbRadius: Float = Float(Constants.Renderer.minRgbRadius) {
         didSet {
             // apply the change for the shader
             rgbUniforms.radius = rgbRadius
@@ -97,14 +118,14 @@ final class Renderer {
     }
     
     // Maximum number of points we store in the point cloud
-    var maxPoints = 500_000 {
+    @Published var maxPoints = Constants.Renderer.defaultMaxPoints {
         didSet {
             pointCloudUniforms.maxPoints = Int32(maxPoints)
         }
     }
     
     // Particle's size in pixels
-    var particleSize: Float = 5 {
+    @Published var particleSize: Float = Float(Constants.Renderer.defaultParticleSize) {
         didSet {
             pointCloudUniforms.particleSize = particleSize
         }
@@ -123,7 +144,9 @@ final class Renderer {
             rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
             pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
         }
-        particlesBuffer = .init(device: device, count: maxPoints, index: kParticleUniforms.rawValue)
+        particlesBuffer = .init(device: device,
+                                count: Constants.Renderer.maxMaxPoints,
+                                index: kParticleUniforms.rawValue)
 
         // rbg does not need to read/write depth
         let relaxedStateDescriptor = MTLDepthStencilDescriptor()

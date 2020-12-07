@@ -10,7 +10,12 @@ import Metal
 import MetalKit
 import ARKit
 
+import SnapKit
+import Combine
+
 final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate {
+    private var cancellable: Set<AnyCancellable> = []
+    
     private let isUIEnabled = true
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
     private let maxPointsSlider = UISlider()
@@ -97,8 +102,8 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
 extension PointCloudCaptureViewController {
     private func setupUI() {
         setupMetalRenderer()
-        setupControls()
-        setupOverlay()
+        setupMetricsOverlay()
+        setupControlsOverlay()
     }
     
     private func setupMetalRenderer() {
@@ -123,6 +128,103 @@ extension PointCloudCaptureViewController {
         }
     }
     
+    /// Configure the Metrics overlay
+    private func setupMetricsOverlay() {
+        let stackView = UIStackView()
+        let backgroundView = UIView()
+        
+        generateMetricsUIElements()
+            .forEach { (metricUIElement) in
+                stackView.addArrangedSubview(metricUIElement)
+            }
+        
+        stackView.isHidden = !isUIEnabled
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        
+        backgroundView.addBlurEffectView()
+        backgroundView.layer.cornerRadius = 10
+        backgroundView.clipsToBounds = true
+        
+        backgroundView.addSubview(stackView)
+        stackView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview().inset(10)
+        }
+        
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { (make) -> Void in
+            make.width.equalToSuperview().multipliedBy(0.35)
+            make.height.equalToSuperview().multipliedBy(0.1)
+            make.right.equalTo(view.safeAreaLayoutGuide.snp.right).offset(-10)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+         }
+    }
+    
+    private func generateMetricsUIElements() -> [UILabel] {
+        // Current points count over max points
+        let pointsLabel = UILabel()
+        
+        pointsLabel.font = UIFont(name: "HelveticaNeue", size: 9)
+        pointsLabel.textColor = UIColor.systemBlue
+        
+        renderer.$currentPointCount
+            .combineLatest(renderer.$maxPoints)
+            .throttle(for: 0.2, scheduler: DispatchQueue.main, latest: false)
+            .sink { (args) in
+                let (currentPointCount, maxPoints) = args
+                pointsLabel.text = "Points : \(currentPointCount) / \(maxPoints)"
+                pointsLabel.sizeToFit()
+            }
+            .store(in: &cancellable)
+        
+        // Particle size
+        let particleSizeLabel = UILabel()
+        
+        particleSizeLabel.font = UIFont(name: "HelveticaNeue", size: 9)
+        particleSizeLabel.textColor = UIColor.systemBlue
+        renderer.$particleSize
+            .throttle(for: 0.2, scheduler: DispatchQueue.main, latest: false)
+            .sink { (particleSize) in
+                particleSizeLabel.text = "Particle size : \(particleSize.rounded())"
+                particleSizeLabel.sizeToFit()
+            }
+            .store(in: &cancellable)
+        
+        return [pointsLabel, particleSizeLabel]
+    }
+    
+    /// Configure the Controls overlay
+    private func setupControlsOverlay() {
+        let stackView = UIStackView()
+        let backgroundView = UIView()
+        
+        setupControls()
+        
+        stackView.addArrangedSubview(confidenceControl)
+        stackView.addArrangedSubview(maxPointsSlider)
+        stackView.addArrangedSubview(particleSizeSlider)
+        stackView.addArrangedSubview(rgbRadiusSlider)
+        stackView.isHidden = !isUIEnabled
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        
+        backgroundView.addBlurEffectView()
+        backgroundView.layer.cornerRadius = 10
+        backgroundView.clipsToBounds = true
+        
+        backgroundView.addSubview(stackView)
+        stackView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview().inset(10)
+        }
+        
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-50)
+        }
+    }
+    
+    /// Configure the different controls the user can interact with
     private func setupControls() {
         // Confidence control
         confidenceControl.selectedSegmentIndex = renderer.confidenceThreshold
@@ -130,8 +232,8 @@ extension PointCloudCaptureViewController {
         
         // Max Points Control
         maxPointsSlider.maximumValueImage = UIImage.init(systemName: "aqi.low")
-        maxPointsSlider.minimumValue = 50_000
-        maxPointsSlider.maximumValue = 20_000_000
+        maxPointsSlider.minimumValue = Float(Constants.Renderer.minMaxPoints)
+        maxPointsSlider.maximumValue = Float(Constants.Renderer.maxMaxPoints)
         maxPointsSlider.isContinuous = true
         maxPointsSlider.value = Float(renderer.maxPoints)
         maxPointsSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
@@ -139,8 +241,8 @@ extension PointCloudCaptureViewController {
         // Point Size Control
         particleSizeSlider.minimumValueImage = UIImage.init(systemName: "smallcircle.fill.circle")
         particleSizeSlider.maximumValueImage = UIImage.init(systemName: "largecircle.fill.circle")
-        particleSizeSlider.minimumValue = 0
-        particleSizeSlider.maximumValue = 10
+        particleSizeSlider.minimumValue = Constants.Renderer.minParticleSize
+        particleSizeSlider.maximumValue = Constants.Renderer.maxParticleSize
         particleSizeSlider.isContinuous = true
         particleSizeSlider.value = renderer.particleSize
         particleSizeSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
@@ -153,22 +255,6 @@ extension PointCloudCaptureViewController {
         rgbRadiusSlider.isContinuous = true
         rgbRadiusSlider.value = renderer.rgbRadius
         rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
-    }
-    
-    private func setupOverlay() {
-        let stackView = UIStackView(arrangedSubviews: [confidenceControl,
-                                                       maxPointsSlider,
-                                                       particleSizeSlider,
-                                                       rgbRadiusSlider])
-        stackView.isHidden = !isUIEnabled
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        view.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
-        ])
     }
 }
 
@@ -199,68 +285,3 @@ protocol RenderDestinationProvider {
 extension MTKView: RenderDestinationProvider {
     
 }
-
-//
-//class ViewController: UIViewController, ARSCNViewDelegate {
-//
-//    @IBOutlet var sceneView: ARSCNView!
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        // Set the view's delegate
-//        sceneView.delegate = self
-//
-//        // Show statistics such as fps and timing information
-//        sceneView.showsStatistics = true
-//
-//        // Create a new scene
-//        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-//
-//        // Set the scene to the view
-//        sceneView.scene = scene
-//    }
-//
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        // Create a session configuration
-//        let configuration = ARWorldTrackingConfiguration()
-//
-//        // Run the view's session
-//        sceneView.session.run(configuration)
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//
-//        // Pause the view's session
-//        sceneView.session.pause()
-//    }
-//
-//    // MARK: - ARSCNViewDelegate
-//
-// /*
-//    // Override to create and configure nodes for anchors added to the view's session.
-//    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-//        let node = SCNNode()
-//
-//        return node
-//    }
-// */
-//
-//    func session(_ session: ARSession, didFailWithError error: Error) {
-//        // Present an error message to the user
-//
-//    }
-//
-//    func sessionWasInterrupted(_ session: ARSession) {
-//        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-//
-//    }
-//
-//    func sessionInterruptionEnded(_ session: ARSession) {
-//        // Reset tracking and/or remove existing anchors if consistent tracking is required
-//
-//    }
-//}
