@@ -42,6 +42,9 @@ final class Renderer {
     private let maxInFlightBuffers = 3
 
     private lazy var rotateToARCamera = Self.makeRotateToARCameraMatrix(orientation: orientation)
+    
+    /// The session captures video from the camera, tracks the device’s position and orientation
+    /// in a modeled 3D space, and provides ARFrame objects.
     private let session: ARSession
 
     // Metal objects and textures
@@ -165,6 +168,11 @@ final class Renderer {
         viewportSize = size
     }
 
+    /// Each `ARFrame` object’s `capturedImage` property contains a pixel buffer captured from the device camera.
+    /// To draw this image as the backdrop for your custom view, you’ll need to create textures from the image
+    /// content and submit GPU rendering commands that use those textures.
+    ///
+    /// The pixel buffer’s contents are encoded in a biplanar YCbCr (also called YUV) data format; to render the image you’ll need to convert this pixel data to a drawable RGB format. For rendering with Metal, you can perform this conversion most efficiently in GPU shader code. Use CVMetalTextureCache APIs to create two Metal textures from the pixel buffer—one each for the buffer’s luma (Y) and chroma (CbCr) planes:
     private func updateCapturedImageTextures(frame: ARFrame) {
         // Create two textures (Y and CbCr) from the provided frame's captured image
         let pixelBuffer = frame.capturedImage
@@ -176,6 +184,8 @@ final class Renderer {
         capturedImageTextureCbCr = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .rg8Unorm, planeIndex: 1)
     }
 
+    /// This function update the DepthTexture and ConfidenceTexture, the dataset containing what is draw to represent texture and depth
+    /// Seems this data is stored in the Frame, in sceneDepth.depthMap and confidenceMap
     private func updateDepthTextures(frame: ARFrame) -> Bool {
         guard let depthMap = frame.sceneDepth?.depthMap,
             let confidenceMap = frame.sceneDepth?.confidenceMap else {
@@ -227,7 +237,7 @@ final class Renderer {
             accumulatePoints(frame: currentFrame, commandBuffer: commandBuffer, renderEncoder: renderEncoder)
         }
 
-        // check and render rgb camera image
+        // check and render rgb camera image using Luma and Chroma textures - if needed
         if rgbUniforms.radius > 0 {
             var retainingTextures = [capturedImageTextureY, capturedImageTextureCbCr]
             commandBuffer.addCompletedHandler { _ in
@@ -250,12 +260,15 @@ final class Renderer {
         renderEncoder.setVertexBuffer(pointCloudUniformsBuffers[currentBufferIndex])
         renderEncoder.setVertexBuffer(particlesBuffer)
         renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: currentPointCount)
-        renderEncoder.endEncoding()
+        renderEncoder.endEncoding() // Draws
 
-        commandBuffer.present(renderDestination.currentDrawable!)
-        commandBuffer.commit()
+        commandBuffer.present(renderDestination.currentDrawable!) // Present on screen
+        commandBuffer.commit() // Finish operations and free retainedTextures
     }
 
+    /// Decide wether new points should be added to the buffers:
+    /// - If no point recorded yet (first frame of capture)
+    /// - if camera moved (rotation/translation) beyond thresholds
     private func shouldAccumulate(frame: ARFrame) -> Bool {
         let cameraTransform = frame.camera.transform
         return currentPointCount == 0
@@ -263,16 +276,20 @@ final class Renderer {
             || distance_squared(cameraTransform.columns.3, lastCameraTransform.columns.3) >= cameraTranslationThreshold
     }
 
+    /// Add news points to Buffers
     private func accumulatePoints(frame: ARFrame, commandBuffer: MTLCommandBuffer, renderEncoder: MTLRenderCommandEncoder) {
         pointCloudUniforms.pointCloudCurrentIndex = Int32(currentPointIndex)
 
+        // Textures generated from the current frame previously in the update functions (Luma, Chroma, Depth and Confidence)
         var retainingTextures = [capturedImageTextureY, capturedImageTextureCbCr, depthTexture, confidenceTexture]
         commandBuffer.addCompletedHandler { _ in
             retainingTextures.removeAll()
         }
 
         renderEncoder.setDepthStencilState(relaxedStencilState)
+        // This line inform which Metal func we will call
         renderEncoder.setRenderPipelineState(unprojectPipelineState)
+        // This pass the arguments
         renderEncoder.setVertexBuffer(pointCloudUniformsBuffers[currentBufferIndex])
         renderEncoder.setVertexBuffer(particlesBuffer)
         renderEncoder.setVertexBuffer(gridPointsBuffer)
@@ -292,6 +309,7 @@ final class Renderer {
 
 private extension Renderer {
     func makeUnprojectionPipelineState() -> MTLRenderPipelineState? {
+        // Check that function in C shader code and make it possibly fail if something already at that position?
         guard let vertexFunction = library.makeFunction(name: "unprojectVertex") else {
                 return nil
         }
