@@ -17,6 +17,7 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     private var cancellable: Set<AnyCancellable> = []
     
     private let isUIEnabled = true
+    private let captureControlsStackView = UIStackView()
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
     private let maxPointsSlider = UISlider()
     private let particleSizeSlider = UISlider()
@@ -140,6 +141,7 @@ extension PointCloudCaptureViewController {
         
         stackView.isHidden = !isUIEnabled
         stackView.axis = .vertical
+        stackView.distribution = .fillEqually
         stackView.spacing = 5
         
         backgroundView.addBlurEffectView()
@@ -154,7 +156,7 @@ extension PointCloudCaptureViewController {
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { (make) -> Void in
             make.width.equalToSuperview().multipliedBy(0.35)
-            make.height.equalToSuperview().multipliedBy(0.1)
+            make.height.equalToSuperview().multipliedBy(0.5)
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right).offset(-10)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
          }
@@ -200,6 +202,7 @@ extension PointCloudCaptureViewController {
         
         setupControls()
         
+        stackView.addArrangedSubview(captureControlsStackView)
         stackView.addArrangedSubview(confidenceControl)
         stackView.addArrangedSubview(maxPointsSlider)
         stackView.addArrangedSubview(particleSizeSlider)
@@ -226,6 +229,30 @@ extension PointCloudCaptureViewController {
     
     /// Configure the different controls the user can interact with
     private func setupControls() {
+        // Capture control
+        let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 40)
+        // Toggle capturing
+        let toggleCaptureButton = UIButton()
+        toggleCaptureButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: symbolConfiguration), for: .normal)
+        toggleCaptureButton.setImage(UIImage(systemName: "record.circle", withConfiguration: symbolConfiguration), for: .selected)
+        toggleCaptureButton.addTarget(self, action: #selector(toggleCapture), for: .touchUpInside)
+        // Reset capture session
+        let resetCaptureButton = UIButton()
+        resetCaptureButton.setImage(UIImage(systemName: "trash.circle", withConfiguration: symbolConfiguration), for: .normal)
+        resetCaptureButton.addTarget(self, action: #selector(resetCapture), for: .touchUpInside)
+        resetCaptureButton.isEnabled = false
+        renderer.$currentPointCount
+            .throttle(for: 0.2, scheduler: DispatchQueue.main, latest: false)
+            .sink { [unowned resetCaptureButton] (currentPointCount) in
+                resetCaptureButton.isEnabled = (currentPointCount != 0)
+            }
+            .store(in: &cancellable)
+        captureControlsStackView.addArrangedSubview(toggleCaptureButton)
+        captureControlsStackView.addArrangedSubview(resetCaptureButton)
+        captureControlsStackView.axis = .horizontal
+        captureControlsStackView.distribution = .fillEqually
+        captureControlsStackView.spacing = 20
+        
         // Confidence control
         confidenceControl.selectedSegmentIndex = renderer.confidenceThreshold
         confidenceControl.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
@@ -255,6 +282,19 @@ extension PointCloudCaptureViewController {
         rgbRadiusSlider.isContinuous = true
         rgbRadiusSlider.value = renderer.rgbRadius
         rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
+    }
+}
+
+// MARK: - Capture controls
+extension PointCloudCaptureViewController {
+    @objc
+    private func toggleCapture(sender: UIButton) {
+        sender.isSelected.toggle()
+        renderer.isAccumulating.toggle()
+    }
+    @objc
+    private func resetCapture() {
+        renderer.resetBuffers()
     }
 }
 
