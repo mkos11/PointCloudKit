@@ -31,6 +31,7 @@ extension Constants {
 }
 
 final class Renderer {
+    var isAccumulating: Bool = true
     // Number of sample points on the grid
     private let numGridPoints = Constants.Renderer.defaultNumGridPoints
     // We only use portrait
@@ -267,9 +268,11 @@ final class Renderer {
     }
 
     /// Decide wether new points should be added to the buffers:
+    /// - `isAccumulating` is true (to pause/resume the capture)
     /// - If no point recorded yet (first frame of capture)
     /// - if camera moved (rotation/translation) beyond thresholds
     private func shouldAccumulate(frame: ARFrame) -> Bool {
+        guard isAccumulating else { return false }
         let cameraTransform = frame.camera.transform
         return currentPointCount == 0
             || dot(cameraTransform.columns.2, lastCameraTransform.columns.2) <= cameraRotationThreshold
@@ -302,6 +305,20 @@ final class Renderer {
         currentPointIndex = (currentPointIndex + gridPointsBuffer.count) % maxPoints
         currentPointCount = min(currentPointCount + gridPointsBuffer.count, maxPoints)
         lastCameraTransform = frame.camera.transform
+    }
+}
+
+extension Renderer {
+    // Move that to a middle layer later, a vm or smthg
+    func resetBuffers() {
+        for _ in 0 ..< maxInFlightBuffers {
+            rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
+            pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
+        }
+        particlesBuffer = .init(device: device,
+                                count: Constants.Renderer.maxMaxPoints,
+                                index: kParticleUniforms.rawValue)
+        currentPointCount = 0
     }
 }
 
