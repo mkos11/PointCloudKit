@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+final class SCNViewerViewModel {
+    let scnFileLocation: URL
+    
+    init(scnFileLocation: URL) {
+        self.scnFileLocation = scnFileLocation
+    }
+}
