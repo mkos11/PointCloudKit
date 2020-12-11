@@ -55,6 +55,8 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         
         // The screen shouldn't dim during AR experiences.
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     @objc
@@ -399,7 +401,10 @@ extension PointCloudCaptureViewController {
 
 extension PointCloudCaptureViewController: UIDocumentInteractionControllerDelegate {
     func documentInteractionControllerDidDismissOptionsMenu(_ controller: UIDocumentInteractionController) {
-        resumeCapture()
+        guard let scnFileLocation = controller.url else { return }
+        let viewModel = SCNViewerViewModel(scnFileLocation: scnFileLocation)
+        let viewerViewController = SCNViewerViewController(viewModel: viewModel)
+        navigationController?.pushViewController(viewerViewController, animated: true)
     }
 }
 
