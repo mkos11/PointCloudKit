@@ -14,7 +14,7 @@ struct Constants {}
 
 extension Constants {
     struct Renderer {
-        static let defaultNumGridPoints = 5000
+        static let defaultNumGridPoints = 2000
         
         static let defaultMaxPoints = 500_000
         static let minMaxPoints = 50_000
@@ -37,8 +37,8 @@ final class Renderer {
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
-    private let cameraRotationThreshold = cos(2 * .degreesToRadian)
-    private let cameraTranslationThreshold: Float = pow(0.02, 2)   // (meter-squared)
+    private let cameraRotationThreshold = cos(1.5 * .degreesToRadian)
+    private let cameraTranslationThreshold: Float = pow(0.015, 2)   // (meter-squared)
     // The max number of command buffers in flight
     private let maxInFlightBuffers = 3
 
@@ -96,7 +96,7 @@ final class Renderer {
     }()
     private var pointCloudUniformsBuffers = [MetalBuffer<PointCloudUniforms>]()
     // Particles buffer
-    private var particlesBuffer: MetalBuffer<ParticleUniforms>
+    private (set) var particlesBuffer: MetalBuffer<ParticleUniforms>
     private var currentPointIndex = 0
     @Published private (set) var currentPointCount = 0
 
