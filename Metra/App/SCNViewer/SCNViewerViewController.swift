@@ -47,10 +47,10 @@ final class SCNViewerViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
+    // private func loadScene(from file: URL) {
+    //     let scene = SCNSceneSource(url: viewModel.scnFileLocation)?.scene()
+    
     private func load(scene: SCNScene) {
-        // 1: Load .scn file
-//        let scene = SCNSceneSource(url: viewModel.scnFileLocation)?.scene()
-        
         // 2: Add camera node
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -58,13 +58,6 @@ final class SCNViewerViewController: UIViewController {
         cameraNode.position = SCNVector3(x: 0, y: 1, z: 5)
         // 4: Set camera on scene
         scene.rootNode.addChildNode(cameraNode)
-        
-//        // 5: Adding light to scene
-//        let lightNode = SCNNode()
-//        lightNode.light = SCNLight()
-//        lightNode.light?.type = .omni
-//        lightNode.position = SCNVector3(x: 0, y: 0, z: 40)
-//        scene.rootNode.addChildNode(lightNode)
 
         // 6: Creating and adding ambient light to scene
         let ambientLightNode = SCNNode()
@@ -78,9 +71,11 @@ final class SCNViewerViewController: UIViewController {
         
         // Show FPS logs and timming
         sceneView.showsStatistics = true
+        sceneView.debugOptions.insert(.showWorldOrigin)
+        sceneView.debugOptions.insert(.renderAsWireframe)
         
         // Set background color
-        sceneView.backgroundColor = UIColor.white
+        sceneView.backgroundColor = UIColor.spaceCadet
         
         // Allow user translate image
         sceneView.cameraControlConfiguration.allowsTranslation = false
@@ -105,7 +100,7 @@ final class SCNViewerViewController: UIViewController {
 extension SCNViewerViewController {
     
     private func setupUI() {
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = UIColor.spaceCadet
         // Scene view
         view.addSubview(sceneView)
         sceneView.snp.makeConstraints { (make) in

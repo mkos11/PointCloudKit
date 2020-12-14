@@ -16,15 +16,44 @@ import Combine
 final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate {
     private var cancellable: Set<AnyCancellable> = []
     
+    private let device: MTLDevice
     private let isUIEnabled = true
     private let captureControlsStackView = UIStackView()
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
     private let maxPointsSlider = UISlider()
     private let particleSizeSlider = UISlider()
     private let rgbRadiusSlider = UISlider()
+    let renderer: Renderer
     
-    private let session = ARSession()
-    private var renderer: Renderer!
+    let metalView: MTKView
+    let coachingOverlay = ARCoachingOverlayView()
+    let session = ARSession()
+    
+    // Auto-hide the home indicator to maximize immersion in AR experiences.
+    override var prefersHomeIndicatorAutoHidden: Bool { true }
+    
+    // Hide the status bar to maximize immersion in AR experiences.
+    override var prefersStatusBarHidden: Bool { true }
+    
+    // Create a world-tracking configuration, and
+    // enable the scene depth frame-semantic.
+    lazy private var configuration: ARConfiguration = {
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.frameSemantics = .sceneDepth
+        return configuration
+    }()
+    
+    required init?(coder: NSCoder) {
+        guard let device = MTLCreateSystemDefaultDevice() else {
+            fatalError("Metal is not supported on this device")
+        }
+        self.device = device
+        metalView = MTKView()
+        // Configure the renderer to draw to the view
+        renderer = Renderer(session: session, metalDevice: device, renderDestination: metalView)
+        super.init(coder: coder)
+        metalView.device = device
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,27 +61,27 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         setupUI()
     }
     
-    // Create a world-tracking configuration, and
-    // enable the scene depth frame-semantic.
-    lazy private var configuration: ARConfiguration = {
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.frameSemantics = .sceneDepth
-//        configuration.environmentTexturing = .automatic // Use that later?
-//        configuration.planeDetection = .horizontal
-//        configuration.sceneReconstruction = .mesh
-        return configuration
-    }()
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Run the view's session
-        session.run(configuration)
-        
+
         // The screen shouldn't dim during AR experiences.
         UIApplication.shared.isIdleTimerDisabled = true
         
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Run the view's session
+        UIView.animate(withDuration: 0, delay: 1, animations: {
+            self.session.run(self.configuration)
+        })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Run the view's session
+        pauseSession()
     }
     
     @objc
@@ -70,12 +99,6 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
             break
         }
     }
-    
-    // Auto-hide the home indicator to maximize immersion in AR experiences.
-    override var prefersHomeIndicatorAutoHidden: Bool { true }
-    
-    // Hide the status bar to maximize immersion in AR experiences.
-    override var prefersStatusBarHidden: Bool { true }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user.
@@ -99,6 +122,10 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
             alertController.addAction(restartAction)
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    func sessionShouldAttemptRelocalization(_ session: ARSession) -> Bool {
+        true
     }
     
     private func resumeCapture() {
@@ -126,31 +153,26 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
 
 extension PointCloudCaptureViewController {
     private func setupUI() {
-        setupMetalRenderer()
+        setupMetalView()
         setupMetricsOverlay()
         setupControlsOverlay()
+        setupCoachingOverlay()
     }
     
-    private func setupMetalRenderer() {
-        guard let device = MTLCreateSystemDefaultDevice() else {
-            print("Metal is not supported on this device")
-            return
+    private func setupMetalView() {
+        metalView.backgroundColor = UIColor.black
+        // we need this to enable depth test
+        metalView.depthStencilPixelFormat = .depth32Float
+        metalView.contentScaleFactor = 1
+        metalView.delegate = self
+        
+        view.addSubview(metalView)
+        
+        metalView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
         }
         
-        // Set the view to use the default device
-        if let view = view as? MTKView {
-            view.device = device
-            
-            view.backgroundColor = UIColor.clear
-            // we need this to enable depth test
-            view.depthStencilPixelFormat = .depth32Float
-            view.contentScaleFactor = 1
-            view.delegate = self
-            
-            // Configure the renderer to draw to the view
-            renderer = Renderer(session: session, metalDevice: device, renderDestination: view)
-            renderer.drawRectResized(size: view.bounds.size)
-        }
+        renderer.drawRectResized(size: metalView.bounds.size)
     }
     
     /// Configure the Metrics overlay
@@ -187,11 +209,12 @@ extension PointCloudCaptureViewController {
     }
     
     private func generateMetricsUIElements() -> [UILabel] {
+        let font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
         // Current points count over max points
         let pointsLabel = UILabel()
         
-        pointsLabel.font = UIFont(name: "HelveticaNeue", size: 9)
-        pointsLabel.textColor = UIColor.systemBlue
+        pointsLabel.font = font
+        pointsLabel.textColor = UIColor.amazon
         
         renderer.$currentPointCount
             .combineLatest(renderer.$maxPoints)
@@ -206,8 +229,8 @@ extension PointCloudCaptureViewController {
         // Particle size
         let particleSizeLabel = UILabel()
         
-        particleSizeLabel.font = UIFont(name: "HelveticaNeue", size: 9)
-        particleSizeLabel.textColor = UIColor.systemBlue
+        particleSizeLabel.font = font
+        particleSizeLabel.textColor = UIColor.amazon
         renderer.$particleSize
             .throttle(for: 0.2, scheduler: DispatchQueue.main, latest: false)
             .sink { (particleSize) in
@@ -278,6 +301,7 @@ extension PointCloudCaptureViewController {
                                    for: .normal)
         viewCaptureButton.addTarget(self, action: #selector(viewCapture), for: .touchUpInside)
         viewCaptureButton.isEnabled = false
+        // Redo that logic into a VM
         renderer.$currentPointCount
             .throttle(for: 0.2, scheduler: DispatchQueue.main, latest: false)
             .sink { [unowned viewCaptureButton] (currentPointCount) in
