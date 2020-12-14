@@ -161,7 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				EEE90369257E02C100A682D8 /* UIView+blur.swift */,
-				EEE9034B257DD41700A682D8 /* Renderer */,
+				EEE9034B257DD41700A682D8 /* Metal */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -185,6 +185,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		EE01F85425871CA20044A160 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				8E26BAE8257DACA400978446 /* Renderer.swift */,
+				EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */,
+			);
+			path = Renderer;
+			sourceTree = "<group>";
+		};
 		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,18 +203,17 @@
 			path = SCNViewer;
 			sourceTree = "<group>";
 		};
-		EEE9034B257DD41700A682D8 /* Renderer */ = {
+		EEE9034B257DD41700A682D8 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				8E26BAE5257DACA400978446 /* Shaders.metal */,
 				EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */,
+				8E26BAE5257DACA400978446 /* Shaders.metal */,
 				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
-				8E26BAE8257DACA400978446 /* Renderer.swift */,
-				EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */,
 				8E26BAE7257DACA400978446 /* Helpers.swift */,
 				8E26BAE6257DACA400978446 /* MetalBuffer.swift */,
+				EE01F85425871CA20044A160 /* Renderer */,
 			);
-			path = Renderer;
+			path = Metal;
 			sourceTree = "<group>";
 		};
 		EEE90356257DDD1000A682D8 /* PointCloudCaptureViewController */ = {
