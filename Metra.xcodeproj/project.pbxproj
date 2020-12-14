@@ -19,7 +19,9 @@
 		8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE6257DACA400978446 /* MetalBuffer.swift */; };
 		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
 		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
-		EEBA7B592583432C0000AD1A /* Renderer+Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* Renderer+Export.swift */; };
+		EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */; };
+		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
+		EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */; };
 		EEE90365257DFFB700A682D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EEE90364257DFFB700A682D8 /* SnapKit */; };
 		EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE90369257E02C100A682D8 /* UIView+blur.swift */; };
 /* End PBXBuildFile section */
@@ -62,7 +64,9 @@
 		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE17E8A125821BA200F6DADF /* Metra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Metra.entitlements; sourceTree = "<group>"; };
-		EEBA7B582583432C0000AD1A /* Renderer+Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Renderer+Export.swift"; sourceTree = "<group>"; };
+		EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Renderer+SCNSceneGeneration.swift"; sourceTree = "<group>"; };
+		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
+		EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewModel.swift; sourceTree = "<group>"; };
 		EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SceneDepthPointCloud-Bridging-Header.h"; sourceTree = "<group>"; };
 		EEE90369257E02C100A682D8 /* UIView+blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+blur.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +152,7 @@
 			children = (
 				8E26BAB1257DAC0200978446 /* AppDelegate.swift */,
 				EEE90356257DDD1000A682D8 /* PointCloudCaptureViewController */,
+				EEBA7B6525835F8A0000AD1A /* SCNViewer */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -180,6 +185,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
+			isa = PBXGroup;
+			children = (
+				EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */,
+				EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */,
+			);
+			path = SCNViewer;
+			sourceTree = "<group>";
+		};
 		EEE9034B257DD41700A682D8 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,7 +201,7 @@
 				EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */,
 				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
 				8E26BAE8257DACA400978446 /* Renderer.swift */,
-				EEBA7B582583432C0000AD1A /* Renderer+Export.swift */,
+				EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */,
 				8E26BAE7257DACA400978446 /* Helpers.swift */,
 				8E26BAE6257DACA400978446 /* MetalBuffer.swift */,
 			);
@@ -363,9 +377,11 @@
 				8E26BAE9257DACA400978446 /* Shaders.metal in Sources */,
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
+				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
-				EEBA7B592583432C0000AD1A /* Renderer+Export.swift in Sources */,
+				EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */,
 				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
+				EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */,
 				EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */,
 				8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */,
 			);
@@ -473,7 +489,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -529,7 +545,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

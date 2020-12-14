@@ -23,16 +23,12 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     private let particleSizeSlider = UISlider()
     private let rgbRadiusSlider = UISlider()
     
-    private let documentInteractionController = UIDocumentInteractionController()
-    private let progressView =  UIProgressView()
-    
     private let session = ARSession()
     private var renderer: Renderer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         session.delegate = self
-        documentInteractionController.delegate = self
         setupUI()
     }
     
@@ -55,6 +51,8 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         
         // The screen shouldn't dim during AR experiences.
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     @objc
@@ -74,14 +72,10 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     }
     
     // Auto-hide the home indicator to maximize immersion in AR experiences.
-    override var prefersHomeIndicatorAutoHidden: Bool {
-        return true
-    }
+    override var prefersHomeIndicatorAutoHidden: Bool { true }
     
     // Hide the status bar to maximize immersion in AR experiences.
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+    override var prefersStatusBarHidden: Bool { true }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user.
@@ -135,7 +129,6 @@ extension PointCloudCaptureViewController {
         setupMetalRenderer()
         setupMetricsOverlay()
         setupControlsOverlay()
-        setupProgressView()
     }
     
     private func setupMetalRenderer() {
@@ -260,7 +253,6 @@ extension PointCloudCaptureViewController {
     
     /// Configure the different controls the user can interact with
     private func setupControls() {
-        // Capture control
         let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 40)
         // Reset capture session
         let resetCaptureButton = UIButton()
@@ -275,24 +267,27 @@ extension PointCloudCaptureViewController {
             .store(in: &cancellable)
         // Toggle capturing
         let toggleCaptureButton = UIButton()
-        toggleCaptureButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: symbolConfiguration), for: .normal)
-        toggleCaptureButton.setImage(UIImage(systemName: "record.circle", withConfiguration: symbolConfiguration), for: .selected)
+        toggleCaptureButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: symbolConfiguration),
+                                     for: .normal)
+        toggleCaptureButton.setImage(UIImage(systemName: "record.circle", withConfiguration: symbolConfiguration),
+                                     for: .selected)
         toggleCaptureButton.addTarget(self, action: #selector(toggleCapture), for: .touchUpInside)
-        // Export capture button
-        let exportCaptureButton = UIButton()
-        exportCaptureButton.setImage(UIImage(systemName: "square.and.arrow.up", withConfiguration: symbolConfiguration), for: .normal)
-        exportCaptureButton.addTarget(self, action: #selector(exportCapture), for: .touchUpInside)
-        exportCaptureButton.isEnabled = false
+        // View capture button
+        let viewCaptureButton = UIButton()
+        viewCaptureButton.setImage(UIImage(systemName: "eye.circle", withConfiguration: symbolConfiguration),
+                                   for: .normal)
+        viewCaptureButton.addTarget(self, action: #selector(viewCapture), for: .touchUpInside)
+        viewCaptureButton.isEnabled = false
         renderer.$currentPointCount
             .throttle(for: 0.2, scheduler: DispatchQueue.main, latest: false)
-            .sink { [unowned exportCaptureButton] (currentPointCount) in
-                exportCaptureButton.isEnabled = (currentPointCount != 0)
+            .sink { [unowned viewCaptureButton] (currentPointCount) in
+                viewCaptureButton.isEnabled = (currentPointCount != 0)
             }
             .store(in: &cancellable)
         //
         captureControlsStackView.addArrangedSubview(resetCaptureButton)
         captureControlsStackView.addArrangedSubview(toggleCaptureButton)
-        captureControlsStackView.addArrangedSubview(exportCaptureButton)
+        captureControlsStackView.addArrangedSubview(viewCaptureButton)
         captureControlsStackView.axis = .horizontal
         captureControlsStackView.distribution = .fillEqually
         captureControlsStackView.spacing = 20
@@ -327,18 +322,6 @@ extension PointCloudCaptureViewController {
         rgbRadiusSlider.value = renderer.rgbRadius
         rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
     }
-    
-    private func setupProgressView() {
-        progressView.isHidden = true
-        progressView.alpha = 0
-        view.addSubview(progressView)
-        progressView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.height.equalTo(10)
-            make.width.equalTo(300)
-        }
-    }
 }
 
 // MARK: - Capture controls
@@ -358,48 +341,12 @@ extension PointCloudCaptureViewController {
         restartSession()
     }
     @objc
-    private func exportCapture() {
+    private func viewCapture() {
         pauseCapture()
-        let tmpDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        let fileName = "metra3dfile\(UUID().uuidString)"
-        let targetURL = tmpDirectoryURL.appendingPathComponent("\(fileName).scn")
-        
-        documentInteractionController.url = targetURL
-        documentInteractionController.uti = "public.data, public.content"
-        documentInteractionController.name = targetURL.lastPathComponent
-        UIView.animate(withDuration: 1, animations: {
-            self.progressView.isHidden = false
-            self.progressView.alpha = 1
-        }, completion: { _ in
-            DispatchQueue.init(label: "Renderer.Export", qos: .background).async {
-                self.renderer.exportPointCloudToFile(at: targetURL) { (progress) in
-                    DispatchQueue.main.async {
-                        self.updateExportUi(progress: progress, animated: true)
-                    }
-                }
-            }
-        })
-    }
-    
-    private func updateExportUi(progress: Double, animated: Bool) {
-        let animationDuration = animated ? 1 : 0.0
-        progressView.setProgress(Float(progress), animated: animated)
-        if progress == 1 {
-            UIView.animate(withDuration: animationDuration, animations: {
-                self.progressView.alpha = 0
-            }, completion: { _ in
-                self.progressView.isHidden = true
-                self.documentInteractionController.presentOptionsMenu(from: self.captureControlsStackView.frame,
-                                                                      in: self.view,
-                                                                      animated: animated)
-            })
-        }
-    }
-}
-
-extension PointCloudCaptureViewController: UIDocumentInteractionControllerDelegate {
-    func documentInteractionControllerDidDismissOptionsMenu(_ controller: UIDocumentInteractionController) {
-        resumeCapture()
+        let scenePublisher = renderer.generateScene()
+        let viewModel = SCNViewerViewModel(scenePublisher: scenePublisher)
+        let viewerViewController = SCNViewerViewController(viewModel: viewModel)
+        navigationController?.pushViewController(viewerViewController, animated: true)
     }
 }
 
