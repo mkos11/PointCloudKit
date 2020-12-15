@@ -38,8 +38,8 @@ final class Renderer {
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
-    private let cameraRotationThreshold = cos(1.5 * .degreesToRadian)
-    private let cameraTranslationThreshold: Float = pow(0.015, 2)   // (meter-squared)
+    private let cameraRotationThreshold = cos(2 * .degreesToRadian)
+    private let cameraTranslationThreshold: Float = pow(0.02, 2)   // (meter-squared)
     // The max number of command buffers in flight
     private let maxInFlightBuffers = 3
 
