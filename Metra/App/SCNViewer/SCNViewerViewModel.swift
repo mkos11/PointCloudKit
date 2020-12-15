@@ -16,19 +16,22 @@ final class SCNViewerViewModel {
     lazy var exportUrl = temporaryDirectoryUrl.appendingPathComponent("\(filename).scn")
     let exportUti = "public.data, public.content"
     
-    let scenePublisher: PassthroughSubject<SCNScene, Never>
+    // The scene being presented
+    @Published
+    private(set) var scene: SCNScene?
     
     init(scenePublisher: PassthroughSubject<SCNScene, Never>) {
-        self.scenePublisher = scenePublisher
+        scenePublisher.compactMap({ $0 }).assign(to: &$scene)
     }
     
-    func writeScene(scene: SCNScene) {
+    func writeScene(scene: SCNScene, completion: (() -> Void)?) {
         scene.write(to: exportUrl,
                     options: nil,
                     delegate: nil) { (_, error, _) in
             if let error = error {
                 fatalError(error.localizedDescription)
             }
+            completion?()
         }
     }
 }

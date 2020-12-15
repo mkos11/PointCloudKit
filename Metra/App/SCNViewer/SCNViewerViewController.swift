@@ -88,12 +88,20 @@ final class SCNViewerViewController: UIViewController {
     
     @objc
     private func export() {
-        documentInteractionController.url = viewModel.exportUrl
-        documentInteractionController.uti = viewModel.exportUti
-        documentInteractionController.name = viewModel.filename
-        documentInteractionController.presentOptionsMenu(from: view.frame,
-                                                         in: view,
-                                                         animated: true)
+        guard let scene = viewModel.scene else { return }
+        activityIndicatorView.startAnimating()
+        viewModel.writeScene(scene: scene) { [weak self] in
+            guard let self = self else { return }
+            self.documentInteractionController.url = self.viewModel.exportUrl
+            self.documentInteractionController.uti = self.viewModel.exportUti
+            self.documentInteractionController.name = self.viewModel.filename
+            DispatchQueue.main.async {
+                self.activityIndicatorView.stopAnimating()
+                self.documentInteractionController.presentOptionsMenu(from: self.view.frame,
+                                                                      in: self.view,
+                                                                      animated: true)
+            }
+        }
     }
 }
 
@@ -119,13 +127,13 @@ extension SCNViewerViewController {
     private func setupObservers() {
         // Wait for scene to be ready and loads it
         activityIndicatorView.startAnimating()
-        viewModel.scenePublisher
-            .sink { [unowned self] (scene) in
-                DispatchQueue.main.async {
-                    self.activityIndicatorView.stopAnimating()
-                    UIView.animate(withDuration: 1) {
-                        self.load(scene: scene)
-                    }
+        viewModel.$scene
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (scene) in
+                guard let scene = scene else { return }
+                self?.activityIndicatorView.stopAnimating()
+                UIView.animate(withDuration: 1) {
+                    self?.load(scene: scene)
                 }
             }
             .store(in: &cancellable)

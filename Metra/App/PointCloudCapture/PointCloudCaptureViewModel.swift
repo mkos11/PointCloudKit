@@ -21,7 +21,7 @@ final class PointCloudCaptureViewModel {
     @Published
     private (set) var rendererIsCapturing: Bool = false
     
-    @Published
+    @Published 
     var pointCountMetric: String = "-"
     @Published
     var particleSizeMetric: String = "-"
@@ -32,19 +32,46 @@ final class PointCloudCaptureViewModel {
     @Published
     var toggleCaptureButtonIsSelected: Bool = false
     
-    // MARK: - Tweakable parameters
-    let confidenceThreshold: CurrentValueSubject<Int, Never>
-    let maxPoints: CurrentValueSubject<Int, Never>
-    let particleSize: CurrentValueSubject<Float, Never>
-    let rgbRadius: CurrentValueSubject<Float, Never>
     let shouldShowUI: CurrentValueSubject<Bool, Never>
+    
+    // MARK: - Tweakable parameters
+    @Published
+    var confidenceThreshold: Int {
+        didSet {
+            rendererService.renderer.confidenceThreshold = confidenceThreshold
+        }
+    }
+    @Published
+    var maxPoints: Int {
+        didSet {
+            rendererService.renderer.maxPoints = maxPoints
+        }
+    }
+    @Published
+    var particleSize: Float {
+        didSet {
+            rendererService.renderer.particleSize = particleSize
+        }
+    }
+    @Published
+    var rgbRadius: Float {
+        didSet {
+            rendererService.renderer.rgbRadius = rgbRadius
+        }
+    }
 
     init() {
-        confidenceThreshold = CurrentValueSubject<Int, Never>(rendererService.renderer.confidenceThreshold)
-        maxPoints = CurrentValueSubject<Int, Never>(rendererService.renderer.maxPoints)
-        particleSize = CurrentValueSubject<Float, Never>(rendererService.renderer.particleSize)
-        rgbRadius = CurrentValueSubject<Float, Never>(rendererService.renderer.rgbRadius)
         shouldShowUI = CurrentValueSubject<Bool, Never>(false)
+        
+        confidenceThreshold = rendererService.renderer.confidenceThreshold
+        maxPoints = rendererService.renderer.maxPoints
+        particleSize = rendererService.renderer.particleSize
+        rgbRadius = rendererService.renderer.rgbRadius
+        
+        $confidenceThreshold.assign(to: &rendererService.renderer.$confidenceThreshold)
+        $maxPoints.assign(to: &rendererService.renderer.$maxPoints)
+        $particleSize.assign(to: &rendererService.renderer.$particleSize)
+        $rgbRadius.assign(to: &rendererService.renderer.$rgbRadius)
         
         rendererService.renderer.$currentPointCount
             .combineLatest(rendererService.renderer.$maxPoints)

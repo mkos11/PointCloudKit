@@ -78,13 +78,13 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     private func viewValueChanged(view: UIView) {
         switch view {
         case confidenceControl:
-            viewModel.confidenceThreshold.send(confidenceControl.selectedSegmentIndex)
+            viewModel.confidenceThreshold = confidenceControl.selectedSegmentIndex
         case maxPointsSlider:
-            viewModel.maxPoints.send(Int(maxPointsSlider.value))
+            viewModel.maxPoints = Int(maxPointsSlider.value)
         case particleSizeSlider:
-            viewModel.particleSize.send(particleSizeSlider.value)
+            viewModel.particleSize = particleSizeSlider.value
         case rgbRadiusSlider:
-            viewModel.rgbRadius.send(rgbRadiusSlider.value)
+            viewModel.rgbRadius = rgbRadiusSlider.value
         case resetCaptureButton:
             coachingOverlayView.setActive(true, animated: true)
             viewModel.startRenderer(overridingCurrentSession: true)
@@ -187,19 +187,19 @@ extension PointCloudCaptureViewController {
             .store(in: &cancellable)
 
         /// Sliders
-        viewModel.rgbRadius
+        viewModel.$rgbRadius
             .receive(on: DispatchQueue.main)
             .sink { [weak rgbRadiusSlider] rgbRadius in
                 rgbRadiusSlider?.value = rgbRadius
             }
             .store(in: &cancellable)
-        viewModel.maxPoints
+        viewModel.$maxPoints
             .receive(on: DispatchQueue.main)
             .sink { [weak maxPointsSlider] maxPoint in
                 maxPointsSlider?.value = Float(maxPoint)
             }
             .store(in: &cancellable)
-        viewModel.particleSize
+        viewModel.$particleSize
             .receive(on: DispatchQueue.main)
             .sink { [weak particleSizeSlider] particleSize in
                 particleSizeSlider?.value = particleSize
@@ -303,7 +303,7 @@ extension PointCloudCaptureViewController {
         // Redo that logic into a VM
         
         // Confidence control
-        confidenceControl.selectedSegmentIndex = viewModel.confidenceThreshold.value
+        confidenceControl.selectedSegmentIndex = viewModel.confidenceThreshold
         confidenceControl.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
         
         // Max Points Control
