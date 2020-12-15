@@ -25,7 +25,7 @@ final class SCNViewerViewModel {
     func writeScene(scene: SCNScene) {
         scene.write(to: exportUrl,
                     options: nil,
-                    delegate: nil) { (progress, error, _) in
+                    delegate: nil) { (_, error, _) in
             if let error = error {
                 fatalError(error.localizedDescription)
             }

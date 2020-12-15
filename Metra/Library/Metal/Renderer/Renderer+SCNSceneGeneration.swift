@@ -19,7 +19,7 @@ extension Renderer {
         let r: Float, g: Float, b: Float
     }
     
-    func generateScene() -> PassthroughSubject<SCNScene, Never>  {
+    func generateScene() -> PassthroughSubject<SCNScene, Never> {
         let sceneSubject = PassthroughSubject<SCNScene, Never>()
         DispatchQueue.init(label: "Renderer.SceneGeneration", qos: .background).async {
             let scene: SCNScene = self.generateScene()

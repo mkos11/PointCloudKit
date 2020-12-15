@@ -11,14 +11,15 @@ import ARKit
 extension PointCloudCaptureViewController: ARCoachingOverlayViewDelegate {
     
     func coachingOverlayViewWillActivate(_ coachingOverlayView: ARCoachingOverlayView) {
-        renderer.isAccumulating = false
+        pauseCapture()
     }
 
     func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
-        renderer.isAccumulating = true
+        resumeCapture()
     }
 
     func coachingOverlayViewDidRequestSessionReset(_ coachingOverlayView: ARCoachingOverlayView) {
+        restartSession()
     }
 
     func setupCoachingOverlay() {
@@ -26,7 +27,6 @@ extension PointCloudCaptureViewController: ARCoachingOverlayViewDelegate {
         coachingOverlay.session = session
         coachingOverlay.delegate = self
         
-        coachingOverlay.setActive(true, animated: true)
         view.addSubview(coachingOverlay)
         
         coachingOverlay.snp.makeConstraints { (make) in

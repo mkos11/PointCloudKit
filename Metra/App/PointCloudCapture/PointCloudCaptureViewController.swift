@@ -17,7 +17,6 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     private var cancellable: Set<AnyCancellable> = []
     
     private let device: MTLDevice
-    private let isUIEnabled = true
     private let captureControlsStackView = UIStackView()
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
     private let maxPointsSlider = UISlider()
@@ -73,9 +72,15 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Run the view's session
-        UIView.animate(withDuration: 0, delay: 1, animations: {
+        coachingOverlay.setActive(true, animated: true)
+        UIView.animate(withDuration: 0, delay: 0.5, animations: {
             self.session.run(self.configuration)
         })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        coachingOverlay.setActive(false, animated: false)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -128,11 +133,11 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         true
     }
     
-    private func resumeCapture() {
+    func resumeCapture() {
         renderer.isAccumulating = true
     }
     
-    private func pauseCapture() {
+    func pauseCapture() {
         renderer.isAccumulating = false
     }
     
@@ -140,7 +145,7 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         session.pause()
     }
     
-    private func restartSession() {
+    func restartSession() {
         renderer.resetBuffers()
         session.run(configuration, options: [.resetTracking,
                                              .resetSceneReconstruction,
@@ -184,8 +189,7 @@ extension PointCloudCaptureViewController {
             .forEach { (metricUIElement) in
                 stackView.addArrangedSubview(metricUIElement)
             }
-        
-        stackView.isHidden = !isUIEnabled
+
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.spacing = 5
@@ -254,7 +258,6 @@ extension PointCloudCaptureViewController {
         stackView.addArrangedSubview(maxPointsSlider)
         stackView.addArrangedSubview(particleSizeSlider)
         stackView.addArrangedSubview(rgbRadiusSlider)
-        stackView.isHidden = !isUIEnabled
         stackView.axis = .vertical
         stackView.spacing = 20
         
