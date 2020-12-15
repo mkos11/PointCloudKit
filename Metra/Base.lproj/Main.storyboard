@@ -56,12 +56,12 @@
             </objects>
             <point key="canvasLocation" x="1113.0434782608697" y="-241.07142857142856"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--App Navigation Controller-->
         <scene sceneID="UwL-IF-tz6">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cOt-2P-gQV" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" interfaceStyle="dark" id="cOt-2P-gQV" customClass="AppNavigationController" customModule="Metra" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tJH-d2-9Ax">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tJH-d2-9Ax" customClass="App">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -28,6 +28,10 @@
 		EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */; };
 		EE2919AC25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */; };
 		EE2919B425885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */; };
+		EE67529F2588BB1500F6FF89 /* MeshCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */; };
+		EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */; };
+		EE6752A92588BB5F00F6FF89 /* ExtensionForMeshCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */; };
+		EE6752B12588BE3500F6FF89 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */; };
 		EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */; };
 		EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */; };
 		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
@@ -83,6 +87,10 @@
 		EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewModel.swift; sourceTree = "<group>"; };
 		EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MTKView+RenderDestinationProvider.swift"; sourceTree = "<group>"; };
 		EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+ARSessionDelegate.swift"; sourceTree = "<group>"; };
+		EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshCaptureViewController.swift; sourceTree = "<group>"; };
+		EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeshCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
+		EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForMeshCapture.swift; sourceTree = "<group>"; };
+		EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Renderer+SCNSceneGeneration.swift"; sourceTree = "<group>"; };
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +148,8 @@
 		8E26BAB0257DAC0200978446 /* Metra */ = {
 			isa = PBXGroup;
 			children = (
-				EE17E8A125821BA200F6DADF /* Metra.entitlements */,
+				8E26BAB7257DAC0200978446 /* Main.storyboard */,
+				EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */,
 				EE29199425885366003E9C7C /* Services */,
 				8E26BAF5257DAD0500978446 /* App */,
 				8E26BAF6257DAD1000978446 /* Library */,
@@ -201,8 +210,8 @@
 		8E26BAF8257DAD2200978446 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE17E8A125821BA200F6DADF /* Metra.entitlements */,
 				8E26BAB3257DAC0200978446 /* art.scnassets */,
-				8E26BAB7257DAC0200978446 /* Main.storyboard */,
 				8E26BABA257DAC0500978446 /* Assets.xcassets */,
 				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
 				8E26BB04257DAE1B00978446 /* Info.plist */,
@@ -222,7 +231,10 @@
 		EE01F87C25873FF30044A160 /* MeshCapture */ = {
 			isa = PBXGroup;
 			children = (
+				EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */,
 				EE01F87D258740090044A160 /* MeshCapture.storyboard */,
+				EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */,
+				EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */,
 			);
 			path = MeshCapture;
 			sourceTree = "<group>";
@@ -439,7 +451,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE6752B12588BE3500F6FF89 /* AppNavigationController.swift in Sources */,
 				EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */,
+				EE6752A92588BB5F00F6FF89 /* ExtensionForMeshCapture.swift in Sources */,
 				EE2919AC25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift in Sources */,
 				8E26BAE9257DACA400978446 /* Shaders.metal in Sources */,
 				EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */,
@@ -449,7 +463,9 @@
 				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
 				EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */,
+				EE67529F2588BB1500F6FF89 /* MeshCaptureViewController.swift in Sources */,
 				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
+				EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */,
 				EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */,
 				EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */,
 				EE01F87525873D360044A160 /* UIColor+Palette.swift in Sources */,
@@ -649,7 +665,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
-				CODE_SIGN_ENTITLEMENTS = Metra/Metra.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
@@ -672,7 +688,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
-				CODE_SIGN_ENTITLEMENTS = Metra/Metra.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;

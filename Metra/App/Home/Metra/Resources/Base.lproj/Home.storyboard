@@ -44,7 +44,7 @@
                                             <color key="titleColor" name="CyberGrape"/>
                                         </state>
                                         <connections>
-                                            <segue destination="4eN-WM-03v" kind="showDetail" id="eeO-yT-hog"/>
+                                            <segue destination="4eN-WM-03v" kind="show" id="eeO-yT-hog"/>
                                         </connections>
                                     </button>
                                 </subviews>

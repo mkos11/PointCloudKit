@@ -53,7 +53,6 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         // The screen shouldn't dim during AR experiences.
         UIApplication.shared.isIdleTimerDisabled = true
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        navigationController?.setNeedsStatusBarAppearanceUpdate()
     }
     
     override func viewDidAppear(_ animated: Bool) {

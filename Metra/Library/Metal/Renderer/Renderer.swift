@@ -15,9 +15,9 @@ struct Constants {}
 extension Constants {
     struct Renderer {
         static let defaultConfidence = 1
-        static let defaultNumGridPoints = 2500
+        static let defaultNumGridPoints = 5000
         
-        static let defaultMaxPoints = 2_000_000
+        static let defaultMaxPoints = 3_000_000
         static let minMaxPoints = 50_000
         static let maxMaxPoints = 5_000_000
         
