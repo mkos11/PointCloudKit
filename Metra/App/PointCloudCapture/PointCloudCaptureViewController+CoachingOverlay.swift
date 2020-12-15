@@ -24,12 +24,12 @@ extension PointCloudCaptureViewController: ARCoachingOverlayViewDelegate {
 
     func setupCoachingOverlay() {
         // Set up coaching view
-        coachingOverlay.session = session
-        coachingOverlay.delegate = self
+        coachingOverlayView.session = session
+        coachingOverlayView.delegate = self
         
-        view.addSubview(coachingOverlay)
+        view.addSubview(coachingOverlayView)
         
-        coachingOverlay.snp.makeConstraints { (make) in
+        coachingOverlayView.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.edges.equalToSuperview()
         }

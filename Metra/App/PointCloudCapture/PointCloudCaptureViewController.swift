@@ -25,7 +25,7 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     let renderer: Renderer
     
     let metalView: MTKView
-    let coachingOverlay = ARCoachingOverlayView()
+    let coachingOverlayView = ARCoachingOverlayView()
     let session = ARSession()
     
     // Auto-hide the home indicator to maximize immersion in AR experiences.
@@ -62,17 +62,15 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         // The screen shouldn't dim during AR experiences.
         UIApplication.shared.isIdleTimerDisabled = true
-        
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Run the view's session
-        coachingOverlay.setActive(true, animated: true)
+        coachingOverlayView.setActive(true, animated: true)
         UIView.animate(withDuration: 0, delay: 0.5, animations: {
             self.session.run(self.configuration)
         })
@@ -80,7 +78,7 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        coachingOverlay.setActive(false, animated: false)
+        coachingOverlayView.setActive(false, animated: false)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -105,6 +103,34 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         }
     }
     
+    @objc
+    private func toggleCapture(sender: UIButton) {
+        sender.isSelected.toggle()
+        switch sender.isSelected {
+        case false:
+            resumeCapture()
+        case true:
+            pauseCapture()
+        }
+    }
+    
+    @objc
+    private func resetCapture() {
+        restartSession()
+    }
+    
+    @objc
+    private func viewCapture() {
+        pauseCapture()
+        let scenePublisher = renderer.generateScene()
+        let viewModel = SCNViewerViewModel(scenePublisher: scenePublisher)
+        let viewerViewController = SCNViewerViewController(viewModel: viewModel)
+        navigationController?.pushViewController(viewerViewController, animated: true)
+    }
+}
+
+// MARK: - ARSessionDelegate (ARSessionObserver)
+extension PointCloudCaptureViewController {
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user.
         guard error is ARError else { return }
@@ -132,6 +158,10 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     func sessionShouldAttemptRelocalization(_ session: ARSession) -> Bool {
         true
     }
+}
+
+// MARK: - Capture/Session
+extension PointCloudCaptureViewController {
     
     func resumeCapture() {
         renderer.isAccumulating = true
@@ -348,32 +378,6 @@ extension PointCloudCaptureViewController {
         rgbRadiusSlider.isContinuous = true
         rgbRadiusSlider.value = renderer.rgbRadius
         rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
-    }
-}
-
-// MARK: - Capture controls
-extension PointCloudCaptureViewController {
-    @objc
-    private func toggleCapture(sender: UIButton) {
-        sender.isSelected.toggle()
-        switch sender.isSelected {
-        case false:
-            resumeCapture()
-        case true:
-            pauseCapture()
-        }
-    }
-    @objc
-    private func resetCapture() {
-        restartSession()
-    }
-    @objc
-    private func viewCapture() {
-        pauseCapture()
-        let scenePublisher = renderer.generateScene()
-        let viewModel = SCNViewerViewModel(scenePublisher: scenePublisher)
-        let viewerViewController = SCNViewerViewController(viewModel: viewModel)
-        navigationController?.pushViewController(viewerViewController, animated: true)
     }
 }
 
