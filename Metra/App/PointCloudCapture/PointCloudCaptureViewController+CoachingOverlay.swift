@@ -11,20 +11,22 @@ import ARKit
 extension PointCloudCaptureViewController: ARCoachingOverlayViewDelegate {
     
     func coachingOverlayViewWillActivate(_ coachingOverlayView: ARCoachingOverlayView) {
-        pauseCapture()
+        viewModel.pauseCapture()
+        viewModel.shouldShowUI.send(false)
     }
 
     func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
-        resumeCapture()
+        viewModel.resumeCapture()
+        viewModel.shouldShowUI.send(true)
     }
 
     func coachingOverlayViewDidRequestSessionReset(_ coachingOverlayView: ARCoachingOverlayView) {
-        restartSession()
+        viewModel.startRenderer(overridingCurrentSession: true)
     }
 
     func setupCoachingOverlay() {
         // Set up coaching view
-        coachingOverlayView.session = session
+        coachingOverlayView.session = viewModel.session
         coachingOverlayView.delegate = self
         
         view.addSubview(coachingOverlayView)

@@ -71,11 +71,11 @@ final class SCNViewerViewController: UIViewController {
         
         // Show FPS logs and timming
         sceneView.showsStatistics = true
-        sceneView.debugOptions.insert(.showWorldOrigin)
+        sceneView.debugOptions.insert(.showFeaturePoints)
         sceneView.debugOptions.insert(.renderAsWireframe)
         
         // Set background color
-        sceneView.backgroundColor = UIColor.spaceCadet
+        sceneView.backgroundColor = UIColor.black
         
         // Allow user translate image
         sceneView.cameraControlConfiguration.allowsTranslation = false
@@ -100,7 +100,7 @@ final class SCNViewerViewController: UIViewController {
 extension SCNViewerViewController {
     
     private func setupUI() {
-        view.backgroundColor = UIColor.spaceCadet
+        view.backgroundColor = UIColor.black
         // Scene view
         view.addSubview(sceneView)
         sceneView.snp.makeConstraints { (make) in
@@ -109,7 +109,7 @@ extension SCNViewerViewController {
         sceneView.alpha = 0
         // Activity indicator view
         activityIndicatorView.style = .large
-        activityIndicatorView.color = .darkGray
+        activityIndicatorView.color = UIColor.amazon
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { (make) in
             make.center.equalTo(view.center)
@@ -133,7 +133,7 @@ extension SCNViewerViewController {
     
     private func setupControls() {
         // Export button
-        let exportCaptureButton = UIBarButtonItem(title: "Save", style: .plain,
+        let exportCaptureButton = UIBarButtonItem(title: "💾", style: .plain,
                                                   target: self, action: #selector(export))
         navigationItem.rightBarButtonItem = exportCaptureButton
     }

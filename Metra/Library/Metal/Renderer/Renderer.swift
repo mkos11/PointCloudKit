@@ -14,17 +14,18 @@ struct Constants {}
 
 extension Constants {
     struct Renderer {
-        static let defaultNumGridPoints = 2000
+        static let defaultConfidence = 1
+        static let defaultNumGridPoints = 2500
         
-        static let defaultMaxPoints = 500_000
+        static let defaultMaxPoints = 2_000_000
         static let minMaxPoints = 50_000
         static let maxMaxPoints = 5_000_000
         
-        static let defaultParticleSize: Float = 5.0
+        static let defaultParticleSize: Float = 6.0
         static let minParticleSize: Float = 0.0
         static let maxParticleSize: Float = 10.0
         
-        static let defaultRgbRadius: Float = 1.0
+        static let defaultRgbRadius: Float = 0.0
         static let minRgbRadius: Float = 0.0
         static let maxRgbRadius: Float = 1.5
     }
@@ -46,7 +47,7 @@ final class Renderer {
     
     /// The session captures video from the camera, tracks the device’s position and orientation
     /// in a modeled 3D space, and provides ARFrame objects.
-    private let session: ARSession
+    let session = ARSession()
 
     // Metal objects and textures
     private let device: MTLDevice
@@ -107,14 +108,14 @@ final class Renderer {
     private lazy var lastCameraTransform = sampleFrame.camera.transform
 
     // interfaces
-    var confidenceThreshold = 1 {
+    @Published var confidenceThreshold = Constants.Renderer.defaultConfidence {
         didSet {
             // apply the change for the shader
             pointCloudUniforms.confidenceThreshold = Int32(confidenceThreshold)
         }
     }
 
-    @Published var rgbRadius: Float = Float(Constants.Renderer.minRgbRadius) {
+    @Published var rgbRadius: Float = Float(Constants.Renderer.defaultRgbRadius) {
         didSet {
             // apply the change for the shader
             rgbUniforms.radius = rgbRadius
@@ -135,19 +136,13 @@ final class Renderer {
         }
     }
 
-    init(session: ARSession, metalDevice device: MTLDevice, renderDestination: RenderDestinationProvider) {
-        self.session = session
+    init(metalDevice device: MTLDevice, renderDestination: RenderDestinationProvider) {
         self.device = device
         self.renderDestination = renderDestination
 
         library = device.makeDefaultLibrary()!
         commandQueue = device.makeCommandQueue()!
 
-        // initialize our buffers
-        for _ in 0 ..< maxInFlightBuffers {
-            rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
-            pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
-        }
         particlesBuffer = .init(device: device,
                                 count: Constants.Renderer.maxMaxPoints,
                                 index: kParticleUniforms.rawValue)
@@ -163,6 +158,8 @@ final class Renderer {
         depthStencilState = device.makeDepthStencilState(descriptor: depthStateDescriptor)!
 
         inFlightSemaphore = DispatchSemaphore(value: maxInFlightBuffers)
+        
+        initializeBuffers()
     }
 
     func drawRectResized(size: CGSize) {
@@ -195,7 +192,6 @@ final class Renderer {
 
         depthTexture = makeTexture(fromPixelBuffer: depthMap, pixelFormat: .r32Float, planeIndex: 0)
         confidenceTexture = makeTexture(fromPixelBuffer: confidenceMap, pixelFormat: .r8Uint, planeIndex: 0)
-
         return true
     }
 
@@ -309,16 +305,14 @@ final class Renderer {
 }
 
 extension Renderer {
-    // Move that to a middle layer later, a vm or smthg
-    func resetBuffers() {
+    func initializeBuffers() {
         for _ in 0 ..< maxInFlightBuffers {
             rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
             pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
         }
-        particlesBuffer = .init(device: device,
-                                count: Constants.Renderer.maxMaxPoints,
-                                index: kParticleUniforms.rawValue)
+        particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
         currentPointCount = 0
+        currentPointIndex = 0
     }
 }
 

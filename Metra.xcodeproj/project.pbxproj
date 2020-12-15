@@ -24,7 +24,10 @@
 		EE01F87E258740090044A160 /* MeshCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F87D258740090044A160 /* MeshCapture.storyboard */; };
 		EE01F884258743960044A160 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F882258743960044A160 /* Home.storyboard */; };
 		EE01F88A258743B00044A160 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE01F889258743B00044A160 /* HomeViewController.swift */; };
-		EE29199025884116003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */; };
+		EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */; };
+		EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */; };
+		EE2919AC25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */; };
+		EE2919B425885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */; };
 		EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */; };
 		EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */; };
 		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
@@ -77,6 +80,9 @@
 		EE01F889258743B00044A160 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EE17E8A125821BA200F6DADF /* Metra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Metra.entitlements; sourceTree = "<group>"; };
 		EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureRenderingService.swift; sourceTree = "<group>"; };
+		EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewModel.swift; sourceTree = "<group>"; };
+		EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MTKView+RenderDestinationProvider.swift"; sourceTree = "<group>"; };
+		EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+ARSessionDelegate.swift"; sourceTree = "<group>"; };
 		EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Renderer+SCNSceneGeneration.swift"; sourceTree = "<group>"; };
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				EE17E8A125821BA200F6DADF /* Metra.entitlements */,
+				EE29199425885366003E9C7C /* Services */,
 				8E26BAF5257DAD0500978446 /* App */,
 				8E26BAF6257DAD1000978446 /* Library */,
 				8E26BAF7257DAD1E00978446 /* Model */,
@@ -178,6 +185,7 @@
 			children = (
 				EEE90369257E02C100A682D8 /* UIView+blur.swift */,
 				EE01F87425873D360044A160 /* UIColor+Palette.swift */,
+				EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */,
 				EEE9034B257DD41700A682D8 /* Metal */,
 			);
 			path = Library;
@@ -228,11 +236,19 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		EE29199425885366003E9C7C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
 			isa = PBXGroup;
 			children = (
-				EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */,
 				EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */,
+				EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */,
 			);
 			path = SCNViewer;
 			sourceTree = "<group>";
@@ -254,9 +270,10 @@
 			isa = PBXGroup;
 			children = (
 				EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */,
+				EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */,
 				8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */,
-				EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */,
 				EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */,
+				EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */,
 			);
 			path = PointCloudCapture;
 			sourceTree = "<group>";
@@ -423,10 +440,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */,
+				EE2919AC25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift in Sources */,
 				8E26BAE9257DACA400978446 /* Shaders.metal in Sources */,
+				EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */,
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
-				EE29199025884116003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
+				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
 				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
 				EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */,
@@ -436,6 +455,7 @@
 				EE01F87525873D360044A160 /* UIColor+Palette.swift in Sources */,
 				8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */,
 				EE01F88A258743B00044A160 /* HomeViewController.swift in Sources */,
+				EE2919B425885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
