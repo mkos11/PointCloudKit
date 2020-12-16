@@ -30,6 +30,7 @@
 		EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */; };
 		EE2919AC25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */; };
 		EE2919B425885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */; };
+		EE5843922589EF740026F6FA /* UTType+PolygonFileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */; };
 		EE67529F2588BB1500F6FF89 /* MeshCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */; };
 		EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */; };
 		EE6752A92588BB5F00F6FF89 /* ExtensionForMeshCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */; };
@@ -93,6 +94,7 @@
 		EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewModel.swift; sourceTree = "<group>"; };
 		EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MTKView+RenderDestinationProvider.swift"; sourceTree = "<group>"; };
 		EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+ARSessionDelegate.swift"; sourceTree = "<group>"; };
+		EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+PolygonFileFormat.swift"; sourceTree = "<group>"; };
 		EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshCaptureViewController.swift; sourceTree = "<group>"; };
 		EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeshCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForMeshCapture.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				EEE90369257E02C100A682D8 /* UIView+blur.swift */,
 				EE01F87425873D360044A160 /* UIColor+Palette.swift */,
 				EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */,
+				EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */,
 				EEE9034B257DD41700A682D8 /* Metal */,
 			);
 			path = Library;
@@ -481,6 +484,7 @@
 				EEBA7B592583432C0000AD1A /* SCNViewerViewModel+SCN.swift in Sources */,
 				EE67529F2588BB1500F6FF89 /* MeshCaptureViewController.swift in Sources */,
 				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
+				EE5843922589EF740026F6FA /* UTType+PolygonFileFormat.swift in Sources */,
 				EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */,
 				EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */,
 				EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */,
