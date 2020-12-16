@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,25 @@
 		8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE6257DACA400978446 /* MetalBuffer.swift */; };
 		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
 		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
+		EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */; };
+		EE01F87525873D360044A160 /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE01F87425873D360044A160 /* UIColor+Palette.swift */; };
+		EE01F87E258740090044A160 /* MeshCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F87D258740090044A160 /* MeshCapture.storyboard */; };
+		EE01F884258743960044A160 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F882258743960044A160 /* Home.storyboard */; };
+		EE01F88A258743B00044A160 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE01F889258743B00044A160 /* HomeViewController.swift */; };
+		EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */; };
+		EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */; };
+		EE2919AC25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */; };
+		EE2919B425885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */; };
+		EE67529F2588BB1500F6FF89 /* MeshCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */; };
+		EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */; };
+		EE6752A92588BB5F00F6FF89 /* ExtensionForMeshCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */; };
+		EE6752B12588BE3500F6FF89 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */; };
+		EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */; };
+		EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */; };
+		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
+		EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */; };
+		EEE90365257DFFB700A682D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EEE90364257DFFB700A682D8 /* SnapKit */; };
+		EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE90369257E02C100A682D8 /* UIView+blur.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +77,26 @@
 		8E26BAE7257DACA400978446 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE01F86325873A5F0044A160 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Metra/Resources/Base.lproj/PointCloudCapture.storyboard; sourceTree = "<group>"; };
+		EE01F87425873D360044A160 /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
+		EE01F87D258740090044A160 /* MeshCapture.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MeshCapture.storyboard; sourceTree = "<group>"; };
+		EE01F883258743960044A160 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Metra/Resources/Base.lproj/Home.storyboard; sourceTree = "<group>"; };
+		EE01F889258743B00044A160 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		EE17E8A125821BA200F6DADF /* Metra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Metra.entitlements; sourceTree = "<group>"; };
+		EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureRenderingService.swift; sourceTree = "<group>"; };
+		EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewModel.swift; sourceTree = "<group>"; };
+		EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MTKView+RenderDestinationProvider.swift"; sourceTree = "<group>"; };
+		EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+ARSessionDelegate.swift"; sourceTree = "<group>"; };
+		EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshCaptureViewController.swift; sourceTree = "<group>"; };
+		EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeshCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
+		EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForMeshCapture.swift; sourceTree = "<group>"; };
+		EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
+		EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
+		EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Renderer+SCNSceneGeneration.swift"; sourceTree = "<group>"; };
+		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
+		EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewModel.swift; sourceTree = "<group>"; };
 		EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SceneDepthPointCloud-Bridging-Header.h"; sourceTree = "<group>"; };
+		EEE90369257E02C100A682D8 /* UIView+blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+blur.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEE90365257DFFB700A682D8 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +148,9 @@
 		8E26BAB0257DAC0200978446 /* Metra */ = {
 			isa = PBXGroup;
 			children = (
+				8E26BAB7257DAC0200978446 /* Main.storyboard */,
+				EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */,
+				EE29199425885366003E9C7C /* Services */,
 				8E26BAF5257DAD0500978446 /* App */,
 				8E26BAF6257DAD1000978446 /* Library */,
 				8E26BAF7257DAD1E00978446 /* Model */,
@@ -138,8 +180,11 @@
 		8E26BAF5257DAD0500978446 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				EE01F8882587439F0044A160 /* Home */,
 				8E26BAB1257DAC0200978446 /* AppDelegate.swift */,
-				EEE90356257DDD1000A682D8 /* PointCloudCaptureViewController */,
+				EEE90356257DDD1000A682D8 /* PointCloudCapture */,
+				EE01F87C25873FF30044A160 /* MeshCapture */,
+				EEBA7B6525835F8A0000AD1A /* SCNViewer */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -147,7 +192,10 @@
 		8E26BAF6257DAD1000978446 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				EEE9034B257DD41700A682D8 /* Renderer */,
+				EEE90369257E02C100A682D8 /* UIView+blur.swift */,
+				EE01F87425873D360044A160 /* UIColor+Palette.swift */,
+				EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */,
+				EEE9034B257DD41700A682D8 /* Metal */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -162,8 +210,8 @@
 		8E26BAF8257DAD2200978446 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE17E8A125821BA200F6DADF /* Metra.entitlements */,
 				8E26BAB3257DAC0200978446 /* art.scnassets */,
-				8E26BAB7257DAC0200978446 /* Main.storyboard */,
 				8E26BABA257DAC0500978446 /* Assets.xcassets */,
 				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
 				8E26BB04257DAE1B00978446 /* Info.plist */,
@@ -171,25 +219,75 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		EEE9034B257DD41700A682D8 /* Renderer */ = {
+		EE01F85425871CA20044A160 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
-				8E26BAE5257DACA400978446 /* Shaders.metal */,
-				EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */,
-				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
 				8E26BAE8257DACA400978446 /* Renderer.swift */,
-				8E26BAE7257DACA400978446 /* Helpers.swift */,
-				8E26BAE6257DACA400978446 /* MetalBuffer.swift */,
+				EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
 		};
-		EEE90356257DDD1000A682D8 /* PointCloudCaptureViewController */ = {
+		EE01F87C25873FF30044A160 /* MeshCapture */ = {
 			isa = PBXGroup;
 			children = (
-				8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */,
+				EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */,
+				EE01F87D258740090044A160 /* MeshCapture.storyboard */,
+				EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */,
+				EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */,
 			);
-			path = PointCloudCaptureViewController;
+			path = MeshCapture;
+			sourceTree = "<group>";
+		};
+		EE01F8882587439F0044A160 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				EE01F882258743960044A160 /* Home.storyboard */,
+				EE01F889258743B00044A160 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		EE29199425885366003E9C7C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
+			isa = PBXGroup;
+			children = (
+				EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */,
+				EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */,
+			);
+			path = SCNViewer;
+			sourceTree = "<group>";
+		};
+		EEE9034B257DD41700A682D8 /* Metal */ = {
+			isa = PBXGroup;
+			children = (
+				EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */,
+				8E26BAE5257DACA400978446 /* Shaders.metal */,
+				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
+				8E26BAE7257DACA400978446 /* Helpers.swift */,
+				8E26BAE6257DACA400978446 /* MetalBuffer.swift */,
+				EE01F85425871CA20044A160 /* Renderer */,
+			);
+			path = Metal;
+			sourceTree = "<group>";
+		};
+		EEE90356257DDD1000A682D8 /* PointCloudCapture */ = {
+			isa = PBXGroup;
+			children = (
+				EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */,
+				EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */,
+				8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */,
+				EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */,
+				EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */,
+			);
+			path = PointCloudCapture;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +307,9 @@
 			dependencies = (
 			);
 			name = Metra;
+			packageProductDependencies = (
+				EEE90364257DFFB700A682D8 /* SnapKit */,
+			);
 			productName = Metra;
 			productReference = 8E26BAAE257DAC0200978446 /* Metra.app */;
 			productType = "com.apple.product-type.application";
@@ -280,6 +381,9 @@
 				Base,
 			);
 			mainGroup = 8E26BAA5257DAC0200978446;
+			packageReferences = (
+				EEE90363257DFFB700A682D8 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 8E26BAAF257DAC0200978446 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -296,9 +400,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE01F884258743960044A160 /* Home.storyboard in Resources */,
+				EE01F87E258740090044A160 /* MeshCapture.storyboard in Resources */,
 				8E26BAB4257DAC0200978446 /* art.scnassets in Resources */,
 				8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */,
 				8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */,
+				EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */,
 				8E26BAB9257DAC0200978446 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,12 +451,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE6752B12588BE3500F6FF89 /* AppNavigationController.swift in Sources */,
+				EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */,
+				EE6752A92588BB5F00F6FF89 /* ExtensionForMeshCapture.swift in Sources */,
+				EE2919AC25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift in Sources */,
 				8E26BAE9257DACA400978446 /* Shaders.metal in Sources */,
+				EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */,
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
+				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
+				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
+				EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */,
+				EE67529F2588BB1500F6FF89 /* MeshCaptureViewController.swift in Sources */,
 				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
+				EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */,
+				EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */,
+				EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */,
+				EE01F87525873D360044A160 /* UIColor+Palette.swift in Sources */,
 				8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */,
+				EE01F88A258743B00044A160 /* HomeViewController.swift in Sources */,
+				EE2919B425885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +521,22 @@
 				8E26BABD257DAC0500978446 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE01F86325873A5F0044A160 /* Base */,
+			);
+			name = PointCloudCapture.storyboard;
+			sourceTree = "<group>";
+		};
+		EE01F882258743960044A160 /* Home.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE01F883258743960044A160 /* Base */,
+			);
+			name = Home.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -455,7 +593,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -511,7 +649,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -526,7 +664,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
+				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
@@ -538,7 +677,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Renderer/SceneDepthPointCloud-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -548,7 +687,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
+				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
@@ -560,7 +700,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Renderer/SceneDepthPointCloud-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -690,6 +830,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EEE90363257DFFB700A682D8 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EEE90364257DFFB700A682D8 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EEE90363257DFFB700A682D8 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8E26BAA6257DAC0200978446 /* Project object */;
 }

@@ -8,10 +8,33 @@ The host app renderer.
 import Metal
 import MetalKit
 import ARKit
+import Combine
+
+struct Constants {}
+
+extension Constants {
+    struct Renderer {
+        static let defaultConfidence = 1
+        static let defaultNumGridPoints = 5000
+        
+        static let defaultMaxPoints = 3_000_000
+        static let minMaxPoints = 50_000
+        static let maxMaxPoints = 5_000_000
+        
+        static let defaultParticleSize: Float = 6.0
+        static let minParticleSize: Float = 0.0
+        static let maxParticleSize: Float = 10.0
+        
+        static let defaultRgbRadius: Float = 0.0
+        static let minRgbRadius: Float = 0.0
+        static let maxRgbRadius: Float = 1.5
+    }
+}
 
 final class Renderer {
+    var isAccumulating: Bool = true
     // Number of sample points on the grid
-    private let numGridPoints = 500
+    private let numGridPoints = Constants.Renderer.defaultNumGridPoints
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
@@ -21,7 +44,10 @@ final class Renderer {
     private let maxInFlightBuffers = 3
 
     private lazy var rotateToARCamera = Self.makeRotateToARCameraMatrix(orientation: orientation)
-    private let session: ARSession
+    
+    /// The session captures video from the camera, tracks the device’s position and orientation
+    /// in a modeled 3D space, and provides ARFrame objects.
+    let session = ARSession()
 
     // Metal objects and textures
     private let device: MTLDevice
@@ -71,9 +97,9 @@ final class Renderer {
     }()
     private var pointCloudUniformsBuffers = [MetalBuffer<PointCloudUniforms>]()
     // Particles buffer
-    private var particlesBuffer: MetalBuffer<ParticleUniforms>
+    private (set) var particlesBuffer: MetalBuffer<ParticleUniforms>
     private var currentPointIndex = 0
-    private var currentPointCount = 0
+    @Published private (set) var currentPointCount = 0
 
     // Camera data
     private var sampleFrame: ARFrame { session.currentFrame! }
@@ -82,14 +108,14 @@ final class Renderer {
     private lazy var lastCameraTransform = sampleFrame.camera.transform
 
     // interfaces
-    var confidenceThreshold = 1 {
+    @Published var confidenceThreshold = Constants.Renderer.defaultConfidence {
         didSet {
             // apply the change for the shader
             pointCloudUniforms.confidenceThreshold = Int32(confidenceThreshold)
         }
     }
 
-    var rgbRadius: Float = 0 {
+    @Published var rgbRadius: Float = Float(Constants.Renderer.defaultRgbRadius) {
         didSet {
             // apply the change for the shader
             rgbUniforms.radius = rgbRadius
@@ -97,33 +123,29 @@ final class Renderer {
     }
     
     // Maximum number of points we store in the point cloud
-    var maxPoints = 500_000 {
+    @Published var maxPoints = Constants.Renderer.defaultMaxPoints {
         didSet {
             pointCloudUniforms.maxPoints = Int32(maxPoints)
         }
     }
     
     // Particle's size in pixels
-    var particleSize: Float = 5 {
+    @Published var particleSize: Float = Float(Constants.Renderer.defaultParticleSize) {
         didSet {
             pointCloudUniforms.particleSize = particleSize
         }
     }
 
-    init(session: ARSession, metalDevice device: MTLDevice, renderDestination: RenderDestinationProvider) {
-        self.session = session
+    init(metalDevice device: MTLDevice, renderDestination: RenderDestinationProvider) {
         self.device = device
         self.renderDestination = renderDestination
 
         library = device.makeDefaultLibrary()!
         commandQueue = device.makeCommandQueue()!
 
-        // initialize our buffers
-        for _ in 0 ..< maxInFlightBuffers {
-            rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
-            pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
-        }
-        particlesBuffer = .init(device: device, count: maxPoints, index: kParticleUniforms.rawValue)
+        particlesBuffer = .init(device: device,
+                                count: Constants.Renderer.maxMaxPoints,
+                                index: kParticleUniforms.rawValue)
 
         // rbg does not need to read/write depth
         let relaxedStateDescriptor = MTLDepthStencilDescriptor()
@@ -136,12 +158,19 @@ final class Renderer {
         depthStencilState = device.makeDepthStencilState(descriptor: depthStateDescriptor)!
 
         inFlightSemaphore = DispatchSemaphore(value: maxInFlightBuffers)
+        
+        initializeBuffers()
     }
 
     func drawRectResized(size: CGSize) {
         viewportSize = size
     }
 
+    /// Each `ARFrame` object’s `capturedImage` property contains a pixel buffer captured from the device camera.
+    /// To draw this image as the backdrop for your custom view, you’ll need to create textures from the image
+    /// content and submit GPU rendering commands that use those textures.
+    ///
+    /// The pixel buffer’s contents are encoded in a biplanar YCbCr (also called YUV) data format; to render the image you’ll need to convert this pixel data to a drawable RGB format. For rendering with Metal, you can perform this conversion most efficiently in GPU shader code. Use CVMetalTextureCache APIs to create two Metal textures from the pixel buffer—one each for the buffer’s luma (Y) and chroma (CbCr) planes:
     private func updateCapturedImageTextures(frame: ARFrame) {
         // Create two textures (Y and CbCr) from the provided frame's captured image
         let pixelBuffer = frame.capturedImage
@@ -153,6 +182,8 @@ final class Renderer {
         capturedImageTextureCbCr = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .rg8Unorm, planeIndex: 1)
     }
 
+    /// This function update the DepthTexture and ConfidenceTexture, the dataset containing what is draw to represent texture and depth
+    /// Seems this data is stored in the Frame, in sceneDepth.depthMap and confidenceMap
     private func updateDepthTextures(frame: ARFrame) -> Bool {
         guard let depthMap = frame.sceneDepth?.depthMap,
             let confidenceMap = frame.sceneDepth?.confidenceMap else {
@@ -161,7 +192,6 @@ final class Renderer {
 
         depthTexture = makeTexture(fromPixelBuffer: depthMap, pixelFormat: .r32Float, planeIndex: 0)
         confidenceTexture = makeTexture(fromPixelBuffer: confidenceMap, pixelFormat: .r8Uint, planeIndex: 0)
-
         return true
     }
 
@@ -204,7 +234,7 @@ final class Renderer {
             accumulatePoints(frame: currentFrame, commandBuffer: commandBuffer, renderEncoder: renderEncoder)
         }
 
-        // check and render rgb camera image
+        // check and render rgb camera image using Luma and Chroma textures - if needed
         if rgbUniforms.radius > 0 {
             var retainingTextures = [capturedImageTextureY, capturedImageTextureCbCr]
             commandBuffer.addCompletedHandler { _ in
@@ -227,29 +257,38 @@ final class Renderer {
         renderEncoder.setVertexBuffer(pointCloudUniformsBuffers[currentBufferIndex])
         renderEncoder.setVertexBuffer(particlesBuffer)
         renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: currentPointCount)
-        renderEncoder.endEncoding()
+        renderEncoder.endEncoding() // Draws
 
-        commandBuffer.present(renderDestination.currentDrawable!)
-        commandBuffer.commit()
+        commandBuffer.present(renderDestination.currentDrawable!) // Present on screen
+        commandBuffer.commit() // Finish operations and free retainedTextures
     }
 
+    /// Decide wether new points should be added to the buffers:
+    /// - `isAccumulating` is true (to pause/resume the capture)
+    /// - If no point recorded yet (first frame of capture)
+    /// - if camera moved (rotation/translation) beyond thresholds
     private func shouldAccumulate(frame: ARFrame) -> Bool {
+        guard isAccumulating else { return false }
         let cameraTransform = frame.camera.transform
         return currentPointCount == 0
             || dot(cameraTransform.columns.2, lastCameraTransform.columns.2) <= cameraRotationThreshold
             || distance_squared(cameraTransform.columns.3, lastCameraTransform.columns.3) >= cameraTranslationThreshold
     }
 
+    /// Add news points to Buffers
     private func accumulatePoints(frame: ARFrame, commandBuffer: MTLCommandBuffer, renderEncoder: MTLRenderCommandEncoder) {
         pointCloudUniforms.pointCloudCurrentIndex = Int32(currentPointIndex)
 
+        // Textures generated from the current frame previously in the update functions (Luma, Chroma, Depth and Confidence)
         var retainingTextures = [capturedImageTextureY, capturedImageTextureCbCr, depthTexture, confidenceTexture]
         commandBuffer.addCompletedHandler { _ in
             retainingTextures.removeAll()
         }
 
         renderEncoder.setDepthStencilState(relaxedStencilState)
+        // This line inform which Metal func we will call
         renderEncoder.setRenderPipelineState(unprojectPipelineState)
+        // This pass the arguments
         renderEncoder.setVertexBuffer(pointCloudUniformsBuffers[currentBufferIndex])
         renderEncoder.setVertexBuffer(particlesBuffer)
         renderEncoder.setVertexBuffer(gridPointsBuffer)
@@ -265,10 +304,23 @@ final class Renderer {
     }
 }
 
+extension Renderer {
+    func initializeBuffers() {
+        for _ in 0 ..< maxInFlightBuffers {
+            rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
+            pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
+        }
+        particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
+        currentPointCount = 0
+        currentPointIndex = 0
+    }
+}
+
 // MARK: - Metal Helpers
 
 private extension Renderer {
     func makeUnprojectionPipelineState() -> MTLRenderPipelineState? {
+        // Check that function in C shader code and make it possibly fail if something already at that position?
         guard let vertexFunction = library.makeFunction(name: "unprojectVertex") else {
                 return nil
         }
