@@ -76,16 +76,16 @@ final class PointCloudCaptureViewModel {
         rendererService.renderer.$currentPointCount
             .combineLatest(rendererService.renderer.$maxPoints)
             .throttle(for: 1, scheduler: DispatchQueue.global(qos: .utility), latest: false)
-            .sink { (args) in
+            .sink { [weak self] (args) in
                 let (currentPointCount, maxPoints) = args
-                self.pointCountMetric = "Points: \(currentPointCount / 1000)k / \(maxPoints / 1000)k"
+                self?.pointCountMetric = "Points: \(currentPointCount / 1000)k / \(maxPoints / 1000)k"
             }
             .store(in: &cancellable)
         
         rendererService.renderer.$particleSize
             .throttle(for: 1, scheduler: DispatchQueue.global(qos: .utility), latest: false)
-            .sink { (particleSize) in
-                self.particleSizeMetric = "Particle size: \(particleSize.rounded())"
+            .sink { [weak self]  (particleSize) in
+                self?.particleSizeMetric = "Particle size: \(particleSize.rounded())"
             }
             .store(in: &cancellable)
         

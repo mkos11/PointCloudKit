@@ -174,9 +174,7 @@ final class Renderer {
     private func updateCapturedImageTextures(frame: ARFrame) {
         // Create two textures (Y and CbCr) from the provided frame's captured image
         let pixelBuffer = frame.capturedImage
-        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else {
-            return
-        }
+        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else { return }
 
         capturedImageTextureY = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .r8Unorm, planeIndex: 0)
         capturedImageTextureCbCr = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .rg8Unorm, planeIndex: 1)
@@ -217,9 +215,7 @@ final class Renderer {
 
         _ = inFlightSemaphore.wait(timeout: DispatchTime.distantFuture)
         commandBuffer.addCompletedHandler { [weak self] _ in
-            if let self = self {
-                self.inFlightSemaphore.signal()
-            }
+            self?.inFlightSemaphore.signal()
         }
 
         // update frame data
