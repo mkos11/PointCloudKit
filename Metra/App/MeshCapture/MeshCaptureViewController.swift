@@ -72,7 +72,6 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    
     /// Places virtual-text of the classification at the touch-location's real-world intersection with a mesh.
     /// Note - because classification of the tapped-mesh is retrieved asynchronously, we visualize the intersection
     /// point immediately to give instant visual feedback of the tap.

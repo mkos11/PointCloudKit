@@ -75,8 +75,8 @@ final class PointCloudCaptureRenderingService: NSObject, MTKViewDelegate {
     
     // MARK: - SCNScene generation
 
-    func generateScene() -> PassthroughSubject<SCNScene, Never> {
-        renderer.generateScene()
+    func vertices() -> [Vertex] {
+        renderer.currentlyVisibleVertices
     }
 }
 

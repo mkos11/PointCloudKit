@@ -314,6 +314,16 @@ extension Renderer {
         currentPointCount = 0
         currentPointIndex = 0
     }
+    
+    var currentlyVisibleVertices: [Vertex] {
+        var vertices = [Vertex]()
+        let confidenceRequierment = Float(confidenceThreshold) / 2.0
+        for index in 0..<currentPointCount {
+            guard particlesBuffer[index].confidence >= confidenceRequierment else { continue}
+            vertices.append(particlesBuffer[index].vertex)
+        }
+        return vertices
+    }
 }
 
 // MARK: - Metal Helpers
@@ -433,5 +443,11 @@ private extension Renderer {
 
         let rotationAngle = Float(cameraToDisplayRotation(orientation: orientation)) * .degreesToRadian
         return flipYZ * matrix_float4x4(simd_quaternion(rotationAngle, Float3(0, 0, 1)))
+    }
+}
+
+extension ParticleUniforms {
+    fileprivate var vertex: Vertex {
+        Vertex(x: position.x, y: position.y, z: position.z, r: color.x, g: color.y, b: color.z)
     }
 }

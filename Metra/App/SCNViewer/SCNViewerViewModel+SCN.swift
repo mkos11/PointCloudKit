@@ -1,5 +1,5 @@
 //
-//  Renderer+Export.swift
+//  SCNViewerViewModel+SCN.swift
 //  Metra
 //
 //  Created by Alexandre Camilleri on 11/12/2020.
@@ -10,31 +10,20 @@ import MetalKit
 import ARKit
 import Combine
 
-extension Renderer {
+extension SCNViewerViewModel {
 
     func generateScene() -> PassthroughSubject<SCNScene, Never> {
         let sceneSubject = PassthroughSubject<SCNScene, Never>()
         DispatchQueue.global(qos: .background).async {
-            let scene: SCNScene = self.generateScene()
+            let scene = self.generateScene(from: self.vertices)
             sceneSubject.send(scene)
         }
         return sceneSubject
     }
 
-    private func generateScene() -> SCNScene {
+    private func generateScene(from vertices: [Vertex]) -> SCNScene {
         let scene = SCNScene()
-        var vertices = [Vertex]()
-        let confidenceRequierment = Float(confidenceThreshold) / 2.0
-
-        for index in 0..<currentPointCount {
-            let point = particlesBuffer[index]
-            // Skip if below selected confidence (So that export reflect what's seen on screen)
-            guard point.confidence >= confidenceRequierment else { continue}
-            let vertex = Vertex(x: point.position.x, y: point.position.y, z: point.position.z,
-                                          r: point.color.x, g: point.color.y, b: point.color.z)
-            vertices.append(vertex)
-        }
-        let vertexData = Data(bytes: &vertices, count: MemoryLayout<Vertex>.size * vertices.count)
+        let vertexData = Data(bytes: vertices, count: MemoryLayout<Vertex>.size * vertices.count)
         let positionSource = SCNGeometrySource(data: vertexData,
                                                semantic: SCNGeometrySource.Semantic.vertex,
                                                vectorCount: vertices.count,

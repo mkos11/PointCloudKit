@@ -8,24 +8,34 @@
 import Foundation
 import SceneKit
 import Combine
+import UniformTypeIdentifiers
 
 final class SCNViewerViewModel {
     private lazy var temporaryDirectoryUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
     
-    lazy var filename = "metra3dfile\(UUID().uuidString)"
-    lazy var exportUrl = temporaryDirectoryUrl.appendingPathComponent("\(filename).scn")
+    lazy var filename = "metraPointCloud\(Date())"
+    lazy var exportUrl = temporaryDirectoryUrl.appendingPathComponent("\(filename)")
     let exportUti = "public.data, public.content"
+    
+    let supportedExportTypes: [UTType] = [.polygonFile, .sceneKitScene]
+    
+    // Used for export
+    let vertices: [Vertex]
     
     // The scene being presented
     @Published
     private(set) var scene: SCNScene?
     
-    init(scenePublisher: PassthroughSubject<SCNScene, Never>) {
-        scenePublisher.compactMap({ $0 }).assign(to: &$scene)
+    init(vertices: [Vertex]) {
+        self.vertices = vertices
+        // Start SCNScene generation in the background
+        generateScene()
+            .compactMap({ $0 }) // Do error handling
+            .assign(to: &$scene)
     }
     
     func writeScene(scene: SCNScene, completion: (() -> Void)?) {
-        scene.write(to: exportUrl,
+        scene.write(to: exportUrl.appendingPathExtension(for: .sceneKitScene),
                     options: nil,
                     delegate: nil) { (_, error, _) in
             if let error = error {
@@ -34,4 +44,10 @@ final class SCNViewerViewModel {
             completion?()
         }
     }
+}
+
+extension UTType {
+    
+    /// A type that represent a PolygonFileFormat file (.ply)
+    static let polygonFile: UTType = UTType(importedAs: ".ply", conformingTo: .plainText)
 }

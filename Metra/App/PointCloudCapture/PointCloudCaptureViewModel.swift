@@ -127,7 +127,7 @@ final class PointCloudCaptureViewModel {
         rendererService.pauseCapture()
     }
     
-    func generateScene() -> PassthroughSubject<SCNScene, Never> {
-        rendererService.generateScene()
+    var vertices: [Vertex] {
+        rendererService.renderer.currentlyVisibleVertices
     }
 }

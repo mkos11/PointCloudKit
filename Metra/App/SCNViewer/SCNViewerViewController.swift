@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import SceneKit
 import SnapKit
+import UniformTypeIdentifiers
 
 final class SCNViewerViewController: UIViewController {
     private var cancellable: Set<AnyCancellable> = []
@@ -87,21 +88,62 @@ final class SCNViewerViewController: UIViewController {
     }
     
     @objc
-    private func export() {
-        guard let scene = viewModel.scene else { return }
-        activityIndicatorView.startAnimating()
-        viewModel.writeScene(scene: scene) { [weak self] in
-            guard let self = self else { return }
-            self.documentInteractionController.url = self.viewModel.exportUrl
-            self.documentInteractionController.uti = self.viewModel.exportUti
-            self.documentInteractionController.name = self.viewModel.filename
-            DispatchQueue.main.async {
-                self.activityIndicatorView.stopAnimating()
-                self.documentInteractionController.presentOptionsMenu(from: self.view.frame,
-                                                                      in: self.view,
-                                                                      animated: true)
-            }
+    private func presentExportTypeSelection() {
+        let exportTypeSelection = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        viewModel.supportedExportTypes.forEach { (exportType) in
+            let action = UIAlertAction(title: exportType.preferredFilenameExtension,
+                                       style: .default, handler: exportScn)
+            exportTypeSelection.addAction(action)
         }
+        let cancelAction = UIAlertAction(title: nil, style: .cancel, handler: exportPly)
+        exportTypeSelection.addAction(cancelAction)
+        
+        present(exportTypeSelection, animated: true, completion: nil)
+    }
+    
+    private func exportScn(_ sender: UIAlertAction) {
+        export(type: .sceneKitScene)
+    }
+    
+    private func exportPly(_ sender: UIAlertAction) {
+        export(type: .polygonFile)
+    }
+    
+    private func export(type: UTType) {
+        let exportUrl: URL
+        activityIndicatorView.startAnimating()
+        
+        documentInteractionController.uti = type.identifier
+        documentInteractionController.name = viewModel.filename
+        switch type {
+        case .polygonFile:
+            exportUrl = viewModel.exportUrl.appendingPathExtension(for: .sceneKitScene)
+            viewModel.generatePly()
+                .sink { plyData in
+                    do {
+                        try plyData.generateAscii()?.write(to: exportUrl, options: [.atomicWrite])
+                    } catch {
+                        fatalError("Failed to write PLY file \(error)")
+                    }
+                    DispatchQueue.main.async { self.presentDocumentInteractionController() }
+                }
+                .store(in: &cancellable)
+        case .sceneKitScene:
+            exportUrl = viewModel.exportUrl.appendingPathExtension(for: .polygonFile)
+            guard let scene = viewModel.scene else { return }
+            viewModel.writeScene(scene: scene) { [weak self] in
+                guard let self = self else { return }
+                DispatchQueue.main.async { self.presentDocumentInteractionController() }
+            }
+        default:
+            return
+        }
+        documentInteractionController.url = exportUrl
+    }
+    
+    private func presentDocumentInteractionController() {
+        activityIndicatorView.stopAnimating()
+        documentInteractionController.presentOptionsMenu(from: view.frame, in: view, animated: true)
     }
 }
 
@@ -142,7 +184,7 @@ extension SCNViewerViewController {
     private func setupControls() {
         // Export button
         let exportCaptureButton = UIBarButtonItem(title: "💾", style: .plain,
-                                                  target: self, action: #selector(export))
+                                                  target: self, action: #selector(presentExportTypeSelection))
         navigationItem.rightBarButtonItem = exportCaptureButton
     }
 }

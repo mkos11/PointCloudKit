@@ -66,7 +66,9 @@ extension PolygonFileFormat {
         lines.append(contentsOf: header)
         lines.append(contentsOf: vertices)
         
-        return lines.joinedAsciiRepresentation().data(using: .ascii)
+        return lines
+            .joinedAsciiRepresentation()
+            .data(using: .ascii)
     }
 }
 
@@ -84,6 +86,7 @@ extension PolygonFileFormat.HeaderLine: AsciiRepresentable {
 
 extension Sequence where Iterator.Element == AsciiRepresentable {
     fileprivate func joinedAsciiRepresentation(separator: String = "\n") -> String {
-        map { "\($0.ascii)" }.joined(separator: separator)
+        map { "\($0.ascii)" }
+            .joined(separator: separator)
     }
 }
