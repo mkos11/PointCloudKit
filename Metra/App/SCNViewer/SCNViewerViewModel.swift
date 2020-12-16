@@ -9,29 +9,48 @@ import Foundation
 import SceneKit
 import Combine
 
+enum SCNViewerViewModelError: Error {
+    case missingVertices
+}
+
 final class SCNViewerViewModel {
+    private var cancellable: Set<AnyCancellable> = []
+    
     private lazy var temporaryDirectoryUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-    
-    lazy var filename = "metra3dfile\(UUID().uuidString)"
-    lazy var exportUrl = temporaryDirectoryUrl.appendingPathComponent("\(filename).scn")
-    let exportUti = "public.data, public.content"
-    
+    lazy var exportUrl = temporaryDirectoryUrl.appendingPathComponent("\(filename)")
+    // Used for export
+    @Published
+    private (set) var vertices: [Vertex]?
     // The scene being presented
     @Published
-    private(set) var scene: SCNScene?
+    private (set) var scene: SCNScene?
     
-    init(scenePublisher: PassthroughSubject<SCNScene, Never>) {
-        scenePublisher.compactMap({ $0 }).assign(to: &$scene)
+    var filename: String { "metraPointCloud_\(Date().humanReadableTimestamp)" }
+    
+    init(verticesFuture: Future<[Vertex], Error>) {
+        // Wait for vertice export from renderer...
+        verticesFuture
+            .flatMap({ [unowned self] (vertices) -> Future<SCNScene, Never> in
+                self.vertices = vertices
+                return self.generateScene(using: vertices)
+            })
+            .sink(receiveCompletion: { (completion) in
+                switch completion {
+                case let .failure(error): fatalError("\(error.localizedDescription)")
+                case .finished: ()
+                }
+            }, receiveValue: { [unowned self] (scene) in
+                self.scene = scene
+            })
+            .store(in: &cancellable)
     }
-    
-    func writeScene(scene: SCNScene, completion: (() -> Void)?) {
-        scene.write(to: exportUrl,
-                    options: nil,
-                    delegate: nil) { (_, error, _) in
-            if let error = error {
-                fatalError(error.localizedDescription)
-            }
-            completion?()
-        }
+}
+
+extension Date {
+    fileprivate var humanReadableTimestamp: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.dateFormat = "HHmmssss"
+        return formatter.string(from: self)
     }
 }

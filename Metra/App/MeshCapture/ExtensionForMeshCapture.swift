@@ -113,10 +113,10 @@ extension Scene {
         
         addAnchor(anchor)
         // Making the physics body dynamic at this time will let the model be affected by forces.
-        Timer.scheduledTimer(withTimeInterval: seconds, repeats: false) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: seconds, repeats: false) { (_) in
             model.physicsBody?.mode = .dynamic
         }
-        Timer.scheduledTimer(withTimeInterval: seconds + 3, repeats: false) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: seconds + 3, repeats: false) { (_) in
             self.removeAnchor(anchor)
         }
     }

@@ -174,9 +174,7 @@ final class Renderer {
     private func updateCapturedImageTextures(frame: ARFrame) {
         // Create two textures (Y and CbCr) from the provided frame's captured image
         let pixelBuffer = frame.capturedImage
-        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else {
-            return
-        }
+        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else { return }
 
         capturedImageTextureY = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .r8Unorm, planeIndex: 0)
         capturedImageTextureCbCr = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .rg8Unorm, planeIndex: 1)
@@ -217,9 +215,7 @@ final class Renderer {
 
         _ = inFlightSemaphore.wait(timeout: DispatchTime.distantFuture)
         commandBuffer.addCompletedHandler { [weak self] _ in
-            if let self = self {
-                self.inFlightSemaphore.signal()
-            }
+            self?.inFlightSemaphore.signal()
         }
 
         // update frame data
@@ -313,6 +309,16 @@ extension Renderer {
         particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
         currentPointCount = 0
         currentPointIndex = 0
+    }
+    
+    var currentlyVisibleVertices: [Vertex] {
+        var vertices = [Vertex]()
+        let confidenceRequierment = Float(confidenceThreshold) / 2.0
+        for index in 0..<currentPointCount {
+            guard particlesBuffer[index].confidence >= confidenceRequierment else { continue}
+            vertices.append(particlesBuffer[index].vertex)
+        }
+        return vertices
     }
 }
 
@@ -433,5 +439,11 @@ private extension Renderer {
 
         let rotationAngle = Float(cameraToDisplayRotation(orientation: orientation)) * .degreesToRadian
         return flipYZ * matrix_float4x4(simd_quaternion(rotationAngle, Float3(0, 0, 1)))
+    }
+}
+
+extension ParticleUniforms {
+    fileprivate var vertex: Vertex {
+        Vertex(x: position.x, y: position.y, z: position.z, r: color.x, g: color.y, b: color.z)
     }
 }

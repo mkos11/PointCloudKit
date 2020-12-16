@@ -76,16 +76,16 @@ final class PointCloudCaptureViewModel {
         rendererService.renderer.$currentPointCount
             .combineLatest(rendererService.renderer.$maxPoints)
             .throttle(for: 1, scheduler: DispatchQueue.global(qos: .utility), latest: false)
-            .sink { (args) in
+            .sink { [weak self] (args) in
                 let (currentPointCount, maxPoints) = args
-                self.pointCountMetric = "Points: \(currentPointCount / 1000)k / \(maxPoints / 1000)k"
+                self?.pointCountMetric = "Points: \(currentPointCount / 1000)k / \(maxPoints / 1000)k"
             }
             .store(in: &cancellable)
         
         rendererService.renderer.$particleSize
             .throttle(for: 1, scheduler: DispatchQueue.global(qos: .utility), latest: false)
-            .sink { (particleSize) in
-                self.particleSizeMetric = "Particle size: \(particleSize.rounded())"
+            .sink { [weak self]  (particleSize) in
+                self?.particleSizeMetric = "Particle size: \(particleSize.rounded())"
             }
             .store(in: &cancellable)
         
@@ -127,7 +127,15 @@ final class PointCloudCaptureViewModel {
         rendererService.pauseCapture()
     }
     
-    func generateScene() -> PassthroughSubject<SCNScene, Never> {
-        rendererService.generateScene()
+    var vertices: Future<[Vertex], Error> {
+        Future<[Vertex], Error> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(ARError(.requestFailed)))
+                return
+            }
+            DispatchQueue.global(qos: .background).async {
+                promise(.success(self.rendererService.renderer.currentlyVisibleVertices))
+            }
+        }
     }
 }

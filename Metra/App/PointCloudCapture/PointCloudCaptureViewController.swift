@@ -110,8 +110,7 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     
     // Move to a viewModel/coordinator
     private func navigateToScnViewer() {
-        let scenePublisher = viewModel.generateScene()
-        let viewModel = SCNViewerViewModel(scenePublisher: scenePublisher)
+        let viewModel = SCNViewerViewModel(verticesFuture: self.viewModel.vertices)
         let viewerViewController = SCNViewerViewController(viewModel: viewModel)
         navigationController?.pushViewController(viewerViewController, animated: true)
     }
@@ -142,16 +141,18 @@ extension PointCloudCaptureViewController {
                 UIView.animate(withDuration: 1) {
                     if isCapturing {
                         rgbRadiusSlider?.value = 0.5
-//                        viewModel.rgbRadius.send(0.5)
                     } else {
                         rgbRadiusSlider?.value = 0.0
-//                        viewModel.rgbRadius.send(0.0)
                     }
                 }
             }
             .store(in: &cancellable)
         
-        // Metrics
+        setupMetricsBindings()
+        setupSlidersBindings()
+    }
+    
+    private func setupMetricsBindings() {
         viewModel.$pointCountMetric
             .receive(on: DispatchQueue.main)
             .sink { [weak pointsLabel] pointCountMetric in
@@ -184,8 +185,9 @@ extension PointCloudCaptureViewController {
                 toggleCaptureButton?.isSelected = isSelected
             }
             .store(in: &cancellable)
-
-        /// Sliders
+    }
+    
+    private func setupSlidersBindings() {
         viewModel.$rgbRadius
             .receive(on: DispatchQueue.main)
             .sink { [weak rgbRadiusSlider] rgbRadius in
