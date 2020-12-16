@@ -19,9 +19,13 @@
 		8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE6257DACA400978446 /* MetalBuffer.swift */; };
 		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
 		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
+		EE6752BF2589962D00F6FF89 /* Renderer+PolygonFileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752BE2589962D00F6FF89 /* Renderer+PolygonFileFormat.swift */; };
+		EE6752C7258996F300F6FF89 /* PolygonFileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752C6258996F300F6FF89 /* PolygonFileFormat.swift */; };
+		EE6752CC2589994B00F6FF89 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752CB2589994B00F6FF89 /* Vertex.swift */; };
 		EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */; };
 		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
 		EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */; };
+		EECF26262589BEE20007746A /* PolygonFileFormat+Ascii.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */; };
 		EEE90365257DFFB700A682D8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EEE90364257DFFB700A682D8 /* SnapKit */; };
 		EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE90369257E02C100A682D8 /* UIView+blur.swift */; };
 /* End PBXBuildFile section */
@@ -64,9 +68,13 @@
 		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE17E8A125821BA200F6DADF /* Metra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Metra.entitlements; sourceTree = "<group>"; };
+		EE6752BE2589962D00F6FF89 /* Renderer+PolygonFileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Renderer+PolygonFileFormat.swift"; sourceTree = "<group>"; };
+		EE6752C6258996F300F6FF89 /* PolygonFileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PolygonFileFormat.swift; path = Metra/Library/Metal/Renderer/PolygonFileFormat.swift; sourceTree = SOURCE_ROOT; };
+		EE6752CB2589994B00F6FF89 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Vertex.swift; path = Metra/Library/Metal/Renderer/Vertex.swift; sourceTree = SOURCE_ROOT; };
 		EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Renderer+SCNSceneGeneration.swift"; sourceTree = "<group>"; };
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
 		EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewModel.swift; sourceTree = "<group>"; };
+		EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PolygonFileFormat+Ascii.swift"; sourceTree = "<group>"; };
 		EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SceneDepthPointCloud-Bridging-Header.h"; sourceTree = "<group>"; };
 		EEE90369257E02C100A682D8 /* UIView+blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+blur.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,6 +177,8 @@
 		8E26BAF7257DAD1E00978446 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EE6752CB2589994B00F6FF89 /* Vertex.swift */,
+				EE6752C6258996F300F6FF89 /* PolygonFileFormat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -190,6 +200,8 @@
 			children = (
 				8E26BAE8257DACA400978446 /* Renderer.swift */,
 				EEBA7B582583432C0000AD1A /* Renderer+SCNSceneGeneration.swift */,
+				EE6752BE2589962D00F6FF89 /* Renderer+PolygonFileFormat.swift */,
+				EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -383,10 +395,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E26BAE9257DACA400978446 /* Shaders.metal in Sources */,
+				EE6752C7258996F300F6FF89 /* PolygonFileFormat.swift in Sources */,
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
+				EE6752BF2589962D00F6FF89 /* Renderer+PolygonFileFormat.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
 				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
+				EECF26262589BEE20007746A /* PolygonFileFormat+Ascii.swift in Sources */,
+				EE6752CC2589994B00F6FF89 /* Vertex.swift in Sources */,
 				EEBA7B592583432C0000AD1A /* Renderer+SCNSceneGeneration.swift in Sources */,
 				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
 				EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */,
@@ -581,7 +597,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Renderer/SceneDepthPointCloud-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -604,7 +620,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Renderer/SceneDepthPointCloud-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
