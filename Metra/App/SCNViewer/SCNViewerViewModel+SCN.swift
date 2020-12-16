@@ -12,16 +12,15 @@ import Combine
 
 extension SCNViewerViewModel {
 
-    func generateScene() -> PassthroughSubject<SCNScene, Never> {
-        let sceneSubject = PassthroughSubject<SCNScene, Never>()
-        DispatchQueue.global(qos: .background).async {
-            let scene = self.generateScene(from: self.vertices)
-            sceneSubject.send(scene)
+    func generateScene(using vertices: [Vertex]) -> Future<SCNScene, Never> {
+        Future<SCNScene, Never> { (promise) in
+            DispatchQueue.global(qos: .background).async {
+                promise(.success(SCNViewerViewModel.generateScene(using: vertices)))
+            }
         }
-        return sceneSubject
     }
 
-    private func generateScene(from vertices: [Vertex]) -> SCNScene {
+    private static func generateScene(using vertices: [Vertex]) -> SCNScene {
         let scene = SCNScene()
         let vertexData = Data(bytes: vertices, count: MemoryLayout<Vertex>.size * vertices.count)
         let positionSource = SCNGeometrySource(data: vertexData,

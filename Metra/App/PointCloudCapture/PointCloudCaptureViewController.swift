@@ -110,7 +110,7 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     
     // Move to a viewModel/coordinator
     private func navigateToScnViewer() {
-        let viewModel = SCNViewerViewModel(vertices: self.viewModel.vertices)
+        let viewModel = SCNViewerViewModel(verticesFuture: self.viewModel.vertices)
         let viewerViewController = SCNViewerViewController(viewModel: viewModel)
         navigationController?.pushViewController(viewerViewController, animated: true)
     }

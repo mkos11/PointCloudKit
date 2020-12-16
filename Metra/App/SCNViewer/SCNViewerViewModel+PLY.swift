@@ -9,17 +9,20 @@ import Foundation
 import Combine
 
 extension SCNViewerViewModel {
-
-    func generatePly() -> PassthroughSubject<PolygonFileFormat, Never> {
-        let plySubject = PassthroughSubject<PolygonFileFormat, Never>()
-        DispatchQueue.global(qos: .background).async {
-            let ply = self.generatePly(from: self.vertices)
-            plySubject.send(ply)
+    
+    func generatePly() -> Future<PolygonFileFormat, Error> {
+        Future<PolygonFileFormat, Error> { [weak self] (promise) in
+            guard let vertices = self?.vertices else {
+                promise(.failure(SCNViewerViewModelError.missingVertices))
+                return
+            }
+            DispatchQueue.global(qos: .background).async {
+                promise(.success(SCNViewerViewModel.generatePly(using: vertices)))
+            }
         }
-        return plySubject
     }
     
-    private func generatePly(from vertices: [Vertex]) -> PolygonFileFormat {
+    private static func generatePly(using vertices: [Vertex]) -> PolygonFileFormat {
         // MARK: - Vertices
         let comments = ["author: iOSMetraApp - Download at [insert url later]",
                         "object: colored point cloud scan"]

@@ -127,7 +127,15 @@ final class PointCloudCaptureViewModel {
         rendererService.pauseCapture()
     }
     
-    var vertices: [Vertex] {
-        rendererService.renderer.currentlyVisibleVertices
+    var vertices: Future<[Vertex], Error> {
+        Future<[Vertex], Error> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(ARError(.requestFailed)))
+                return
+            }
+            DispatchQueue.global(qos: .background).async {
+                promise(.success(self.rendererService.renderer.currentlyVisibleVertices))
+            }
+        }
     }
 }

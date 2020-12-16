@@ -56,7 +56,7 @@ final class SCNViewerViewController: UIViewController {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         // 3: Place camera
-        cameraNode.position = SCNVector3(x: 0, y: 1, z: 5)
+        cameraNode.position = scene.rootNode.worldPosition// SCNVector3(x: 1, y: 1, z: 1)
         // 4: Set camera on scene
         scene.rootNode.addChildNode(cameraNode)
 
@@ -83,78 +83,73 @@ final class SCNViewerViewController: UIViewController {
         
         // Set scene settings
         sceneView.scene = scene
-        
         sceneView.alpha = 1
     }
     
     @objc
     private func presentExportTypeSelection() {
-        let exportTypeSelection = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let exportTypeSelection = UIAlertController(title: "Supported Export Formats", message: nil, preferredStyle: .actionSheet)
+        let scnExport = UIAlertAction(title: UTType.sceneKitScene.localizedDescription, style: .default) { [weak self] _ in
+            self?.export(type: .sceneKitScene)
+        }
+        let plyExport = UIAlertAction(title: UTType.polygonFile.localizedDescription, style: .default) { [weak self] _ in
+            self?.export(type: .polygonFile)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
+        }
         
-        let scnExport = UIAlertAction(title: UTType.sceneKitScene.localizedDescription, style: .default, handler: exportScn)
         exportTypeSelection.addAction(scnExport)
-        
-        let plyExport = UIAlertAction(title: UTType.polygonFile.localizedDescription, style: .default, handler: exportPly)
         exportTypeSelection.addAction(plyExport)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: dismissPresentedPopup)
         exportTypeSelection.addAction(cancelAction)
-        
         present(exportTypeSelection, animated: true, completion: nil)
     }
     
-    private func exportScn(_ sender: UIAlertAction) {
-        export(type: .sceneKitScene)
-    }
-    
-    private func exportPly(_ sender: UIAlertAction) {
-        export(type: .polygonFile)
-    }
-    
-    private func dismissPresentedPopup(_ sender: UIAlertAction) {
-        dismiss(animated: true, completion: nil)
-    }
-    
     private func export(type: UTType) {
-        let exportUrl: URL
+        let url = viewModel.exportUrl.appendingPathExtension(for: type)
+        
         activityIndicatorView.startAnimating()
         switch type {
         case .polygonFile:
-            exportUrl = viewModel.exportUrl.appendingPathExtension(for: type)
-            viewModel.generatePly()
-                .sink { [weak self] plyData in
-                    do {
-                        try plyData.generateAscii()?.write(to: exportUrl, options: [.atomicWrite])
-                    } catch {
-                        fatalError("Failed to write PLY file \(error)")
-                    }
-                    DispatchQueue.main.async { self?.presentDocumentInteractionController() }
-                }
-                .store(in: &cancellable)
+            exportPly(to: url)
         case .sceneKitScene:
-            exportUrl = viewModel.exportUrl.appendingPathExtension(for: type)
-            guard let scene = viewModel.scene else { return }
-            let progressHandler: SCNSceneExportProgressHandler = { [weak self] (progress, error, _) in
-                if let error = error {
-                    fatalError(error.localizedDescription)
-                }
-                if progress == 1 {
-                    DispatchQueue.main.async { self?.presentDocumentInteractionController() }
-                }
-            }
-            scene.write(to: exportUrl,
-                        options: nil,
-                        delegate: nil,
-                        progressHandler: progressHandler)
+            exportScn(to: url)
         default:
             return
         }
-        documentInteractionController.url = exportUrl
+        documentInteractionController.url = url
         documentInteractionController.uti = type.identifier
-        documentInteractionController.name = exportUrl.lastPathComponent
+        documentInteractionController.name = url.lastPathComponent
     }
     
-    private func presentDocumentInteractionController() {
+    private func exportPly(to url: URL) {
+        viewModel.generatePly()
+            .sink(receiveCompletion: { (_) in
+                fatalError("Failed to generate PLY file")
+            }, receiveValue: { [weak self] (ply) in
+                do {
+                    try ply.generateAscii()?.write(to: url, options: [.atomicWrite])
+                } catch {
+                    fatalError("Failed to write PLY file \(error)")
+                }
+                DispatchQueue.main.async { self?.exportedFileReady() }
+            })
+            .store(in: &cancellable)
+    }
+    
+    private func exportScn(to url: URL) {
+        guard let scene = viewModel.scene else { return }
+        scene.write(to: url, options: nil, delegate: nil) { [weak self] (progress, error, _) in
+            if let error = error {
+                fatalError(error.localizedDescription)
+            }
+            if progress == 1 {
+                DispatchQueue.main.async { self?.exportedFileReady() }
+            }
+        }
+    }
+    
+    private func exportedFileReady() {
         activityIndicatorView.stopAnimating()
         documentInteractionController.presentOptionsMenu(from: view.frame, in: view, animated: true)
     }
@@ -187,7 +182,7 @@ extension SCNViewerViewController {
             .sink { [weak self] (scene) in
                 guard let scene = scene else { return }
                 self?.activityIndicatorView.stopAnimating()
-                UIView.animate(withDuration: 1) {
+                UIView.animate(withDuration: 0.5) {
                     self?.load(scene: scene)
                 }
             }
