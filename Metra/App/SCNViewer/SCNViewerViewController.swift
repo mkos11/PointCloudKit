@@ -47,10 +47,10 @@ final class SCNViewerViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
+    // private func loadScene(from file: URL) {
+    //     let scene = SCNSceneSource(url: viewModel.scnFileLocation)?.scene()
+    
     private func load(scene: SCNScene) {
-        // 1: Load .scn file
-//        let scene = SCNSceneSource(url: viewModel.scnFileLocation)?.scene()
-        
         // 2: Add camera node
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -58,13 +58,6 @@ final class SCNViewerViewController: UIViewController {
         cameraNode.position = SCNVector3(x: 0, y: 1, z: 5)
         // 4: Set camera on scene
         scene.rootNode.addChildNode(cameraNode)
-        
-//        // 5: Adding light to scene
-//        let lightNode = SCNNode()
-//        lightNode.light = SCNLight()
-//        lightNode.light?.type = .omni
-//        lightNode.position = SCNVector3(x: 0, y: 0, z: 40)
-//        scene.rootNode.addChildNode(lightNode)
 
         // 6: Creating and adding ambient light to scene
         let ambientLightNode = SCNNode()
@@ -78,9 +71,11 @@ final class SCNViewerViewController: UIViewController {
         
         // Show FPS logs and timming
         sceneView.showsStatistics = true
+        sceneView.debugOptions.insert(.showFeaturePoints)
+        sceneView.debugOptions.insert(.renderAsWireframe)
         
         // Set background color
-        sceneView.backgroundColor = UIColor.white
+        sceneView.backgroundColor = UIColor.black
         
         // Allow user translate image
         sceneView.cameraControlConfiguration.allowsTranslation = false
@@ -93,12 +88,20 @@ final class SCNViewerViewController: UIViewController {
     
     @objc
     private func export() {
-        documentInteractionController.url = viewModel.exportUrl
-        documentInteractionController.uti = viewModel.exportUti
-        documentInteractionController.name = viewModel.filename
-        documentInteractionController.presentOptionsMenu(from: view.frame,
-                                                         in: view,
-                                                         animated: true)
+        guard let scene = viewModel.scene else { return }
+        activityIndicatorView.startAnimating()
+        viewModel.writeScene(scene: scene) { [weak self] in
+            guard let self = self else { return }
+            self.documentInteractionController.url = self.viewModel.exportUrl
+            self.documentInteractionController.uti = self.viewModel.exportUti
+            self.documentInteractionController.name = self.viewModel.filename
+            DispatchQueue.main.async {
+                self.activityIndicatorView.stopAnimating()
+                self.documentInteractionController.presentOptionsMenu(from: self.view.frame,
+                                                                      in: self.view,
+                                                                      animated: true)
+            }
+        }
     }
 }
 
@@ -114,7 +117,7 @@ extension SCNViewerViewController {
         sceneView.alpha = 0
         // Activity indicator view
         activityIndicatorView.style = .large
-        activityIndicatorView.color = .darkGray
+        activityIndicatorView.color = UIColor.amazon
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { (make) in
             make.center.equalTo(view.center)
@@ -124,13 +127,13 @@ extension SCNViewerViewController {
     private func setupObservers() {
         // Wait for scene to be ready and loads it
         activityIndicatorView.startAnimating()
-        viewModel.scenePublisher
-            .sink { [unowned self] (scene) in
-                DispatchQueue.main.async {
-                    self.activityIndicatorView.stopAnimating()
-                    UIView.animate(withDuration: 1) {
-                        self.load(scene: scene)
-                    }
+        viewModel.$scene
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (scene) in
+                guard let scene = scene else { return }
+                self?.activityIndicatorView.stopAnimating()
+                UIView.animate(withDuration: 1) {
+                    self?.load(scene: scene)
                 }
             }
             .store(in: &cancellable)
@@ -138,7 +141,7 @@ extension SCNViewerViewController {
     
     private func setupControls() {
         // Export button
-        let exportCaptureButton = UIBarButtonItem(title: "Save", style: .plain,
+        let exportCaptureButton = UIBarButtonItem(title: "💾", style: .plain,
                                                   target: self, action: #selector(export))
         navigationItem.rightBarButtonItem = exportCaptureButton
     }

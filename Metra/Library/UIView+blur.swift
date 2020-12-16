@@ -13,18 +13,25 @@ extension UIView {
     /// Add a transparency effect to the view - Only if user hasn't disabled them
     /// - Parameter style: The style of the blur effect, by default `.systemThinMaterial`
     @discardableResult
-    func addBlurEffectView(style: UIBlurEffect.Style = .systemUltraThinMaterialLight) -> UIVisualEffectView? {
+    func addBlurEffectView(style: UIBlurEffect.Style = .systemThinMaterial) -> UIVisualEffectView? {
         guard !UIAccessibility.isReduceTransparencyEnabled else {
+            backgroundColor = .black
             return nil
         }
         let blurEffect = UIBlurEffect(style: style)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
         
         backgroundColor = .clear
-        addSubview(blurEffectView)
-        blurEffectView.snp.makeConstraints { (make) in
+        addSubview(blurView)
+        blurView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        return blurEffectView
+        blurView.contentView.addSubview(vibrancyView)
+        vibrancyView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        return blurView
     }
 }
