@@ -11,7 +11,7 @@ import ARKit
 import Combine
 
 extension Renderer {
-    
+
     func generateScene() -> PassthroughSubject<SCNScene, Never> {
         let sceneSubject = PassthroughSubject<SCNScene, Never>()
         DispatchQueue.global(qos: .background).async {
@@ -20,12 +20,12 @@ extension Renderer {
         }
         return sceneSubject
     }
-    
+
     private func generateScene() -> SCNScene {
         let scene = SCNScene()
         var vertices = [Vertex]()
         let confidenceRequierment = Float(confidenceThreshold) / 2.0
-        
+
         for index in 0..<currentPointCount {
             let point = particlesBuffer[index]
             // Skip if below selected confidence (So that export reflect what's seen on screen)
@@ -55,7 +55,7 @@ extension Renderer {
                                           primitiveType: .point,
                                           primitiveCount: vertices.count,
                                           bytesPerIndex: MemoryLayout<Int>.size)
-        
+
         // ANY ways to optimize pointcloud here?
         let pointCloud = SCNGeometry(sources: [positionSource, colorSource], elements: [elements])
         let pcNode = SCNNode(geometry: pointCloud)
