@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAB1257DAC0200978446 /* AppDelegate.swift */; };
-		8E26BAB4257DAC0200978446 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BAB3257DAC0200978446 /* art.scnassets */; };
 		8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */; };
 		8E26BAB9257DAC0200978446 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BAB7257DAC0200978446 /* Main.storyboard */; };
 		8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BABA257DAC0500978446 /* Assets.xcassets */; };
@@ -65,7 +64,6 @@
 /* Begin PBXFileReference section */
 		8E26BAAE257DAC0200978446 /* Metra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAB1257DAC0200978446 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8E26BAB3257DAC0200978446 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewController.swift; sourceTree = "<group>"; };
 		8E26BAB8257DAC0200978446 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E26BABA257DAC0500978446 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -160,9 +158,9 @@
 			children = (
 				8E26BAB7257DAC0200978446 /* Main.storyboard */,
 				EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */,
-				EE29199425885366003E9C7C /* Services */,
 				EE0122882589E04A006AEC97 /* Model */,
 				8E26BAF6257DAD1000978446 /* Library */,
+				EE29199425885366003E9C7C /* Services */,
 				8E26BAF5257DAD0500978446 /* App */,
 				8E26BAF8257DAD2200978446 /* Resources */,
 			);
@@ -215,7 +213,6 @@
 			isa = PBXGroup;
 			children = (
 				EE17E8A125821BA200F6DADF /* Metra.entitlements */,
-				8E26BAB3257DAC0200978446 /* art.scnassets */,
 				8E26BABA257DAC0500978446 /* Assets.xcassets */,
 				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
 				8E26BB04257DAE1B00978446 /* Info.plist */,
@@ -417,7 +414,6 @@
 			files = (
 				EE01F884258743960044A160 /* Home.storyboard in Resources */,
 				EE01F87E258740090044A160 /* MeshCapture.storyboard in Resources */,
-				8E26BAB4257DAC0200978446 /* art.scnassets in Resources */,
 				8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */,
 				8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */,
 				EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */,

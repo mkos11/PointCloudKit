@@ -20,7 +20,7 @@ final class PointCloudCaptureRenderingService: NSObject, MTKViewDelegate {
     // enable the scene depth frame-semantic.
     lazy private var configuration: ARConfiguration = {
         let configuration = ARWorldTrackingConfiguration()
-        configuration.frameSemantics = .sceneDepth
+        configuration.frameSemantics = .smoothedSceneDepth//.sceneDepth
         return configuration
     }()
     

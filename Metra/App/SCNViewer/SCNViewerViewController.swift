@@ -56,7 +56,8 @@ final class SCNViewerViewController: UIViewController {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         // 3: Place camera
-        cameraNode.position = scene.rootNode.worldPosition// SCNVector3(x: 1, y: 1, z: 1)
+        cameraNode.position = scene.rootNode.worldPosition
+        cameraNode.position.z += 30
         // 4: Set camera on scene
         scene.rootNode.addChildNode(cameraNode)
 

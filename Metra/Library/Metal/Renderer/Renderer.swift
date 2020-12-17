@@ -183,8 +183,8 @@ final class Renderer {
     /// This function update the DepthTexture and ConfidenceTexture, the dataset containing what is draw to represent texture and depth
     /// Seems this data is stored in the Frame, in sceneDepth.depthMap and confidenceMap
     private func updateDepthTextures(frame: ARFrame) -> Bool {
-        guard let depthMap = frame.sceneDepth?.depthMap,
-            let confidenceMap = frame.sceneDepth?.confidenceMap else {
+        guard let depthMap = frame.smoothedSceneDepth?.depthMap,
+            let confidenceMap = frame.smoothedSceneDepth?.confidenceMap else {
                 return false
         }
 
