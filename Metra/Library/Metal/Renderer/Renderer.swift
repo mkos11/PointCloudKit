@@ -10,6 +10,34 @@ import MetalKit
 import ARKit
 import Combine
 
+/// http://nghiaho.com/?p=2629
+//Apple TrueDepth camera calibration
+//The first step was to gather any useful information about the TruthDepth camera. Apple has an API that allows you to query calibrationn data of the camera. I told my friend what I was looking for and he came back with the following
+//
+//raw 640×480 depth maps (16bit float)
+//raw 640x480x3 RGB images (8bit)
+//camera intrinsics for 12MP camera
+//lens distortion lookup (vector of 42 floats)
+//inverse lens distortion lookup (vector of 42 floats)
+//Some intrinsic values
+//
+//image width: 4032
+//image height: 3024
+//fx: 2739.79 (focal)
+//fy: 2739.79 (focal)
+//cx: 2029.73 (center x)
+//cy: 1512.20 (center y)
+//This is fantastic, because it means I don’t have to do a checkerboard calibration to learn the intrinsics. Everything we need is provided by the API. Sweet!
+//
+//The camera intrinsics is for a 12MP image, but we’re given a 640×480 image. So what do we do? The 640×480 is simply a scaled version of the 12MP image, meaning we can scale down the intrinsics as well. The 12MP image aspect ratio is 4032/3204 = 1.3333, which is identical to 640/480 = 1.3333. The scaling factor is 640/4032 = 0.15873. So we can scale [fx, fy, cx, cy] by this value. This gives the effective intrinisc as
+//
+//image width: 640
+//image height: 480
+//fx: 434.89
+//fy: 434.89
+//cx: 322.18
+//cy: 240.03
+
 struct Constants {}
 
 extension Constants {
@@ -187,7 +215,6 @@ final class Renderer {
             let confidenceMap = frame.smoothedSceneDepth?.confidenceMap else {
                 return false
         }
-
         depthTexture = makeTexture(fromPixelBuffer: depthMap, pixelFormat: .r32Float, planeIndex: 0)
         confidenceTexture = makeTexture(fromPixelBuffer: confidenceMap, pixelFormat: .r8Uint, planeIndex: 0)
         return true
