@@ -333,7 +333,11 @@ extension Renderer {
             rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
             pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
         }
-        particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
+      particlesBuffer.assign(Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
+      //(device: device,
+//                           count: Constants.Renderer.maxMaxPoints,
+//                           index: kParticleUniforms.rawValue)
+//      particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
         currentPointCount = 0
         currentPointIndex = 0
     }

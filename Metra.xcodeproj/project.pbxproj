@@ -18,6 +18,7 @@
 		8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE6257DACA400978446 /* MetalBuffer.swift */; };
 		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
 		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
+		8E4F2DF82597145C001553B2 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F2DF72597145C001553B2 /* HomeViewModel.swift */; };
 		EE0122912589E07B006AEC97 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122902589E07B006AEC97 /* Vertex.swift */; };
 		EE0122962589E083006AEC97 /* PolygonFileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122952589E083006AEC97 /* PolygonFileFormat.swift */; };
 		EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */; };
@@ -80,6 +81,7 @@
 		8E26BAE7257DACA400978446 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E4F2DF72597145C001553B2 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		EE0122902589E07B006AEC97 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		EE0122952589E083006AEC97 /* PolygonFileFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonFileFormat.swift; sourceTree = "<group>"; };
 		EE01F86325873A5F0044A160 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Metra/Resources/Base.lproj/PointCloudCapture.storyboard; sourceTree = "<group>"; };
@@ -156,8 +158,6 @@
 		8E26BAB0257DAC0200978446 /* Metra */ = {
 			isa = PBXGroup;
 			children = (
-				8E26BAB7257DAC0200978446 /* Main.storyboard */,
-				EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */,
 				EE0122882589E04A006AEC97 /* Model */,
 				8E26BAF6257DAD1000978446 /* Library */,
 				EE29199425885366003E9C7C /* Services */,
@@ -188,8 +188,10 @@
 		8E26BAF5257DAD0500978446 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				EE01F8882587439F0044A160 /* Home */,
 				8E26BAB1257DAC0200978446 /* AppDelegate.swift */,
+				8E26BAB7257DAC0200978446 /* Main.storyboard */,
+				EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */,
+				EE01F8882587439F0044A160 /* Home */,
 				EEE90356257DDD1000A682D8 /* PointCloudCapture */,
 				EE01F87C25873FF30044A160 /* MeshCapture */,
 				EEBA7B6525835F8A0000AD1A /* SCNViewer */,
@@ -253,6 +255,7 @@
 			children = (
 				EE01F882258743960044A160 /* Home.storyboard */,
 				EE01F889258743B00044A160 /* HomeViewController.swift */,
+				8E4F2DF72597145C001553B2 /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
 				EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
+				8E4F2DF82597145C001553B2 /* HomeViewModel.swift in Sources */,
 				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
 				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
@@ -686,6 +690,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -709,6 +714,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
