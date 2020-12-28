@@ -8,9 +8,9 @@
 import UIKit
 
 extension UIColor {
-    static let spaceCadet = UIColor(named: "SpaceCadet")
-    static let amazon = UIColor(named: "Amazon")
-    static let cyberGrape = UIColor(named: "Cmazon")
-    static let bone = UIColor(named: "Bone")
-    static let champagnePink = UIColor(named: "ChampagnePink")
+    static let spaceCadet = UIColor(named: "SpaceCadet")!
+    static let amazon = UIColor(named: "Amazon")!
+    static let cyberGrape = UIColor(named: "Cmazon")!
+    static let bone = UIColor(named: "Bone")!
+    static let champagnePink = UIColor(named: "ChampagnePink")!
 }

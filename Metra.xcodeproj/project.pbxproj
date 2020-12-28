@@ -271,10 +271,10 @@
 		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
 			isa = PBXGroup;
 			children = (
+				EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */,
 				EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */,
 				EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */,
 				EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */,
-				EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */,
 				EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */,
 			);
 			path = SCNViewer;
@@ -687,7 +687,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -711,7 +711,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

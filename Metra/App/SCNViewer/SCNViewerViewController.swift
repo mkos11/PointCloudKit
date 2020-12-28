@@ -73,8 +73,9 @@ final class SCNViewerViewController: UIViewController {
         
         // Show FPS logs and timming
         sceneView.showsStatistics = true
-        sceneView.debugOptions.insert(.showFeaturePoints)
-        sceneView.debugOptions.insert(.renderAsWireframe)
+        //            sceneView.debugOptions.insert(.renderAsWireframe)
+        //            sceneView.debugOptions.insert(.showWorldOrigin)
+        //            sceneView.debugOptions.insert(.showFeaturePoints)
         
         // Set background color
         sceneView.backgroundColor = UIColor.black
@@ -124,6 +125,14 @@ final class SCNViewerViewController: UIViewController {
     }
     
     private func exportPly(to url: URL) {
+        guard viewModel.presentedContent != .meshes else {
+            let alertController = UIAlertController(title: "Coming soon",
+                                                    message: "Feature not implemented yet", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Sigh", style: .cancel, handler: nil)
+            alertController.addAction(dismissAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
         viewModel.generatePly()
             .sink(receiveCompletion: { (_) in
                 fatalError("Failed to generate PLY file")
@@ -160,6 +169,16 @@ extension SCNViewerViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor.black
+
+        let loadingLabel = UILabel()
+        loadingLabel.text = "Converting capture to SCN scene..."
+        loadingLabel.textColor = UIColor.amazon
+        view.addSubview(loadingLabel)
+        loadingLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(60)
+        }
+
         // Scene view
         view.addSubview(sceneView)
         sceneView.snp.makeConstraints { (make) in

@@ -7,7 +7,7 @@
 
 // Remove the // in front of the line to enable the option
 
-class Deliverfile: DeliverfileProtocol {
+public class Deliverfile: DeliverfileProtocol {
   //var username: String { return "" }
   //var appIdentifier: String? { return "" }
 }

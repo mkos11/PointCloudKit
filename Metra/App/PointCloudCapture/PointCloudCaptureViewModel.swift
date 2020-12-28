@@ -15,16 +15,25 @@ final class PointCloudCaptureViewModel {
     private var cancellable: Set<AnyCancellable> = []
     private let rendererService = PointCloudCaptureRenderingService()
     var session: ARSession { rendererService.renderer.session }
-    
+
     @Published
     private var rendererIsRunning: Bool = false
     @Published
     private (set) var rendererIsCapturing: Bool = false
-    
-    @Published 
-    var pointCountMetric: String = "-"
+
+    @Published
+    var samplePerFrameMetric: String = "-"
+    @Published
+    var currentPointMetric: String = "-"
+    @Published
+    var maxPointsMetric: String = "-"
     @Published
     var particleSizeMetric: String = "-"
+    @Published
+    var confidenceMetric: String = "-"
+    @Published
+    var statusMetric: String = "-"
+
     @Published
     var resetButtonIsEnabled: Bool = false
     @Published
@@ -39,6 +48,12 @@ final class PointCloudCaptureViewModel {
     var confidenceThreshold: Int {
         didSet {
             rendererService.renderer.confidenceThreshold = confidenceThreshold
+        }
+    }
+    @Published
+    var numGridPoints: Int {
+        didSet {
+            rendererService.renderer.numGridPoints = numGridPoints
         }
     }
     @Published
@@ -64,28 +79,56 @@ final class PointCloudCaptureViewModel {
         shouldShowUI = CurrentValueSubject<Bool, Never>(false)
         
         confidenceThreshold = rendererService.renderer.confidenceThreshold
+        numGridPoints = rendererService.renderer.numGridPoints
         maxPoints = rendererService.renderer.maxPoints
         particleSize = rendererService.renderer.particleSize
         rgbRadius = rendererService.renderer.rgbRadius
         
         $confidenceThreshold.assign(to: &rendererService.renderer.$confidenceThreshold)
+        $numGridPoints.assign(to: &rendererService.renderer.$numGridPoints)
         $maxPoints.assign(to: &rendererService.renderer.$maxPoints)
         $particleSize.assign(to: &rendererService.renderer.$particleSize)
         $rgbRadius.assign(to: &rendererService.renderer.$rgbRadius)
-        
-        rendererService.renderer.$currentPointCount
-            .combineLatest(rendererService.renderer.$maxPoints)
-            .throttle(for: 1, scheduler: DispatchQueue.global(qos: .utility), latest: false)
-            .sink { [weak self] (args) in
-                let (currentPointCount, maxPoints) = args
-                self?.pointCountMetric = "Points: \(currentPointCount / 1000)k / \(maxPoints / 1000)k"
+
+        rendererService.renderer.$numGridPoints
+            .throttle(for: 0.33, scheduler: DispatchQueue.global(qos: .utility), latest: false)
+            .sink { [weak self]  (numGridPoints) in
+                self?.samplePerFrameMetric = "\(numGridPoints) samples per frame"
             }
             .store(in: &cancellable)
-        
+
+        rendererService.renderer.$currentPointCount
+            .throttle(for: 0.33, scheduler: DispatchQueue.global(qos: .utility), latest: false)
+            .sink { [weak self] (currentPointCount) in
+                self?.currentPointMetric = "Captured points: \(currentPointCount / 1000)k"
+            }
+            .store(in: &cancellable)
+
+        rendererService.renderer.$maxPoints
+            .throttle(for: 0.33, scheduler: DispatchQueue.global(qos: .utility), latest: false)
+            .sink { [weak self] (maxPoints) in
+                self?.maxPointsMetric = "Capture size: \(maxPoints / 1000)k"
+            }
+            .store(in: &cancellable)
+
         rendererService.renderer.$particleSize
-            .throttle(for: 1, scheduler: DispatchQueue.global(qos: .utility), latest: false)
+            .throttle(for: 0.33, scheduler: DispatchQueue.global(qos: .utility), latest: false)
             .sink { [weak self]  (particleSize) in
                 self?.particleSizeMetric = "Particle size: \(particleSize.rounded())"
+            }
+            .store(in: &cancellable)
+
+        rendererService.renderer.$confidenceThreshold
+            .throttle(for: 0.33, scheduler: DispatchQueue.global(qos: .utility), latest: false)
+            .sink { [weak self] (confidence) in
+                self?.confidenceMetric = "Confidence treshold: \(confidence)"
+            }
+            .store(in: &cancellable)
+
+        $rendererIsCapturing
+            .throttle(for: 0.33, scheduler: DispatchQueue.global(qos: .utility), latest: false)
+            .sink { [weak self] (isCapturing) in
+                self?.statusMetric = isCapturing ? "Capturing..." : "Capture Paused"
             }
             .store(in: &cancellable)
         
