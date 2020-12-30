@@ -29,7 +29,7 @@ final class SCNViewerViewModel {
     
     // Used for export
     @Published
-    private (set) var vertices: [Vertex]?
+    private (set) var vertices: [Vertex]? // if presenting point cloud // clean later
     // The scene being presented
     @Published
     private (set) var scene: SCNScene?

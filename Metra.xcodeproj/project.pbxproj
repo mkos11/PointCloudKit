@@ -707,7 +707,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -715,7 +715,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";
@@ -731,7 +731,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -739,7 +739,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";

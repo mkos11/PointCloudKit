@@ -73,9 +73,9 @@ final class SCNViewerViewController: UIViewController {
         
         // Show FPS logs and timming
         sceneView.showsStatistics = true
-        //            sceneView.debugOptions.insert(.renderAsWireframe)
-        //            sceneView.debugOptions.insert(.showWorldOrigin)
-        //            sceneView.debugOptions.insert(.showFeaturePoints)
+        if viewModel.presentedContent == .meshes {
+            sceneView.debugOptions.insert(.renderAsWireframe)
+        }
         
         // Set background color
         sceneView.backgroundColor = UIColor.black
@@ -125,7 +125,7 @@ final class SCNViewerViewController: UIViewController {
     }
     
     private func exportPly(to url: URL) {
-        guard viewModel.presentedContent != .meshes else {
+        guard viewModel.presentedContent != .meshes, let vertices = viewModel.vertices else {
             let alertController = UIAlertController(title: "Coming soon",
                                                     message: "Feature not implemented yet", preferredStyle: .alert)
             let dismissAction = UIAlertAction(title: "Sigh", style: .cancel, handler: nil)
@@ -133,16 +133,20 @@ final class SCNViewerViewController: UIViewController {
             present(alertController, animated: true, completion: nil)
             return
         }
-        viewModel.generatePly()
-            .sink(receiveCompletion: { (_) in
-                fatalError("Failed to generate PLY file")
+        viewModel.generatePly(from: vertices)
+            .sink(receiveCompletion: { [weak self] (_) in
+                DispatchQueue.main.async { self?.activityIndicatorView.stopAnimating() }
             }, receiveValue: { [weak self] (ply) in
                 do {
                     try ply.generateAscii()?.write(to: url, options: [.atomicWrite])
                 } catch {
-                    fatalError("Failed to write PLY file \(error)")
+                    let alertController = UIAlertController(title: "Error",
+                                                            message: "Error while generating PLY file", preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "Sigh", style: .cancel, handler: nil)
+                    alertController.addAction(dismissAction)
+                    DispatchQueue.main.async { self?.present(alertController, animated: true, completion: nil) }
                 }
-                DispatchQueue.main.async { self?.exportedFileReady() }
+                DispatchQueue.main.async { self?.presentDocumentInteractionController() }
             })
             .store(in: &cancellable)
     }
@@ -150,17 +154,17 @@ final class SCNViewerViewController: UIViewController {
     private func exportScn(to url: URL) {
         guard let scene = viewModel.scene else { return }
         scene.write(to: url, options: nil, delegate: nil) { [weak self] (progress, error, _) in
+            DispatchQueue.main.async { self?.activityIndicatorView.stopAnimating() }
             if let error = error {
                 fatalError(error.localizedDescription)
             }
             if progress == 1 {
-                DispatchQueue.main.async { self?.exportedFileReady() }
+                DispatchQueue.main.async { self?.presentDocumentInteractionController() }
             }
         }
     }
     
-    private func exportedFileReady() {
-        activityIndicatorView.stopAnimating()
+    private func presentDocumentInteractionController() {
         documentInteractionController.presentOptionsMenu(from: view.frame, in: view, animated: true)
     }
 }
