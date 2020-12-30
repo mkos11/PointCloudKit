@@ -8,30 +8,73 @@
 import Foundation
 import SceneKit
 import Combine
+import ARKit
+
+enum SCNViewerViewModelError: Error {
+    case missingVertices
+}
+
+enum ViewerContentType {
+    case pointCloud
+    case meshes
+}
 
 final class SCNViewerViewModel {
+    private var cancellable: Set<AnyCancellable> = []
+    
     private lazy var temporaryDirectoryUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+    lazy var exportUrl = temporaryDirectoryUrl.appendingPathComponent("\(filename)")
+
+    let presentedContent: ViewerContentType
     
-    lazy var filename = "metra3dfile\(UUID().uuidString)"
-    lazy var exportUrl = temporaryDirectoryUrl.appendingPathComponent("\(filename).scn")
-    let exportUti = "public.data, public.content"
-    
+    // Used for export
+    @Published
+    private (set) var vertices: [Vertex]? // if presenting point cloud // clean later
     // The scene being presented
     @Published
-    private(set) var scene: SCNScene?
+    private (set) var scene: SCNScene?
     
-    init(scenePublisher: PassthroughSubject<SCNScene, Never>) {
-        scenePublisher.compactMap({ $0 }).assign(to: &$scene)
+    var filename: String { "metraPointCloud_\(Date().humanReadableTimestamp)" }
+
+//    init(nodes: [SCNNode], presentedContent: ViewerContentType) {
+//        self.presentedContent = presentedContent
+//        generateScene(using: nodes)
+//            .compactMap { $0 }
+//            .assign(to: &$scene)
+//    }
+
+    init(verticesFuture: Future<[Vertex], Error>) {
+        presentedContent = .pointCloud
+        // Wait for vertice export from renderer...
+        verticesFuture
+            .flatMap({ [unowned self] (vertices) -> Future<SCNScene, Never> in
+                self.vertices = vertices
+                return self.generateScene(using: vertices)
+            })
+            .sink(receiveCompletion: { (completion) in
+                switch completion {
+                case let .failure(error): fatalError("\(error.localizedDescription)")
+                case .finished: ()
+                }
+            }, receiveValue: { [unowned self] (scene) in
+                self.scene = scene
+            })
+            .store(in: &cancellable)
     }
     
-    func writeScene(scene: SCNScene, completion: (() -> Void)?) {
-        scene.write(to: exportUrl,
-                    options: nil,
-                    delegate: nil) { (_, error, _) in
-            if let error = error {
-                fatalError(error.localizedDescription)
-            }
-            completion?()
-        }
+    init(meshAnchors: [ARMeshAnchor]) {
+        presentedContent = .meshes
+        generateScene(using: meshAnchors)
+            .compactMap { $0 }
+            .assign(to: &$scene)
+    }
+}
+
+extension Date {
+    fileprivate var humanReadableTimestamp: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.dateFormat = "HHmmssss"
+        return formatter.string(from: self)
     }
 }

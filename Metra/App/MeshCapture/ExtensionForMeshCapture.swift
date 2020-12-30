@@ -95,29 +95,38 @@ extension ARMeshGeometry {
     }
 }
 
-extension Scene {
-    // Add an anchor and remove it from the scene after the specified number of seconds.
-/// - Tag: AddAnchorExtension
-    func addAnchor(_ anchor: HasAnchoring, removeAfter seconds: TimeInterval) {
-        guard let model = anchor.children.first as? HasPhysics else {
-            return
-        }
-        
-        // Set up model to participate in physics simulation
-        if model.collision == nil {
-            model.generateCollisionShapes(recursive: true)
-            model.physicsBody = .init()
-        }
-        // ... but prevent it from being affected by simulation forces for now.
-        model.physicsBody?.mode = .kinematic
-        
-        addAnchor(anchor)
-        // Making the physics body dynamic at this time will let the model be affected by forces.
-        Timer.scheduledTimer(withTimeInterval: seconds, repeats: false) { (timer) in
-            model.physicsBody?.mode = .dynamic
-        }
-        Timer.scheduledTimer(withTimeInterval: seconds + 3, repeats: false) { (timer) in
-            self.removeAnchor(anchor)
+// FOR MESH CAPTURE EXPORT -- https://developer.apple.com/forums/thread/654431
+
+extension SCNGeometry {
+    convenience init(arGeometry: ARMeshGeometry) {
+        let verticesSource = SCNGeometrySource(arGeometry.vertices, semantic: .vertex)
+        let normalsSource = SCNGeometrySource(arGeometry.normals, semantic: .normal)
+        let faces = SCNGeometryElement(arGeometry.faces)
+        self.init(sources: [verticesSource, normalsSource], elements: [faces])
+    }
+}
+extension SCNGeometrySource {
+    convenience init(_ source: ARGeometrySource, semantic: Semantic) {
+        self.init(buffer: source.buffer, vertexFormat: source.format, semantic: semantic, vertexCount: source.count, dataOffset: source.offset, dataStride: source.stride)
+    }
+}
+extension SCNGeometryElement {
+    convenience init(_ source: ARGeometryElement) {
+        let pointer = source.buffer.contents()
+        let byteCount = source.count * source.indexCountPerPrimitive * source.bytesPerIndex
+        let data = Data(bytesNoCopy: pointer, count: byteCount, deallocator: .none)
+        self.init(data: data, primitiveType: .of(source.primitiveType), primitiveCount: source.count, bytesPerIndex: source.bytesPerIndex)
+    }
+}
+extension  SCNGeometryPrimitiveType {
+    static  func of(_ type: ARGeometryPrimitiveType) -> SCNGeometryPrimitiveType {
+        switch type {
+        case .line:
+            return .line
+        case .triangle:
+            return .triangles
+        @unknown default:
+            return .line
         }
     }
 }

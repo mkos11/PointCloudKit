@@ -17,16 +17,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Jmh-s1-vwZ">
-                                <rect key="frame" x="112" y="378" width="190" height="140"/>
+                                <rect key="frame" x="143.5" y="333" width="127" height="230"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ma-OI-JyS">
-                                        <rect key="frame" x="0.0" y="0.0" width="190" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="127" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="0Gc-s7-rua"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" name="Amazon"/>
-                                        <state key="normal" title=" Point Cloud Capture" image="aqi.low" catalog="system">
+                                        <state key="normal" title=" Point Cloud" image="cloud.snow" catalog="system">
                                             <color key="titleColor" name="CyberGrape"/>
                                         </state>
                                         <connections>
@@ -34,32 +34,54 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DIS-0i-JFw">
-                                        <rect key="frame" x="0.0" y="90" width="190" height="50"/>
+                                        <rect key="frame" x="0.0" y="90" width="127" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="jKe-FY-DEc"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" name="Amazon"/>
-                                        <state key="normal" title=" Mesh Capture" image="arkit" catalog="system">
+                                        <state key="normal" title=" Mesh viewer" image="arkit" catalog="system">
                                             <color key="titleColor" name="CyberGrape"/>
                                         </state>
                                         <connections>
                                             <segue destination="4eN-WM-03v" kind="show" id="eeO-yT-hog"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49P-Uc-lFL">
+                                        <rect key="frame" x="0.0" y="180" width="127" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="jsy-5P-zAh"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" name="Amazon"/>
+                                        <state key="normal" title=" About" image="person.fill.viewfinder" catalog="system">
+                                            <color key="titleColor" name="CyberGrape"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="gcq-TI-X7I" kind="show" id="kGz-3H-NA5"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" name="Bone"/>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Metra" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgI-J8-gXr">
-                                <rect key="frame" x="144" y="144" width="126.5" height="49"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PointCloud" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgI-J8-gXr">
+                                <rect key="frame" x="80.5" y="144" width="253" height="49"/>
                                 <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="42"/>
                                 <color key="textColor" name="Amazon"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XqW-zZ-FDu">
+                                <rect key="frame" x="178" y="188" width="58" height="37.5"/>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="32"/>
+                                <color key="textColor" name="CyberGrape"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ENo-4N-5NF"/>
                         <color key="backgroundColor" name="Bone"/>
                         <constraints>
+                            <constraint firstItem="XqW-zZ-FDu" firstAttribute="top" secondItem="pgI-J8-gXr" secondAttribute="bottom" constant="-5" id="BWT-Zf-TKY"/>
+                            <constraint firstItem="XqW-zZ-FDu" firstAttribute="centerX" secondItem="ovO-7o-eKy" secondAttribute="centerX" id="Jbm-hx-dVs"/>
                             <constraint firstItem="pgI-J8-gXr" firstAttribute="top" secondItem="ENo-4N-5NF" secondAttribute="top" constant="100" id="KYo-ba-aaZ"/>
                             <constraint firstItem="Jmh-s1-vwZ" firstAttribute="centerY" secondItem="ovO-7o-eKy" secondAttribute="centerY" id="Qcr-0v-0Rj"/>
                             <constraint firstItem="Jmh-s1-vwZ" firstAttribute="centerX" secondItem="ovO-7o-eKy" secondAttribute="centerX" id="bS5-bz-M0s"/>
@@ -92,10 +114,21 @@
             </objects>
             <point key="canvasLocation" x="507.97101449275368" y="-433.25892857142856"/>
         </scene>
+        <!--About-->
+        <scene sceneID="mhQ-go-zkg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="About" id="gcq-TI-X7I" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="LdK-Qr-Axa"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nAb-mJ-uCg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="476" y="-389"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="aqi.low" catalog="system" width="128" height="119"/>
         <image name="arkit" catalog="system" width="128" height="128"/>
+        <image name="cloud.snow" catalog="system" width="128" height="128"/>
+        <image name="person.fill.viewfinder" catalog="system" width="128" height="115"/>
         <namedColor name="Amazon">
             <color red="0.25499999523162842" green="0.48199999332427979" blue="0.3529999852180481" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

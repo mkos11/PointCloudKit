@@ -10,16 +10,47 @@ import MetalKit
 import ARKit
 import Combine
 
+/// http://nghiaho.com/?p=2629
+//Apple TrueDepth camera calibration
+//The first step was to gather any useful information about the TruthDepth camera. Apple has an API that allows you to query calibrationn data of the camera. I told my friend what I was looking for and he came back with the following
+//
+//raw 640×480 depth maps (16bit float)
+//raw 640x480x3 RGB images (8bit)
+//camera intrinsics for 12MP camera
+//lens distortion lookup (vector of 42 floats)
+//inverse lens distortion lookup (vector of 42 floats)
+//Some intrinsic values
+//
+//image width: 4032
+//image height: 3024
+//fx: 2739.79 (focal)
+//fy: 2739.79 (focal)
+//cx: 2029.73 (center x)
+//cy: 1512.20 (center y)
+//This is fantastic, because it means I don’t have to do a checkerboard calibration to learn the intrinsics. Everything we need is provided by the API. Sweet!
+//
+//The camera intrinsics is for a 12MP image, but we’re given a 640×480 image. So what do we do? The 640×480 is simply a scaled version of the 12MP image, meaning we can scale down the intrinsics as well. The 12MP image aspect ratio is 4032/3204 = 1.3333, which is identical to 640/480 = 1.3333. The scaling factor is 640/4032 = 0.15873. So we can scale [fx, fy, cx, cy] by this value. This gives the effective intrinisc as
+//
+//image width: 640
+//image height: 480
+//fx: 434.89
+//fy: 434.89
+//cx: 322.18
+//cy: 240.03
+
 struct Constants {}
 
 extension Constants {
     struct Renderer {
         static let defaultConfidence = 1
-        static let defaultNumGridPoints = 5000
+
+        static let defaultNumGridPoints = 3500
+        static let minNumGridPoints = 100
+        static let maxNumGridPoints = 10000
         
-        static let defaultMaxPoints = 3_000_000
-        static let minMaxPoints = 50_000
-        static let maxMaxPoints = 5_000_000
+        static let defaultMaxPoints = 5_000_000
+        static let minMaxPoints = 10_000
+        static let maxMaxPoints = 15_000_000
         
         static let defaultParticleSize: Float = 6.0
         static let minParticleSize: Float = 0.0
@@ -33,8 +64,6 @@ extension Constants {
 
 final class Renderer {
     var isAccumulating: Bool = true
-    // Number of sample points on the grid
-    private let numGridPoints = Constants.Renderer.defaultNumGridPoints
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
@@ -108,6 +137,17 @@ final class Renderer {
     private lazy var lastCameraTransform = sampleFrame.camera.transform
 
     // interfaces
+
+    // Number of sample points on the grid
+    @Published var numGridPoints = Constants.Renderer.defaultNumGridPoints {
+        didSet {
+            // reset gridPointBuffer
+            gridPointsBuffer = MetalBuffer<Float2>(device: device,
+                                                   array: makeGridPoints(),
+                                                   index: kGridPoints.rawValue, options: [])
+        }
+    }
+
     @Published var confidenceThreshold = Constants.Renderer.defaultConfidence {
         didSet {
             // apply the change for the shader
@@ -174,9 +214,7 @@ final class Renderer {
     private func updateCapturedImageTextures(frame: ARFrame) {
         // Create two textures (Y and CbCr) from the provided frame's captured image
         let pixelBuffer = frame.capturedImage
-        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else {
-            return
-        }
+        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else { return }
 
         capturedImageTextureY = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .r8Unorm, planeIndex: 0)
         capturedImageTextureCbCr = makeTexture(fromPixelBuffer: pixelBuffer, pixelFormat: .rg8Unorm, planeIndex: 1)
@@ -185,11 +223,10 @@ final class Renderer {
     /// This function update the DepthTexture and ConfidenceTexture, the dataset containing what is draw to represent texture and depth
     /// Seems this data is stored in the Frame, in sceneDepth.depthMap and confidenceMap
     private func updateDepthTextures(frame: ARFrame) -> Bool {
-        guard let depthMap = frame.sceneDepth?.depthMap,
-            let confidenceMap = frame.sceneDepth?.confidenceMap else {
+        guard let depthMap = frame.smoothedSceneDepth?.depthMap,
+            let confidenceMap = frame.smoothedSceneDepth?.confidenceMap else {
                 return false
         }
-
         depthTexture = makeTexture(fromPixelBuffer: depthMap, pixelFormat: .r32Float, planeIndex: 0)
         confidenceTexture = makeTexture(fromPixelBuffer: confidenceMap, pixelFormat: .r8Uint, planeIndex: 0)
         return true
@@ -217,9 +254,7 @@ final class Renderer {
 
         _ = inFlightSemaphore.wait(timeout: DispatchTime.distantFuture)
         commandBuffer.addCompletedHandler { [weak self] _ in
-            if let self = self {
-                self.inFlightSemaphore.signal()
-            }
+            self?.inFlightSemaphore.signal()
         }
 
         // update frame data
@@ -310,9 +345,23 @@ extension Renderer {
             rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
             pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
         }
-        particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
+      particlesBuffer.assign(Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
+      //(device: device,
+//                           count: Constants.Renderer.maxMaxPoints,
+//                           index: kParticleUniforms.rawValue)
+//      particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
         currentPointCount = 0
         currentPointIndex = 0
+    }
+    
+    var currentlyVisibleVertices: [Vertex] {
+        var vertices = [Vertex]()
+        let confidenceRequierment = Float(confidenceThreshold) / 2.0
+        for index in 0..<currentPointCount {
+            guard particlesBuffer[index].confidence >= confidenceRequierment else { continue}
+            vertices.append(particlesBuffer[index].vertex)
+        }
+        return vertices
     }
 }
 
@@ -433,5 +482,11 @@ private extension Renderer {
 
         let rotationAngle = Float(cameraToDisplayRotation(orientation: orientation)) * .degreesToRadian
         return flipYZ * matrix_float4x4(simd_quaternion(rotationAngle, Float3(0, 0, 1)))
+    }
+}
+
+extension ParticleUniforms {
+    fileprivate var vertex: Vertex {
+        Vertex(x: position.x, y: position.y, z: position.z, r: color.x, g: color.y, b: color.z)
     }
 }

@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import SceneKit
 import SnapKit
+import UniformTypeIdentifiers
 
 final class SCNViewerViewController: UIViewController {
     private var cancellable: Set<AnyCancellable> = []
@@ -55,7 +56,8 @@ final class SCNViewerViewController: UIViewController {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         // 3: Place camera
-        cameraNode.position = SCNVector3(x: 0, y: 1, z: 5)
+        cameraNode.position = scene.rootNode.worldPosition
+        cameraNode.position.z += 30
         // 4: Set camera on scene
         scene.rootNode.addChildNode(cameraNode)
 
@@ -71,8 +73,9 @@ final class SCNViewerViewController: UIViewController {
         
         // Show FPS logs and timming
         sceneView.showsStatistics = true
-        sceneView.debugOptions.insert(.showFeaturePoints)
-        sceneView.debugOptions.insert(.renderAsWireframe)
+        if viewModel.presentedContent == .meshes {
+            sceneView.debugOptions.insert(.renderAsWireframe)
+        }
         
         // Set background color
         sceneView.backgroundColor = UIColor.black
@@ -82,26 +85,87 @@ final class SCNViewerViewController: UIViewController {
         
         // Set scene settings
         sceneView.scene = scene
-        
         sceneView.alpha = 1
     }
     
     @objc
-    private func export() {
-        guard let scene = viewModel.scene else { return }
+    private func presentExportTypeSelection() {
+        let exportTypeSelection = UIAlertController(title: "Supported Export Formats", message: nil, preferredStyle: .actionSheet)
+        let scnExport = UIAlertAction(title: UTType.sceneKitScene.localizedDescription, style: .default) { [weak self] _ in
+            self?.export(type: .sceneKitScene)
+        }
+        let plyExport = UIAlertAction(title: UTType.polygonFile.localizedDescription, style: .default) { [weak self] _ in
+            self?.export(type: .polygonFile)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
+        }
+        
+        exportTypeSelection.addAction(scnExport)
+        exportTypeSelection.addAction(plyExport)
+        exportTypeSelection.addAction(cancelAction)
+        present(exportTypeSelection, animated: true, completion: nil)
+    }
+    
+    private func export(type: UTType) {
+        let url = viewModel.exportUrl.appendingPathExtension(for: type)
+        
         activityIndicatorView.startAnimating()
-        viewModel.writeScene(scene: scene) { [weak self] in
-            guard let self = self else { return }
-            self.documentInteractionController.url = self.viewModel.exportUrl
-            self.documentInteractionController.uti = self.viewModel.exportUti
-            self.documentInteractionController.name = self.viewModel.filename
-            DispatchQueue.main.async {
-                self.activityIndicatorView.stopAnimating()
-                self.documentInteractionController.presentOptionsMenu(from: self.view.frame,
-                                                                      in: self.view,
-                                                                      animated: true)
+        switch type {
+        case .polygonFile:
+            exportPly(to: url)
+        case .sceneKitScene:
+            exportScn(to: url)
+        default:
+            return
+        }
+        documentInteractionController.url = url
+        documentInteractionController.uti = type.identifier
+        documentInteractionController.name = url.lastPathComponent
+    }
+    
+    private func exportPly(to url: URL) {
+        guard viewModel.presentedContent != .meshes, let vertices = viewModel.vertices else {
+            let alertController = UIAlertController(title: "Coming soon",
+                                                    message: "Feature not implemented yet", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Sigh", style: .cancel, handler: nil)
+            alertController.addAction(dismissAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
+        viewModel.generatePly(from: vertices)
+            .sink(receiveCompletion: { [weak self] (_) in
+                DispatchQueue.main.async { self?.activityIndicatorView.stopAnimating() }
+            }, receiveValue: { [weak self] (ply) in
+                do {
+                    try ply.generateAscii()?.write(to: url, options: [.atomicWrite])
+                } catch {
+                    let alertController = UIAlertController(title: "Error",
+                                                            message: "Error while generating PLY file", preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "Sigh", style: .cancel, handler: nil)
+                    alertController.addAction(dismissAction)
+                    DispatchQueue.main.async { self?.present(alertController, animated: true, completion: nil) }
+                }
+                DispatchQueue.main.async { self?.presentDocumentInteractionController() }
+            })
+            .store(in: &cancellable)
+    }
+    
+    private func exportScn(to url: URL) {
+        guard let scene = viewModel.scene else { return }
+        scene.write(to: url, options: nil, delegate: nil) { [weak self] (progress, error, _) in
+            DispatchQueue.main.async { self?.activityIndicatorView.stopAnimating() }
+            if let error = error {
+                fatalError(error.localizedDescription)
+            }
+            if progress == 1 {
+                DispatchQueue.main.async { self?.presentDocumentInteractionController() }
             }
         }
+    }
+    
+    private func presentDocumentInteractionController() {
+        documentInteractionController.presentOptionsMenu(from: view.frame, in: view, animated: true)
     }
 }
 
@@ -109,6 +173,16 @@ extension SCNViewerViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor.black
+
+        let loadingLabel = UILabel()
+        loadingLabel.text = "Converting capture to SCN scene..."
+        loadingLabel.textColor = UIColor.amazon
+        view.addSubview(loadingLabel)
+        loadingLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(60)
+        }
+
         // Scene view
         view.addSubview(sceneView)
         sceneView.snp.makeConstraints { (make) in
@@ -132,7 +206,7 @@ extension SCNViewerViewController {
             .sink { [weak self] (scene) in
                 guard let scene = scene else { return }
                 self?.activityIndicatorView.stopAnimating()
-                UIView.animate(withDuration: 1) {
+                UIView.animate(withDuration: 0.5) {
                     self?.load(scene: scene)
                 }
             }
@@ -142,7 +216,7 @@ extension SCNViewerViewController {
     private func setupControls() {
         // Export button
         let exportCaptureButton = UIBarButtonItem(title: "💾", style: .plain,
-                                                  target: self, action: #selector(export))
+                                                  target: self, action: #selector(presentExportTypeSelection))
         navigationItem.rightBarButtonItem = exportCaptureButton
     }
 }
