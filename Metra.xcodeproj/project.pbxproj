@@ -18,7 +18,10 @@
 		8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE6257DACA400978446 /* MetalBuffer.swift */; };
 		8E26BAEB257DACA400978446 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE7257DACA400978446 /* Helpers.swift */; };
 		8E26BAEC257DACA400978446 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAE8257DACA400978446 /* Renderer.swift */; };
-		8E4F2DF82597145C001553B2 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F2DF72597145C001553B2 /* HomeViewModel.swift */; };
+		8E4F2DF82597145C001553B2 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F2DF72597145C001553B2 /* AboutViewModel.swift */; };
+		8E5B4709259AC20400FE4AF7 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5B4708259AC20400FE4AF7 /* About.storyboard */; };
+		8E5B470E259AC20E00FE4AF7 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */; };
+		8E5B4716259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */; };
 		EE0122912589E07B006AEC97 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122902589E07B006AEC97 /* Vertex.swift */; };
 		EE0122962589E083006AEC97 /* PolygonFileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122952589E083006AEC97 /* PolygonFileFormat.swift */; };
 		EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */; };
@@ -81,7 +84,10 @@
 		8E26BAE7257DACA400978446 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8E26BAE8257DACA400978446 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8E26BB04257DAE1B00978446 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E4F2DF72597145C001553B2 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		8E4F2DF72597145C001553B2 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
+		8E5B4708259AC20400FE4AF7 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
+		8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ARKitSupportCheck.swift"; sourceTree = "<group>"; };
 		EE0122902589E07B006AEC97 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		EE0122952589E083006AEC97 /* PolygonFileFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonFileFormat.swift; sourceTree = "<group>"; };
 		EE01F86325873A5F0044A160 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Metra/Resources/Base.lproj/PointCloudCapture.storyboard; sourceTree = "<group>"; };
@@ -194,6 +200,7 @@
 				EE01F8882587439F0044A160 /* Home */,
 				EEE90356257DDD1000A682D8 /* PointCloudCapture */,
 				EE01F87C25873FF30044A160 /* MeshCapture */,
+				8E5B4707259AC1E900FE4AF7 /* About */,
 				EEBA7B6525835F8A0000AD1A /* SCNViewer */,
 			);
 			path = App;
@@ -203,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				EEE90369257E02C100A682D8 /* UIView+blur.swift */,
+				8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */,
 				EE01F87425873D360044A160 /* UIColor+Palette.swift */,
 				EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */,
 				EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */,
@@ -220,6 +228,16 @@
 				8E26BB04257DAE1B00978446 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		8E5B4707259AC1E900FE4AF7 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				8E5B4708259AC20400FE4AF7 /* About.storyboard */,
+				8E4F2DF72597145C001553B2 /* AboutViewModel.swift */,
+				8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */,
+			);
+			path = About;
 			sourceTree = "<group>";
 		};
 		EE0122882589E04A006AEC97 /* Model */ = {
@@ -255,7 +273,6 @@
 			children = (
 				EE01F882258743960044A160 /* Home.storyboard */,
 				EE01F889258743B00044A160 /* HomeViewController.swift */,
-				8E4F2DF72597145C001553B2 /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -416,6 +433,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE01F884258743960044A160 /* Home.storyboard in Resources */,
+				8E5B4709259AC20400FE4AF7 /* About.storyboard in Resources */,
 				EE01F87E258740090044A160 /* MeshCapture.storyboard in Resources */,
 				8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */,
 				8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */,
@@ -475,7 +493,8 @@
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
 				EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
-				8E4F2DF82597145C001553B2 /* HomeViewModel.swift in Sources */,
+				8E5B470E259AC20E00FE4AF7 /* AboutViewController.swift in Sources */,
+				8E4F2DF82597145C001553B2 /* AboutViewModel.swift in Sources */,
 				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
 				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
@@ -488,6 +507,7 @@
 				EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */,
 				EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */,
 				EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */,
+				8E5B4716259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift in Sources */,
 				EE01F87525873D360044A160 /* UIColor+Palette.swift in Sources */,
 				8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */,
 				EE01F88A258743B00044A160 /* HomeViewController.swift in Sources */,
@@ -687,7 +707,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -711,7 +731,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

@@ -47,18 +47,18 @@
                                             <segue destination="4eN-WM-03v" kind="show" id="eeO-yT-hog"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fnK-iq-TBY">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49P-Uc-lFL">
                                         <rect key="frame" x="0.0" y="180" width="127" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="uC3-jC-T24"/>
+                                            <constraint firstAttribute="height" constant="50" id="jsy-5P-zAh"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" name="Amazon"/>
-                                        <state key="normal" title=" Contact us" image="paperplane" catalog="system">
+                                        <state key="normal" title=" About" image="person.fill.viewfinder" catalog="system">
                                             <color key="titleColor" name="CyberGrape"/>
                                         </state>
                                         <connections>
-                                            <action selector="contactUsTapped" destination="Aiv-8Y-V62" eventType="touchUpInside" id="mCR-Td-RLk"/>
+                                            <segue destination="gcq-TI-X7I" kind="show" id="kGz-3H-NA5"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -114,50 +114,21 @@
             </objects>
             <point key="canvasLocation" x="507.97101449275368" y="-433.25892857142856"/>
         </scene>
-        <!--Unsupported View Controller-->
-        <scene sceneID="v4w-1n-KPv">
+        <!--About-->
+        <scene sceneID="mhQ-go-zkg">
             <objects>
-                <viewController storyboardIdentifier="unsupportedDeviceMessage" id="3Wn-Jc-Tjx" userLabel="Unsupported View Controller" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kqI-HE-QUW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unsupported Device" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RP4-Ro-QCc">
-                                <rect key="frame" x="23.5" y="363" width="367.5" height="34"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJ0-ya-goc">
-                                <rect key="frame" x="23.5" y="405" width="367.5" height="86.5"/>
-                                <string key="text">This sample app requires a LiDAR-capable device, such as the second-generation iPad Pro 11-inch and fourth-generation iPad Pro 12.9-inch.</string>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="lNF-UL-83f"/>
-                        <color key="backgroundColor" name="Bone"/>
-                        <constraints>
-                            <constraint firstItem="RP4-Ro-QCc" firstAttribute="centerX" secondItem="kqI-HE-QUW" secondAttribute="centerX" id="Cf1-Ex-QPL"/>
-                            <constraint firstItem="RP4-Ro-QCc" firstAttribute="width" secondItem="sJ0-ya-goc" secondAttribute="width" id="Tnl-Sj-Ijl"/>
-                            <constraint firstItem="sJ0-ya-goc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kqI-HE-QUW" secondAttribute="leading" constant="20" symbolic="YES" id="iB1-jQ-3AW"/>
-                            <constraint firstItem="sJ0-ya-goc" firstAttribute="centerY" secondItem="kqI-HE-QUW" secondAttribute="centerY" id="kaX-3Q-ocr"/>
-                            <constraint firstItem="sJ0-ya-goc" firstAttribute="top" secondItem="RP4-Ro-QCc" secondAttribute="bottom" constant="8" symbolic="YES" id="nNO-Oa-Zg4"/>
-                            <constraint firstItem="sJ0-ya-goc" firstAttribute="centerX" secondItem="kqI-HE-QUW" secondAttribute="centerX" id="pXo-e2-IqB"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sJ0-ya-goc" secondAttribute="trailing" constant="20" symbolic="YES" id="rc0-uk-Jnh"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g2G-3y-TJQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="About" id="gcq-TI-X7I" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="LdK-Qr-Axa"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nAb-mJ-uCg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2302.898550724638" y="-175.44642857142856"/>
+            <point key="canvasLocation" x="476" y="-389"/>
         </scene>
     </scenes>
     <resources>
         <image name="arkit" catalog="system" width="128" height="128"/>
         <image name="cloud.snow" catalog="system" width="128" height="128"/>
-        <image name="paperplane" catalog="system" width="128" height="118"/>
+        <image name="person.fill.viewfinder" catalog="system" width="128" height="115"/>
         <namedColor name="Amazon">
             <color red="0.25499999523162842" green="0.48199999332427979" blue="0.3529999852180481" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

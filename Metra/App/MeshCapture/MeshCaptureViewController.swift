@@ -10,7 +10,6 @@ import RealityKit
 import ARKit
 import MetalKit
 
-
 var textureCache: CVMetalTextureCache?
 
 final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
@@ -22,7 +21,6 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
 
     let coachingOverlay = ARCoachingOverlayView()
 
-    
     // Cache for 3D text geometries representing the classification values.
     var modelsForClassification: [ARMeshClassification: ModelEntity] = [:]
     
@@ -45,7 +43,6 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         arView.session.delegate = self
-        
         
         setupCoachingOverlay()
 
