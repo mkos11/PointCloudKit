@@ -5,14 +5,14 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Metra</string>
+	<string>PointCloudKit</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>Polygon File</string>
 			<key>LSHandlerRank</key>
-			<string>Default</string>
+			<string>None</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.polygon-file-format</string>
@@ -40,11 +40,13 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>11</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>The camera is used for augmenting reality.</string>
 	<key>UILaunchStoryboardName</key>

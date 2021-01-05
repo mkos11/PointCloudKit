@@ -7,10 +7,14 @@ disabled_rules: # rule identifiers to exclude from running
   - notification_center_detachment
   - nesting
   - function_parameter_count
-  - trailing_whitespace 
+  - trailing_whitespace
 opt_in_rules: # some rules are only opt-in
   - empty_count
-
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - fastlane
+  - Gemfile
+  - Gemfile.lock
+  - README.md
 line_length:
   warning: 160
   ignores_function_declarations: true

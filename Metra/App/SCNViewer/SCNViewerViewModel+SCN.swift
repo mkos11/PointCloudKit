@@ -11,6 +11,14 @@ import ARKit
 import Combine
 
 extension SCNViewerViewModel {
+//
+//    func generateScene(using nodes: [SCNNode]) -> Future<SCNScene, Never> {
+//        Future<SCNScene, Never> { (promise) in
+//            DispatchQueue.global(qos: .background).async {
+//                promise(.success(SCNViewerViewModel.generateScene(using: nodes)))
+//            }
+//        }
+//    }
 
     func generateScene(using vertices: [Vertex]) -> Future<SCNScene, Never> {
         Future<SCNScene, Never> { (promise) in
@@ -19,6 +27,22 @@ extension SCNViewerViewModel {
             }
         }
     }
+
+    func generateScene(using arMeshAnchors: [ARMeshAnchor]) -> Future<SCNScene, Never> {
+        Future<SCNScene, Never> { (promise) in
+            DispatchQueue.global(qos: .background).async {
+                promise(.success(SCNViewerViewModel.generateScene(using: arMeshAnchors)))
+            }
+        }
+    }
+
+//    private static func generateScene(using nodes: [SCNNode]) -> SCNScene {
+//        let scene = SCNScene()
+//        nodes.forEach { (node) in
+//            scene.rootNode.addChildNode(node)
+//        }
+//        return scene
+//    }
 
     private static func generateScene(using vertices: [Vertex]) -> SCNScene {
         let scene = SCNScene()
@@ -48,6 +72,27 @@ extension SCNViewerViewModel {
         let pointCloud = SCNGeometry(sources: [positionSource, colorSource], elements: [elements])
         let pcNode = SCNNode(geometry: pointCloud)
         scene.rootNode.addChildNode(pcNode)
+        return scene
+    }
+
+    private static func generateScene(using arMeshAnchors: [ARMeshAnchor]) -> SCNScene {
+        let scene = SCNScene()
+        // convert anchors to a SCN Scene
+
+        var lastNode: SCNNode = scene.rootNode
+        arMeshAnchors.forEach { (meshAnchor) in
+            guard meshAnchor.geometry.classificationOf(faceWithIndex: 0) != .none else { return }
+
+            let geometry = SCNGeometry(arGeometry: meshAnchor.geometry)
+            let defaultMaterial = SCNMaterial()
+//            defaultMaterial.fillMode = .fill
+            defaultMaterial.diffuse.contents = meshAnchor.geometry.classificationOf(faceWithIndex: 0).color
+            geometry.firstMaterial = defaultMaterial
+
+            let newNode = SCNNode(geometry: geometry)
+            lastNode.addChildNode(newNode)
+            lastNode = newNode
+        }
         return scene
     }
 }

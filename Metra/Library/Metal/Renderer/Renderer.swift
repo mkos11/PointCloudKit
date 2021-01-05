@@ -43,11 +43,14 @@ struct Constants {}
 extension Constants {
     struct Renderer {
         static let defaultConfidence = 1
-        static let defaultNumGridPoints = 5000
+
+        static let defaultNumGridPoints = 3500
+        static let minNumGridPoints = 100
+        static let maxNumGridPoints = 10000
         
-        static let defaultMaxPoints = 3_000_000
-        static let minMaxPoints = 50_000
-        static let maxMaxPoints = 5_000_000
+        static let defaultMaxPoints = 5_000_000
+        static let minMaxPoints = 10_000
+        static let maxMaxPoints = 15_000_000
         
         static let defaultParticleSize: Float = 6.0
         static let minParticleSize: Float = 0.0
@@ -61,8 +64,6 @@ extension Constants {
 
 final class Renderer {
     var isAccumulating: Bool = true
-    // Number of sample points on the grid
-    private let numGridPoints = Constants.Renderer.defaultNumGridPoints
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
@@ -136,6 +137,17 @@ final class Renderer {
     private lazy var lastCameraTransform = sampleFrame.camera.transform
 
     // interfaces
+
+    // Number of sample points on the grid
+    @Published var numGridPoints = Constants.Renderer.defaultNumGridPoints {
+        didSet {
+            // reset gridPointBuffer
+            gridPointsBuffer = MetalBuffer<Float2>(device: device,
+                                                   array: makeGridPoints(),
+                                                   index: kGridPoints.rawValue, options: [])
+        }
+    }
+
     @Published var confidenceThreshold = Constants.Renderer.defaultConfidence {
         didSet {
             // apply the change for the shader
@@ -333,7 +345,11 @@ extension Renderer {
             rgbUniformsBuffers.append(.init(device: device, count: 1, index: 0))
             pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
         }
-        particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
+      particlesBuffer.assign(Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
+      //(device: device,
+//                           count: Constants.Renderer.maxMaxPoints,
+//                           index: kParticleUniforms.rawValue)
+//      particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
         currentPointCount = 0
         currentPointIndex = 0
     }

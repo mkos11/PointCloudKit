@@ -19,7 +19,7 @@ extern "C" int getIntFromCPP()
     // the library, and call getInt() on it:
     return 1234;
 }
-
+//
 #include <vtk/vtkSmartPointer.h>
 #include <vtk/vtkPointSource.h>
 #include <vtk/vtkPolyData.h>

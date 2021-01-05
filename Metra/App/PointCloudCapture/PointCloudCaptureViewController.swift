@@ -21,13 +21,18 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     private let controlPanelView = UIView()
     private let metricsPanelView = UIView()
     // Metrics
-    let pointsLabel = UILabel()
+    let samplePerFrameLabel = UILabel()
+    let currentPointsLabel = UILabel()
+    let maxPointLabel = UILabel()
     let particleSizeLabel = UILabel()
+    let confidenceLabel = UILabel()
+    let statusLabel = UILabel()
     // Controls
     private let resetCaptureButton = UIButton()
     private let toggleCaptureButton = UIButton()
     private let viewCaptureButton = UIButton()
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
+    private let numGridPointsSlider = UISlider()
     private let maxPointsSlider = UISlider()
     private let particleSizeSlider = UISlider()
     private let rgbRadiusSlider = UISlider()
@@ -78,6 +83,8 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
         switch view {
         case confidenceControl:
             viewModel.confidenceThreshold = confidenceControl.selectedSegmentIndex
+        case numGridPointsSlider:
+            viewModel.numGridPoints = Int(numGridPointsSlider.value)
         case maxPointsSlider:
             viewModel.maxPoints = Int(maxPointsSlider.value)
         case particleSizeSlider:
@@ -149,14 +156,27 @@ extension PointCloudCaptureViewController {
             .store(in: &cancellable)
         
         setupMetricsBindings()
+        setupButtonsBindings()
         setupSlidersBindings()
     }
     
     private func setupMetricsBindings() {
-        viewModel.$pointCountMetric
+        viewModel.$samplePerFrameMetric
             .receive(on: DispatchQueue.main)
-            .sink { [weak pointsLabel] pointCountMetric in
-                pointsLabel?.text = pointCountMetric
+            .sink { [weak samplePerFrameLabel] samplePerFrame in
+                samplePerFrameLabel?.text = samplePerFrame
+            }
+            .store(in: &cancellable)
+        viewModel.$currentPointMetric
+            .receive(on: DispatchQueue.main)
+            .sink { [weak currentPointsLabel] currentPointsMetric in
+                currentPointsLabel?.text = currentPointsMetric
+            }
+            .store(in: &cancellable)
+        viewModel.$maxPointsMetric
+            .receive(on: DispatchQueue.main)
+            .sink { [weak maxPointLabel] maxPointMetric in
+                maxPointLabel?.text = maxPointMetric
             }
             .store(in: &cancellable)
         viewModel.$particleSizeMetric
@@ -165,8 +185,21 @@ extension PointCloudCaptureViewController {
                 particleSizeLabel?.text = particleSizeMetric
             }
             .store(in: &cancellable)
-        
-        // Buttons
+        viewModel.$confidenceMetric
+            .receive(on: DispatchQueue.main)
+            .sink { [weak confidenceLabel] confidenceMetric in
+                confidenceLabel?.text = confidenceMetric
+            }
+            .store(in: &cancellable)
+        viewModel.$statusMetric
+            .receive(on: DispatchQueue.main)
+            .sink { [weak statusLabel] statusMetric in
+                statusLabel?.text = statusMetric
+            }
+            .store(in: &cancellable)
+    }
+
+    private func setupButtonsBindings() {
         viewModel.$resetButtonIsEnabled
             .receive(on: DispatchQueue.main)
             .sink { [weak resetCaptureButton] isEnabled in
@@ -194,6 +227,12 @@ extension PointCloudCaptureViewController {
                 rgbRadiusSlider?.value = rgbRadius
             }
             .store(in: &cancellable)
+        viewModel.$numGridPoints
+            .receive(on: DispatchQueue.main)
+            .sink { [weak numGridPointsSlider] numGridPoint in
+                numGridPointsSlider?.value = Float(numGridPoint)
+            }
+            .store(in: &cancellable)
         viewModel.$maxPoints
             .receive(on: DispatchQueue.main)
             .sink { [weak maxPointsSlider] maxPoint in
@@ -211,17 +250,15 @@ extension PointCloudCaptureViewController {
     /// Configure the Metrics overlay
     private func setupMetricsOverlay() {
         let stackView = UIStackView()
-        let font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
-        
-        // Current points count over max points
-        pointsLabel.font = font
-        pointsLabel.textColor = UIColor.amazon
-        // Particle size
-        particleSizeLabel.font = font
-        particleSizeLabel.textColor = UIColor.amazon
-        
-        stackView.addArrangedSubview(pointsLabel)
-        stackView.addArrangedSubview(particleSizeLabel)
+        let metricsFont = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
+        let labels = [samplePerFrameLabel, currentPointsLabel, maxPointLabel,
+                      particleSizeLabel, confidenceLabel, statusLabel]
+
+        labels.forEach { (label) in
+            label.font = metricsFont
+            label.textColor = .amazon
+            stackView.addArrangedSubview(label)
+        }
 
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -238,13 +275,13 @@ extension PointCloudCaptureViewController {
         
         view.addSubview(metricsPanelView)
         metricsPanelView.snp.makeConstraints { (make) -> Void in
-            make.width.equalToSuperview().multipliedBy(0.35)
-            make.height.equalToSuperview().multipliedBy(0.05)
+            make.width.greaterThanOrEqualToSuperview().multipliedBy(0.35)
+//            make.height.equalToSuperview().multipliedBy(0.05)
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right).offset(-10)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
          }
     }
-    
+
     /// Configure the Controls overlay
     private func setupControlsOverlay() {
         let stackView = UIStackView()
@@ -257,15 +294,16 @@ extension PointCloudCaptureViewController {
         captureControlsStackView.addArrangedSubview(viewCaptureButton)
         captureControlsStackView.axis = .horizontal
         captureControlsStackView.distribution = .fillEqually
-        captureControlsStackView.spacing = 20
+        captureControlsStackView.spacing = 10
         
         stackView.addArrangedSubview(captureControlsStackView)
         stackView.addArrangedSubview(confidenceControl)
+        stackView.addArrangedSubview(numGridPointsSlider)
         stackView.addArrangedSubview(maxPointsSlider)
         stackView.addArrangedSubview(particleSizeSlider)
         stackView.addArrangedSubview(rgbRadiusSlider)
         stackView.axis = .vertical
-        stackView.spacing = 20
+        stackView.spacing = 10
         
         let blurView = controlPanelView.addBlurEffectView()
         controlPanelView.layer.cornerRadius = 10
@@ -285,7 +323,7 @@ extension PointCloudCaptureViewController {
     
     /// Configure the different controls the user can interact with
     private func setupControls() {
-        let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 40)
+        let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 30)
         // Reset capture button
         resetCaptureButton.setImage(UIImage(systemName: "trash.circle", withConfiguration: symbolConfiguration), for: .normal)
         resetCaptureButton.addTarget(self, action: #selector(viewValueChanged), for: .touchUpInside)
@@ -306,7 +344,14 @@ extension PointCloudCaptureViewController {
         // Confidence control
         confidenceControl.selectedSegmentIndex = viewModel.confidenceThreshold
         confidenceControl.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
-        
+
+        // NumGrid Points Control
+        numGridPointsSlider.maximumValueImage = UIImage.init(systemName: "scribble")
+        numGridPointsSlider.minimumValue = Float(Constants.Renderer.minNumGridPoints)
+        numGridPointsSlider.maximumValue = Float(Constants.Renderer.maxNumGridPoints)
+        numGridPointsSlider.isContinuous = true
+        numGridPointsSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
+
         // Max Points Control
         maxPointsSlider.maximumValueImage = UIImage.init(systemName: "aqi.low")
         maxPointsSlider.minimumValue = Float(Constants.Renderer.minMaxPoints)
@@ -325,8 +370,8 @@ extension PointCloudCaptureViewController {
         // RGB Radius control
         rgbRadiusSlider.minimumValueImage = UIImage.init(systemName: "video")
         rgbRadiusSlider.maximumValueImage = UIImage.init(systemName: "video.fill")
-        rgbRadiusSlider.minimumValue = 0
-        rgbRadiusSlider.maximumValue = 1.5
+        rgbRadiusSlider.minimumValue = Constants.Renderer.minRgbRadius
+        rgbRadiusSlider.maximumValue = Constants.Renderer.maxRgbRadius
         rgbRadiusSlider.isContinuous = true
         rgbRadiusSlider.addTarget(self, action: #selector(viewValueChanged), for: .valueChanged)
     }
