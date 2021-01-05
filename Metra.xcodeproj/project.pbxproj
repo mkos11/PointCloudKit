@@ -41,6 +41,7 @@
 		EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */; };
 		EE68749F258C708400FDAA7C /* Wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE68749E258C708400FDAA7C /* Wrapper.cpp */; };
 		EE68750325A409A500FDAA7C /* vtk-simulator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */; };
+		EE68752A25A4179000FDAA7C /* test.scn in Resources */ = {isa = PBXBuildFile; fileRef = EE68752925A4179000FDAA7C /* test.scn */; };
 		EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */; };
 		EEBA7B592583432C0000AD1A /* SCNViewerViewModel+SCN.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */; };
 		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
@@ -111,6 +112,7 @@
 		EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+PLY.swift"; sourceTree = "<group>"; };
 		EE68749E258C708400FDAA7C /* Wrapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wrapper.cpp; sourceTree = "<group>"; };
 		EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "vtk-simulator.framework"; sourceTree = "<group>"; };
+		EE68752925A4179000FDAA7C /* test.scn */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.scn; sourceTree = SOURCE_ROOT; };
 		EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+SCN.swift"; sourceTree = "<group>"; };
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				8E26BABA257DAC0500978446 /* Assets.xcassets */,
 				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
 				8E26BB04257DAE1B00978446 /* Info.plist */,
+				EE68752925A4179000FDAA7C /* test.scn */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 			files = (
 				EE01F884258743960044A160 /* Home.storyboard in Resources */,
 				8E5B4709259AC20400FE4AF7 /* About.storyboard in Resources */,
+				EE68752A25A4179000FDAA7C /* test.scn in Resources */,
 				EE01F87E258740090044A160 /* MeshCapture.storyboard in Resources */,
 				8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */,
 				8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */,
