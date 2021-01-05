@@ -40,7 +40,6 @@
 		EE6752B12588BE3500F6FF89 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */; };
 		EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */; };
 		EE68749F258C708400FDAA7C /* Wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE68749E258C708400FDAA7C /* Wrapper.cpp */; };
-		EE68750325A409A500FDAA7C /* vtk-simulator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */; };
 		EE68752A25A4179000FDAA7C /* test.scn in Resources */ = {isa = PBXBuildFile; fileRef = EE68752925A4179000FDAA7C /* test.scn */; };
 		EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */; };
 		EEBA7B592583432C0000AD1A /* SCNViewerViewModel+SCN.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */; };
@@ -103,7 +102,6 @@
 		EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewModel.swift; sourceTree = "<group>"; };
 		EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MTKView+RenderDestinationProvider.swift"; sourceTree = "<group>"; };
 		EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+ARSessionDelegate.swift"; sourceTree = "<group>"; };
-		EE34F6D4258C6C360028EC3F /* vtk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = vtk.framework; sourceTree = "<group>"; };
 		EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+PolygonFileFormat.swift"; sourceTree = "<group>"; };
 		EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshCaptureViewController.swift; sourceTree = "<group>"; };
 		EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeshCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
@@ -111,8 +109,7 @@
 		EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+PLY.swift"; sourceTree = "<group>"; };
 		EE68749E258C708400FDAA7C /* Wrapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wrapper.cpp; sourceTree = "<group>"; };
-		EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "vtk-simulator.framework"; sourceTree = "<group>"; };
-		EE68752925A4179000FDAA7C /* test.scn */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.scn; sourceTree = SOURCE_ROOT; };
+		EE68752925A4179000FDAA7C /* test.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = test.scn; sourceTree = SOURCE_ROOT; };
 		EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+SCN.swift"; sourceTree = "<group>"; };
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
@@ -128,7 +125,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEE90365257DFFB700A682D8 /* SnapKit in Frameworks */,
-				EE68750325A409A500FDAA7C /* vtk-simulator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,8 +296,6 @@
 		EE34F6BE258C5D130028EC3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */,
-				EE34F6D4258C6C360028EC3F /* vtk.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
