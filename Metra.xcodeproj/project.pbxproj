@@ -35,6 +35,8 @@
 		EE6752A92588BB5F00F6FF89 /* ExtensionForMeshCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */; };
 		EE6752B12588BE3500F6FF89 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */; };
 		EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */; };
+		EE68749F258C708400FDAA7C /* Wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE68749E258C708400FDAA7C /* Wrapper.cpp */; };
+		EE68750325A409A500FDAA7C /* vtk-simulator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */; };
 		EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */; };
 		EEBA7B592583432C0000AD1A /* SCNViewerViewModel+SCN.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */; };
 		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
@@ -92,18 +94,21 @@
 		EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewModel.swift; sourceTree = "<group>"; };
 		EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MTKView+RenderDestinationProvider.swift"; sourceTree = "<group>"; };
 		EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+ARSessionDelegate.swift"; sourceTree = "<group>"; };
+		EE34F6D4258C6C360028EC3F /* vtk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = vtk.framework; sourceTree = "<group>"; };
 		EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+PolygonFileFormat.swift"; sourceTree = "<group>"; };
 		EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshCaptureViewController.swift; sourceTree = "<group>"; };
 		EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeshCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForMeshCapture.swift; sourceTree = "<group>"; };
 		EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+PLY.swift"; sourceTree = "<group>"; };
+		EE68749E258C708400FDAA7C /* Wrapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wrapper.cpp; sourceTree = "<group>"; };
+		EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "vtk-simulator.framework"; sourceTree = "<group>"; };
 		EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+SCN.swift"; sourceTree = "<group>"; };
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
 		EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewModel.swift; sourceTree = "<group>"; };
 		EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PolygonFileFormat+Ascii.swift"; sourceTree = "<group>"; };
-		EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SceneDepthPointCloud-Bridging-Header.h"; sourceTree = "<group>"; };
+		EEE90314257DCE9800A682D8 /* Metra-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Metra-Bridging-Header.h"; sourceTree = "<group>"; };
 		EEE90369257E02C100A682D8 /* UIView+blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+blur.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEE90365257DFFB700A682D8 /* SnapKit in Frameworks */,
+				EE68750325A409A500FDAA7C /* vtk-simulator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +146,7 @@
 				8E26BAC7257DAC0500978446 /* MetraTests */,
 				8E26BAD2257DAC0500978446 /* MetraUITests */,
 				8E26BAAF257DAC0200978446 /* Products */,
+				EE34F6BE258C5D130028EC3F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,6 +219,7 @@
 		8E26BAF8257DAD2200978446 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EEE90314257DCE9800A682D8 /* Metra-Bridging-Header.h */,
 				EE17E8A125821BA200F6DADF /* Metra.entitlements */,
 				8E26BABA257DAC0500978446 /* Assets.xcassets */,
 				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
@@ -233,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				8E26BAE8257DACA400978446 /* Renderer.swift */,
+				EE68749E258C708400FDAA7C /* Wrapper.cpp */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -265,6 +274,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		EE34F6BE258C5D130028EC3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EE6874F625A406AB00FDAA7C /* vtk-simulator.framework */,
+				EE34F6D4258C6C360028EC3F /* vtk.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,7 +298,6 @@
 		EEE9034B257DD41700A682D8 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				EEE90314257DCE9800A682D8 /* SceneDepthPointCloud-Bridging-Header.h */,
 				8E26BAE5257DACA400978446 /* Shaders.metal */,
 				8E26BAE4257DACA400978446 /* ShaderTypes.h */,
 				8E26BAE7257DACA400978446 /* Helpers.swift */,
@@ -470,6 +487,7 @@
 				EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */,
 				EE0122912589E07B006AEC97 /* Vertex.swift in Sources */,
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
+				EE68749F258C708400FDAA7C /* Wrapper.cpp in Sources */,
 				EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
 				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
@@ -685,6 +703,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -693,7 +715,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Resources/Metra-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -708,6 +730,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2694FBVFN;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Metra/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -716,7 +742,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Library/Metal/SceneDepthPointCloud-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Resources/Metra-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

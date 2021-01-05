@@ -29,11 +29,11 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
     /// - Tag: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        #if !targetEnvironment(simulator)
         arView.session.delegate = self
         
         setupCoachingOverlay()
-
+        
         arView.environment.sceneUnderstanding.options = []
         
         // Turn on occlusion from the scene reconstruction's mesh.
@@ -41,7 +41,7 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
         
         // Turn on physics for the scene reconstruction's mesh.
         arView.environment.sceneUnderstanding.options.insert(.physics)
-
+        
         // Display a debug visualization of the mesh.
         arView.debugOptions.insert(.showSceneUnderstanding)
         
@@ -53,12 +53,13 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
         arView.automaticallyConfigureSession = false
         let configuration = ARWorldTrackingConfiguration()
         configuration.sceneReconstruction = .meshWithClassification
-
+        
         configuration.environmentTexturing = .automatic
         arView.session.run(configuration)
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         arView.addGestureRecognizer(tapRecognizer)
+        #endif
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,6 +78,7 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
     /// point immediately to give instant visual feedback of the tap.
     @objc
     func handleTap(_ sender: UITapGestureRecognizer) {
+        #if !targetEnvironment(simulator)
         // 1. Perform a ray cast against the mesh.
         // Note: Ray-cast option ".estimatedPlane" with alignment ".any" also takes the mesh into account.
         let tapLocation = sender.location(in: arView)
@@ -122,15 +124,19 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
                 }
             }
         }
+        #endif
     }
     
     @IBAction func resetButtonPressed(_ sender: Any) {
+        #if !targetEnvironment(simulator)
         if let configuration = arView.session.configuration {
             arView.session.run(configuration, options: .resetSceneReconstruction)
         }
+        #endif
     }
     
     @IBAction func toggleMeshButtonPressed(_ button: UIButton) {
+        #if !targetEnvironment(simulator)
         let isShowingMesh = arView.debugOptions.contains(.showSceneUnderstanding)
         if isShowingMesh {
             arView.debugOptions.remove(.showSceneUnderstanding)
@@ -139,10 +145,12 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
             arView.debugOptions.insert(.showSceneUnderstanding)
             button.setTitle("Hide Mesh", for: [])
         }
+        #endif
     }
     
     /// - Tag: TogglePlaneDetection
     @IBAction func togglePlaneDetectionButtonPressed(_ button: UIButton) {
+        #if !targetEnvironment(simulator)
         guard let configuration = arView.session.configuration as? ARWorldTrackingConfiguration else {
             return
         }
@@ -154,9 +162,11 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
             button.setTitle("Start Plane Detection", for: [])
         }
         arView.session.run(configuration)
+        #endif
     }
     
     func nearbyFaceWithClassification(to location: SIMD3<Float>, completionBlock: @escaping (SIMD3<Float>?, ARMeshClassification) -> Void) {
+        #if !targetEnvironment(simulator)
         guard let frame = arView.session.currentFrame else {
             completionBlock(nil, .none)
             return
@@ -196,6 +206,7 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
             // Let the completion block know that no result was found.
             completionBlock(nil, .none)
         }
+        #endif
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {

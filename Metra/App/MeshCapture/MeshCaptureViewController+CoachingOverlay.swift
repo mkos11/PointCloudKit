@@ -28,7 +28,9 @@ extension MeshCaptureViewController: ARCoachingOverlayViewDelegate {
 
     func setupCoachingOverlay() {
         // Set up coaching view
+        #if !targetEnvironment(simulator)
         coachingOverlay.session = arView.session
+        #endif
         coachingOverlay.delegate = self
         
         coachingOverlay.translatesAutoresizingMaskIntoConstraints = false
