@@ -42,10 +42,11 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
     /// - Tag: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if !targetEnvironment(simulator)
         arView.session.delegate = self
         
         setupCoachingOverlay()
-
+        
         arView.environment.sceneUnderstanding.options = []
         
         // Turn on occlusion from the scene reconstruction's mesh.
@@ -53,7 +54,7 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
         
         // Turn on physics for the scene reconstruction's mesh.
         arView.environment.sceneUnderstanding.options.insert(.physics)
-
+        
         // Display a debug visualization of the mesh.
         arView.debugOptions.insert(.showSceneUnderstanding)
         
@@ -67,6 +68,7 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
         arView.session.run(configuration)
 
         createTextureCache()
+        #endif
     }
 
     func createTextureCache() {
@@ -86,8 +88,10 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        #if !targetEnvironment(simulator)
         navigationController?.setNavigationBarHidden(false, animated: animated)
         arView.session.run(configuration, options: [.removeExistingAnchors, .resetSceneReconstruction])
+        #endif
     }
     
     /// Places virtual-text of the classification at the touch-location's real-world intersection with a mesh.
@@ -99,12 +103,15 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
     }
     
     @IBAction func resetButtonPressed(_ sender: Any) {
+        #if !targetEnvironment(simulator)
         if let configuration = arView.session.configuration {
             arView.session.run(configuration, options: .resetSceneReconstruction)
         }
+        #endif
     }
     
     @IBAction func toggleMeshButtonPressed(_ button: UIButton) {
+        #if !targetEnvironment(simulator)
         let isShowingMesh = arView.debugOptions.contains(.showSceneUnderstanding)
         if isShowingMesh {
             arView.debugOptions.remove(.showSceneUnderstanding)
@@ -113,10 +120,12 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
             arView.debugOptions.insert(.showSceneUnderstanding)
             button.setTitle("Hide Mesh", for: [])
         }
+        #endif
     }
     
     /// - Tag: TogglePlaneDetection
     @IBAction func togglePlaneDetectionButtonPressed(_ button: UIButton) {
+        #if !targetEnvironment(simulator)
         guard let configuration = arView.session.configuration as? ARWorldTrackingConfiguration else {
             return
         }
@@ -128,6 +137,7 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
             button.setTitle("Start Plane Detection", for: [])
         }
         arView.session.run(configuration)
+        #endif
     }
 
     @IBAction func viewScenePressed(_ sender: Any) {
@@ -136,11 +146,13 @@ final class MeshCaptureViewController: UIViewController, ARSessionDelegate {
 
     // Move to a viewModel/coordinator
     private func navigateToScnViewer() {
+        #if !targetEnvironment(simulator)
         guard let frame = arView.session.currentFrame else { return }
         let meshAnchors = frame.anchors.compactMap({ $0 as? ARMeshAnchor })
         let viewModel = SCNViewerViewModel(meshAnchors: meshAnchors)
         let viewerViewController = SCNViewerViewController(viewModel: viewModel)
         navigationController?.pushViewController(viewerViewController, animated: true)
+        #endif
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {

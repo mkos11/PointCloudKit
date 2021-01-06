@@ -25,6 +25,21 @@
 					<string>PLY</string>
 				</array>
 			</dict>
+            <key>CFBundleTypeIconFiles</key>
+            <array/>
+            <key>CFBundleTypeName</key>
+            <string>VTK Viewer Supported Files</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>com.kitware.vtk</string>
+                <string>public.geometry-definition-format</string>
+                <string>public.polygon-file-format</string>
+                <string>public.standard-tesselated-geometry-format</string>
+            </array>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

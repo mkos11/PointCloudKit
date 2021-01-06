@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cOt-2P-gQV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cOt-2P-gQV">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -45,7 +45,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unsupported Device" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZe-et-rWG">
-                                <rect key="frame" x="43" y="363" width="328.5" height="34"/>
+                                <rect key="frame" x="43" y="363.5" width="328.5" height="33.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -57,28 +57,48 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0IY-s3-qSe">
-                                <rect key="frame" x="170.5" y="541.5" width="73.5" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="6a4-fp-4Rc"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="tintColor" name="Amazon"/>
-                                <state key="normal" title=" About" image="person.fill.viewfinder" catalog="system">
-                                    <color key="titleColor" name="CyberGrape"/>
-                                </state>
-                                <connections>
-                                    <segue destination="UaW-LU-Vc1" kind="show" id="kVh-dm-gOd"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="oea-AX-RGV">
+                                <rect key="frame" x="124" y="541.5" width="166" height="110"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rS0-og-6uy">
+                                        <rect key="frame" x="0.0" y="0.0" width="166" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Rev-lR-Ruw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" name="Amazon"/>
+                                        <state key="normal" title=" Document Viewer" image="doc" catalog="system">
+                                            <color key="titleColor" name="CyberGrape"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="yTc-jS-vMP" kind="show" id="WDz-B0-n1z"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0IY-s3-qSe">
+                                        <rect key="frame" x="0.0" y="60" width="166" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="6a4-fp-4Rc"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" name="Amazon"/>
+                                        <state key="normal" title=" About" image="person.fill.viewfinder" catalog="system">
+                                            <color key="titleColor" name="CyberGrape"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="UaW-LU-Vc1" kind="show" id="kVh-dm-gOd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="Bone"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7Ph-2p-J1v"/>
                         <color key="backgroundColor" name="Bone"/>
                         <constraints>
+                            <constraint firstItem="oea-AX-RGV" firstAttribute="centerX" secondItem="E2u-2e-Bgh" secondAttribute="centerX" id="1Ne-fh-Sda"/>
                             <constraint firstItem="GXh-Zp-bzm" firstAttribute="top" secondItem="YZe-et-rWG" secondAttribute="bottom" constant="8" symbolic="YES" id="2Sc-AA-Bct"/>
-                            <constraint firstItem="0IY-s3-qSe" firstAttribute="centerX" secondItem="E2u-2e-Bgh" secondAttribute="centerX" id="CsT-d1-kVp"/>
                             <constraint firstItem="GXh-Zp-bzm" firstAttribute="centerX" secondItem="E2u-2e-Bgh" secondAttribute="centerX" id="LmD-oT-OF7"/>
-                            <constraint firstItem="0IY-s3-qSe" firstAttribute="top" secondItem="GXh-Zp-bzm" secondAttribute="bottom" constant="50" id="QHN-vQ-qw0"/>
+                            <constraint firstItem="oea-AX-RGV" firstAttribute="top" secondItem="GXh-Zp-bzm" secondAttribute="bottom" constant="50" id="N4e-hJ-YfB"/>
                             <constraint firstItem="GXh-Zp-bzm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="E2u-2e-Bgh" secondAttribute="leading" constant="20" symbolic="YES" id="Qe5-gP-zUK"/>
                             <constraint firstItem="YZe-et-rWG" firstAttribute="centerX" secondItem="E2u-2e-Bgh" secondAttribute="centerX" id="QfX-vM-oi0"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GXh-Zp-bzm" secondAttribute="trailing" constant="20" symbolic="YES" id="TQd-OI-nKi"/>
@@ -100,7 +120,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PGh-Id-Wmq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3158.6956521739135" y="-252.45535714285714"/>
+            <point key="canvasLocation" x="3222" y="-505"/>
         </scene>
         <!--App Navigation Controller-->
         <scene sceneID="xY1-7m-IUW">
@@ -119,8 +139,19 @@
             </objects>
             <point key="canvasLocation" x="1586.9565217391305" y="-252.45535714285714"/>
         </scene>
+        <!--VTKViewer-->
+        <scene sceneID="4VQ-u5-B3Y">
+            <objects>
+                <viewControllerPlaceholder storyboardName="VTKViewer" id="yTc-jS-vMP" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Ab1-DB-JDO"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I4y-Nk-wYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3244" y="-544"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="doc" catalog="system" width="115" height="128"/>
         <image name="person.fill.viewfinder" catalog="system" width="128" height="115"/>
         <namedColor name="Amazon">
             <color red="0.25499999523162842" green="0.48199999332427979" blue="0.3529999852180481" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
