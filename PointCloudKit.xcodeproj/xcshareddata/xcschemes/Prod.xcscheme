@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8E26BAAD257DAC0200978446"
-               BuildableName = "Metra.app"
-               BlueprintName = "Metra"
-               ReferencedContainer = "container:Metra.xcodeproj">
+               BuildableName = "PointCloudKit.app"
+               BlueprintName = "PointCloudKit"
+               ReferencedContainer = "container:PointCloudKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,62 +28,28 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8E26BAC3257DAC0500978446"
-               BuildableName = "MetraTests.xctest"
-               BlueprintName = "MetraTests"
-               ReferencedContainer = "container:Metra.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8E26BACE257DAC0500978446"
-               BuildableName = "MetraUITests.xctest"
-               BlueprintName = "MetraUITests"
-               ReferencedContainer = "container:Metra.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      enableASanStackUseAfterReturn = "YES"
-      enableUBSanitizer = "YES"
+      buildConfiguration = "Release"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "NO">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E26BAAD257DAC0200978446"
-            BuildableName = "Metra.app"
-            BlueprintName = "Metra"
-            ReferencedContainer = "container:Metra.xcodeproj">
+            BuildableName = "PointCloudKit.app"
+            BlueprintName = "PointCloudKit"
+            ReferencedContainer = "container:PointCloudKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-         <AdditionalOption
-            key = "MallocStackLogging"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
-         <AdditionalOption
-            key = "PrefersMallocStackLoggingLite"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -96,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E26BAAD257DAC0200978446"
-            BuildableName = "Metra.app"
-            BlueprintName = "Metra"
-            ReferencedContainer = "container:Metra.xcodeproj">
+            BuildableName = "PointCloudKit.app"
+            BlueprintName = "PointCloudKit"
+            ReferencedContainer = "container:PointCloudKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

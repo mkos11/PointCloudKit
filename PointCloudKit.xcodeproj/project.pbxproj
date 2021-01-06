@@ -73,16 +73,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8E26BAAE257DAC0200978446 /* Metra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metra.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E26BAAE257DAC0200978446 /* PointCloudKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PointCloudKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAB1257DAC0200978446 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewController.swift; sourceTree = "<group>"; };
 		8E26BAB8257DAC0200978446 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E26BABA257DAC0500978446 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E26BABD257DAC0500978446 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8E26BAC4257DAC0500978446 /* MetraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E26BAC4257DAC0500978446 /* PointCloudKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PointCloudKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAC8257DAC0500978446 /* MetraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetraTests.swift; sourceTree = "<group>"; };
 		8E26BACA257DAC0500978446 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E26BACF257DAC0500978446 /* MetraUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetraUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E26BACF257DAC0500978446 /* PointCloudKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PointCloudKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAD3257DAC0500978446 /* MetraUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetraUITests.swift; sourceTree = "<group>"; };
 		8E26BAD5257DAC0500978446 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E26BAE4257DACA400978446 /* ShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
@@ -174,9 +174,9 @@
 		8E26BAAF257DAC0200978446 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8E26BAAE257DAC0200978446 /* Metra.app */,
-				8E26BAC4257DAC0500978446 /* MetraTests.xctest */,
-				8E26BACF257DAC0500978446 /* MetraUITests.xctest */,
+				8E26BAAE257DAC0200978446 /* PointCloudKit.app */,
+				8E26BAC4257DAC0500978446 /* PointCloudKitTests.xctest */,
+				8E26BACF257DAC0500978446 /* PointCloudKitUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -371,9 +371,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8E26BAAD257DAC0200978446 /* Metra */ = {
+		8E26BAAD257DAC0200978446 /* PointCloudKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E26BAD8257DAC0500978446 /* Build configuration list for PBXNativeTarget "Metra" */;
+			buildConfigurationList = 8E26BAD8257DAC0500978446 /* Build configuration list for PBXNativeTarget "PointCloudKit" */;
 			buildPhases = (
 				8E26BAAA257DAC0200978446 /* Sources */,
 				8E26BAAB257DAC0200978446 /* Frameworks */,
@@ -384,17 +384,17 @@
 			);
 			dependencies = (
 			);
-			name = Metra;
+			name = PointCloudKit;
 			packageProductDependencies = (
 				EEE90364257DFFB700A682D8 /* SnapKit */,
 			);
 			productName = Metra;
-			productReference = 8E26BAAE257DAC0200978446 /* Metra.app */;
+			productReference = 8E26BAAE257DAC0200978446 /* PointCloudKit.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8E26BAC3257DAC0500978446 /* MetraTests */ = {
+		8E26BAC3257DAC0500978446 /* PointCloudKitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E26BADB257DAC0500978446 /* Build configuration list for PBXNativeTarget "MetraTests" */;
+			buildConfigurationList = 8E26BADB257DAC0500978446 /* Build configuration list for PBXNativeTarget "PointCloudKitTests" */;
 			buildPhases = (
 				8E26BAC0257DAC0500978446 /* Sources */,
 				8E26BAC1257DAC0500978446 /* Frameworks */,
@@ -405,14 +405,14 @@
 			dependencies = (
 				8E26BAC6257DAC0500978446 /* PBXTargetDependency */,
 			);
-			name = MetraTests;
+			name = PointCloudKitTests;
 			productName = MetraTests;
-			productReference = 8E26BAC4257DAC0500978446 /* MetraTests.xctest */;
+			productReference = 8E26BAC4257DAC0500978446 /* PointCloudKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		8E26BACE257DAC0500978446 /* MetraUITests */ = {
+		8E26BACE257DAC0500978446 /* PointCloudKitUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E26BADE257DAC0500978446 /* Build configuration list for PBXNativeTarget "MetraUITests" */;
+			buildConfigurationList = 8E26BADE257DAC0500978446 /* Build configuration list for PBXNativeTarget "PointCloudKitUITests" */;
 			buildPhases = (
 				8E26BACB257DAC0500978446 /* Sources */,
 				8E26BACC257DAC0500978446 /* Frameworks */,
@@ -423,9 +423,9 @@
 			dependencies = (
 				8E26BAD1257DAC0500978446 /* PBXTargetDependency */,
 			);
-			name = MetraUITests;
+			name = PointCloudKitUITests;
 			productName = MetraUITests;
-			productReference = 8E26BACF257DAC0500978446 /* MetraUITests.xctest */;
+			productReference = 8E26BACF257DAC0500978446 /* PointCloudKitUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -450,7 +450,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8E26BAA9257DAC0200978446 /* Build configuration list for PBXProject "Metra" */;
+			buildConfigurationList = 8E26BAA9257DAC0200978446 /* Build configuration list for PBXProject "PointCloudKit" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -466,9 +466,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8E26BAAD257DAC0200978446 /* Metra */,
-				8E26BAC3257DAC0500978446 /* MetraTests */,
-				8E26BACE257DAC0500978446 /* MetraUITests */,
+				8E26BAAD257DAC0200978446 /* PointCloudKit */,
+				8E26BAC3257DAC0500978446 /* PointCloudKitTests */,
+				8E26BACE257DAC0500978446 /* PointCloudKitUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -588,12 +588,12 @@
 /* Begin PBXTargetDependency section */
 		8E26BAC6257DAC0500978446 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8E26BAAD257DAC0200978446 /* Metra */;
+			target = 8E26BAAD257DAC0200978446 /* PointCloudKit */;
 			targetProxy = 8E26BAC5257DAC0500978446 /* PBXContainerItemProxy */;
 		};
 		8E26BAD1257DAC0500978446 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8E26BAAD257DAC0200978446 /* Metra */;
+			target = 8E26BAAD257DAC0200978446 /* PointCloudKit */;
 			targetProxy = 8E26BAD0257DAC0500978446 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -685,7 +685,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -741,7 +741,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -832,7 +832,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Metra.app/Metra";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PointCloudKit.app/PointCloudKit";
 			};
 			name = Debug;
 		};
@@ -854,7 +854,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Metra.app/Metra";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PointCloudKit.app/PointCloudKit";
 			};
 			name = Release;
 		};
@@ -901,7 +901,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8E26BAA9257DAC0200978446 /* Build configuration list for PBXProject "Metra" */ = {
+		8E26BAA9257DAC0200978446 /* Build configuration list for PBXProject "PointCloudKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E26BAD6257DAC0500978446 /* Debug */,
@@ -910,7 +910,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E26BAD8257DAC0500978446 /* Build configuration list for PBXNativeTarget "Metra" */ = {
+		8E26BAD8257DAC0500978446 /* Build configuration list for PBXNativeTarget "PointCloudKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E26BAD9257DAC0500978446 /* Debug */,
@@ -919,7 +919,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E26BADB257DAC0500978446 /* Build configuration list for PBXNativeTarget "MetraTests" */ = {
+		8E26BADB257DAC0500978446 /* Build configuration list for PBXNativeTarget "PointCloudKitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E26BADC257DAC0500978446 /* Debug */,
@@ -928,7 +928,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E26BADE257DAC0500978446 /* Build configuration list for PBXNativeTarget "MetraUITests" */ = {
+		8E26BADE257DAC0500978446 /* Build configuration list for PBXNativeTarget "PointCloudKitUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E26BADF257DAC0500978446 /* Debug */,
