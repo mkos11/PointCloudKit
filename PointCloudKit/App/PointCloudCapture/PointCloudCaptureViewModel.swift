@@ -14,7 +14,7 @@ import ARKit
 final class PointCloudCaptureViewModel {
     private var cancellable: Set<AnyCancellable> = []
     private var rendererService = PointCloudCaptureRenderingService()
-    var session: ARSession? { rendererService.renderer.session }
+    var session: ARSession { rendererService.renderer.session }
 
     @Published
     private var rendererIsRunning: Bool = false
@@ -180,5 +180,9 @@ final class PointCloudCaptureViewModel {
                 promise(.success(self.rendererService.renderer.currentlyVisibleVertices))
             }
         }
+    }
+    
+    var particlesBuffer: MTLBuffer {
+        rendererService.renderer.particlesBuffer.rawMtlBuffer
     }
 }

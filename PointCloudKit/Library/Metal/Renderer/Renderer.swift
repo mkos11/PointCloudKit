@@ -76,7 +76,7 @@ final class Renderer {
     
     /// The session captures video from the camera, tracks the device’s position and orientation
     /// in a modeled 3D space, and provides ARFrame objects.
-    let session: ARSession?
+    let session = ARSession()
 
     // Metal objects and textures
     private let device: MTLDevice
@@ -346,10 +346,6 @@ extension Renderer {
             pointCloudUniformsBuffers.append(.init(device: device, count: 1, index: kPointCloudUniforms.rawValue))
         }
       particlesBuffer.assign(Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
-      //(device: device,
-//                           count: Constants.Renderer.maxMaxPoints,
-//                           index: kParticleUniforms.rawValue)
-//      particlesBuffer.assign(with: Array(repeating: ParticleUniforms(), count: particlesBuffer.count))
         currentPointCount = 0
         currentPointIndex = 0
     }

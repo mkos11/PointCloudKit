@@ -37,11 +37,24 @@
 
 @implementation VTKViewerViewController
 
+/*
+    Using ivars instead of properties to avoid any performance penalities with
+    the Objective-C runtime.
+*/
+id<MTLBuffer> _particlesBuffer;
+//id<MTLTexture> _diffuseTexture;
+
 // MARK: UIViewController
 
 - (BOOL)prefersStatusBarHidden { return TRUE; }
 
 - (BOOL)prefersHomeIndicatorAutoHidden { return TRUE; }
+
+- (instancetype)initWithCoder:(NSCoder *)coder particlesBuffer:(id<MTLBuffer>)particlesBuffer
+{
+    _particlesBuffer = particlesBuffer;
+    return [super initWithCoder:coder];
+}
 
 - (void)viewDidLoad
 {

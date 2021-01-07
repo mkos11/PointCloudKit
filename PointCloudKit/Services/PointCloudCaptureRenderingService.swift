@@ -50,16 +50,16 @@ final class PointCloudCaptureRenderingService: NSObject, MTKViewDelegate {
     // MARK: - Session
     
     func pause() {
-        renderer.session?.pause()
+        renderer.session.pause()
     }
     
     func resume() {
-        renderer.session?.run(configuration)
+        renderer.session.run(configuration)
     }
     
     func start() {
         renderer.initializeBuffers()
-        renderer.session?.run(configuration, options: [.resetTracking, .resetSceneReconstruction,
+        renderer.session.run(configuration, options: [.resetTracking, .resetSceneReconstruction,
                                                       .removeExistingAnchors, .stopTrackedRaycasts])
     }
     

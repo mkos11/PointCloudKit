@@ -119,9 +119,14 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     private func navigateToVtkViewer() {
 //        let viewModel = SCNViewerViewModel(verticesFuture: self.viewModel.vertices)
 //        let viewerViewController = SCNViewerViewController(viewModel: viewModel)
-        s
-        let viewerViewController = VTKViewerViewController()
-        navigationController?.pushViewController(viewerViewController, animated: true)
+        let coderBlock: ((NSCoder) -> VTKViewerViewController?) = { [weak self] (coder) -> VTKViewerViewController? in
+            guard let self = self else { return nil }
+            return VTKViewerViewController.init(coder: coder, particlesBuffer: self.viewModel.particlesBuffer)
+        }
+        guard let viewController = UIStoryboard(name: "VTKViewer", bundle: nil).instantiateInitialViewController(creator: coderBlock) else {
+            return
+        }
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
