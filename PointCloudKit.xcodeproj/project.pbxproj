@@ -42,7 +42,7 @@
 		EE68749F258C708400FDAA7C /* Wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE68749E258C708400FDAA7C /* Wrapper.cpp */; };
 		EE68756325A42AFC00FDAA7C /* vtk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE68756225A42AFC00FDAA7C /* vtk.framework */; };
 		EE68759125A4681B00FDAA7C /* VTKLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE68759025A4681B00FDAA7C /* VTKLoader.mm */; };
-		EE68759725A4692B00FDAA7C /* VTKViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE68759525A4692B00FDAA7C /* VTKViewController.mm */; };
+		EE68759725A4692B00FDAA7C /* VTKViewerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE68759525A4692B00FDAA7C /* VTKViewerViewController.mm */; };
 		EE6875A125A4696700FDAA7C /* VTKGestureHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE6875A025A4696700FDAA7C /* VTKGestureHandler.mm */; };
 		EE6875A725A4698700FDAA7C /* VTKView.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE6875A525A4698700FDAA7C /* VTKView.mm */; };
 		EE6875B125A5453800FDAA7C /* VTKViewer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6875B025A5453800FDAA7C /* VTKViewer.storyboard */; };
@@ -102,12 +102,13 @@
 		EE01F87D258740090044A160 /* MeshCapture.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MeshCapture.storyboard; sourceTree = "<group>"; };
 		EE01F883258743960044A160 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Metra/Resources/Base.lproj/Home.storyboard; sourceTree = "<group>"; };
 		EE01F889258743B00044A160 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		EE17E8A125821BA200F6DADF /* Metra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Metra.entitlements; sourceTree = "<group>"; };
+		EE17E8A125821BA200F6DADF /* PointCloudKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PointCloudKit.entitlements; sourceTree = "<group>"; };
 		EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureRenderingService.swift; sourceTree = "<group>"; };
 		EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewModel.swift; sourceTree = "<group>"; };
 		EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MTKView+RenderDestinationProvider.swift"; sourceTree = "<group>"; };
 		EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+ARSessionDelegate.swift"; sourceTree = "<group>"; };
 		EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+PolygonFileFormat.swift"; sourceTree = "<group>"; };
+		EE5A4D7F25A69F3C00601B6F /* PointCloudKit-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PointCloudKit-Swift.h"; sourceTree = "<group>"; };
 		EE67529E2588BB1500F6FF89 /* MeshCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshCaptureViewController.swift; sourceTree = "<group>"; };
 		EE6752A32588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeshCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForMeshCapture.swift; sourceTree = "<group>"; };
@@ -117,8 +118,8 @@
 		EE68756225A42AFC00FDAA7C /* vtk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vtk.framework; path = ../../../../usr/local/Frameworks/vtk.framework; sourceTree = "<group>"; };
 		EE68758F25A4681B00FDAA7C /* VTKLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKLoader.h; sourceTree = "<group>"; };
 		EE68759025A4681B00FDAA7C /* VTKLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKLoader.mm; sourceTree = "<group>"; };
-		EE68759525A4692B00FDAA7C /* VTKViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKViewController.mm; sourceTree = "<group>"; };
-		EE68759625A4692B00FDAA7C /* VTKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKViewController.h; sourceTree = "<group>"; };
+		EE68759525A4692B00FDAA7C /* VTKViewerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKViewerViewController.mm; sourceTree = "<group>"; };
+		EE68759625A4692B00FDAA7C /* VTKViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKViewerViewController.h; sourceTree = "<group>"; };
 		EE68759F25A4696600FDAA7C /* VTKGestureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKGestureHandler.h; sourceTree = "<group>"; };
 		EE6875A025A4696700FDAA7C /* VTKGestureHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKGestureHandler.mm; sourceTree = "<group>"; };
 		EE6875A525A4698700FDAA7C /* VTKView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKView.mm; sourceTree = "<group>"; };
@@ -129,7 +130,7 @@
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
 		EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewModel.swift; sourceTree = "<group>"; };
 		EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PolygonFileFormat+Ascii.swift"; sourceTree = "<group>"; };
-		EEE90314257DCE9800A682D8 /* Metra-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Metra-Bridging-Header.h"; sourceTree = "<group>"; };
+		EEE90314257DCE9800A682D8 /* PointCloudKit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PointCloudKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		EEE90369257E02C100A682D8 /* UIView+blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+blur.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,7 +164,7 @@
 		8E26BAA5257DAC0200978446 = {
 			isa = PBXGroup;
 			children = (
-				8E26BAB0257DAC0200978446 /* Metra */,
+				8E26BAB0257DAC0200978446 /* PointCloudKit */,
 				8E26BAC7257DAC0500978446 /* MetraTests */,
 				8E26BAD2257DAC0500978446 /* MetraUITests */,
 				8E26BAAF257DAC0200978446 /* Products */,
@@ -181,7 +182,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8E26BAB0257DAC0200978446 /* Metra */ = {
+		8E26BAB0257DAC0200978446 /* PointCloudKit */ = {
 			isa = PBXGroup;
 			children = (
 				EE0122882589E04A006AEC97 /* Model */,
@@ -190,7 +191,7 @@
 				8E26BAF5257DAD0500978446 /* App */,
 				8E26BAF8257DAD2200978446 /* Resources */,
 			);
-			path = Metra;
+			path = PointCloudKit;
 			sourceTree = "<group>";
 		};
 		8E26BAC7257DAC0500978446 /* MetraTests */ = {
@@ -221,6 +222,7 @@
 				EEE90356257DDD1000A682D8 /* PointCloudCapture */,
 				EE01F87C25873FF30044A160 /* MeshCapture */,
 				8E5B4707259AC1E900FE4AF7 /* About */,
+				EE06878225A695C800A8FD4E /* VTKViewer */,
 				EEBA7B6525835F8A0000AD1A /* SCNViewer */,
 			);
 			path = App;
@@ -234,7 +236,7 @@
 				EE01F87425873D360044A160 /* UIColor+Palette.swift */,
 				EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */,
 				EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */,
-				EE68759B25A4693100FDAA7C /* VTK */,
+				EE68759B25A4693100FDAA7C /* C++ */,
 				EEE9034B257DD41700A682D8 /* Metal */,
 			);
 			path = Library;
@@ -243,8 +245,9 @@
 		8E26BAF8257DAD2200978446 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EEE90314257DCE9800A682D8 /* Metra-Bridging-Header.h */,
-				EE17E8A125821BA200F6DADF /* Metra.entitlements */,
+				EE5A4D7F25A69F3C00601B6F /* PointCloudKit-Swift.h */,
+				EEE90314257DCE9800A682D8 /* PointCloudKit-Bridging-Header.h */,
+				EE17E8A125821BA200F6DADF /* PointCloudKit.entitlements */,
 				8E26BABA257DAC0500978446 /* Assets.xcassets */,
 				8E26BABC257DAC0500978446 /* LaunchScreen.storyboard */,
 				8E26BB04257DAE1B00978446 /* Info.plist */,
@@ -299,6 +302,46 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		EE06878225A695C800A8FD4E /* VTKViewer */ = {
+			isa = PBXGroup;
+			children = (
+				EE06878525A6960000A8FD4E /* VTKGestureHandler */,
+				EE06878425A695F800A8FD4E /* VTKLoader */,
+				EE06878325A695E500A8FD4E /* VTKView */,
+				EE68759625A4692B00FDAA7C /* VTKViewerViewController.h */,
+				EE68759525A4692B00FDAA7C /* VTKViewerViewController.mm */,
+				EE6875B025A5453800FDAA7C /* VTKViewer.storyboard */,
+			);
+			path = VTKViewer;
+			sourceTree = "<group>";
+		};
+		EE06878325A695E500A8FD4E /* VTKView */ = {
+			isa = PBXGroup;
+			children = (
+				EE6875A625A4698700FDAA7C /* VTKView.h */,
+				EE6875A525A4698700FDAA7C /* VTKView.mm */,
+			);
+			path = VTKView;
+			sourceTree = "<group>";
+		};
+		EE06878425A695F800A8FD4E /* VTKLoader */ = {
+			isa = PBXGroup;
+			children = (
+				EE68758F25A4681B00FDAA7C /* VTKLoader.h */,
+				EE68759025A4681B00FDAA7C /* VTKLoader.mm */,
+			);
+			path = VTKLoader;
+			sourceTree = "<group>";
+		};
+		EE06878525A6960000A8FD4E /* VTKGestureHandler */ = {
+			isa = PBXGroup;
+			children = (
+				EE68759F25A4696600FDAA7C /* VTKGestureHandler.h */,
+				EE6875A025A4696700FDAA7C /* VTKGestureHandler.mm */,
+			);
+			path = VTKGestureHandler;
+			sourceTree = "<group>";
+		};
 		EE29199425885366003E9C7C /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,21 +358,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EE68759B25A4693100FDAA7C /* VTK */ = {
+		EE68759B25A4693100FDAA7C /* C++ */ = {
 			isa = PBXGroup;
 			children = (
-				EE6875A625A4698700FDAA7C /* VTKView.h */,
-				EE6875A525A4698700FDAA7C /* VTKView.mm */,
-				EE68758F25A4681B00FDAA7C /* VTKLoader.h */,
-				EE68759025A4681B00FDAA7C /* VTKLoader.mm */,
-				EE68759F25A4696600FDAA7C /* VTKGestureHandler.h */,
-				EE6875A025A4696700FDAA7C /* VTKGestureHandler.mm */,
-				EE68759625A4692B00FDAA7C /* VTKViewController.h */,
-				EE68759525A4692B00FDAA7C /* VTKViewController.mm */,
 				EE68749E258C708400FDAA7C /* Wrapper.cpp */,
-				EE6875B025A5453800FDAA7C /* VTKViewer.storyboard */,
 			);
-			path = VTK;
+			path = "C++";
 			sourceTree = "<group>";
 		};
 		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
@@ -547,7 +581,7 @@
 				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
 				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
-				EE68759725A4692B00FDAA7C /* VTKViewController.mm in Sources */,
+				EE68759725A4692B00FDAA7C /* VTKViewerViewController.mm in Sources */,
 				EECF26262589BEE20007746A /* PolygonFileFormat+Ascii.swift in Sources */,
 				EE0122962589E083006AEC97 /* PolygonFileFormat.swift in Sources */,
 				EEBA7B592583432C0000AD1A /* SCNViewerViewModel+SCN.swift in Sources */,
@@ -757,16 +791,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
-				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PointCloudKit/Resources/PointCloudKit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					/usr/local/Frameworks,
 				);
-				INFOPLIST_FILE = Metra/Resources/Info.plist;
+				INFOPLIST_FILE = PointCloudKit/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -776,7 +811,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Resources/Metra-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "PointCloudKit/Resources/PointCloudKit-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -788,16 +823,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
-				CODE_SIGN_ENTITLEMENTS = Metra/Resources/Metra.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PointCloudKit/Resources/PointCloudKit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					/usr/local/Frameworks,
 				);
-				INFOPLIST_FILE = Metra/Resources/Info.plist;
+				INFOPLIST_FILE = PointCloudKit/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -807,7 +843,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Metra/Resources/Metra-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "PointCloudKit/Resources/PointCloudKit-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

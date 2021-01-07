@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="e5K-88-RHN">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--VTK View Controller-->
+        <scene sceneID="Gik-ib-Klh">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="e5K-88-RHN" userLabel="VTK View Controller" customClass="VTKViewerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cgm-0q-x7R"/>
+                        <viewControllerLayoutGuide type="bottom" id="JOC-In-Jga"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sEU-y6-Vwp" userLabel="superView">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" enableSetNeedsDisplay="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UxD-LD-F6G" userLabel="vtkView" customClass="VTKView">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                            </glkView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="UxD-LD-F6G" secondAttribute="trailing" id="E4h-wP-NI7"/>
+                            <constraint firstAttribute="bottom" secondItem="UxD-LD-F6G" secondAttribute="bottom" id="Vy4-nb-smD"/>
+                            <constraint firstItem="UxD-LD-F6G" firstAttribute="leading" secondItem="sEU-y6-Vwp" secondAttribute="leading" id="Xbi-v6-6pB"/>
+                            <constraint firstItem="UxD-LD-F6G" firstAttribute="top" secondItem="sEU-y6-Vwp" secondAttribute="top" id="fez-Xb-ZTO"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ttx-by-24l">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Esport" image="square.and.arrow.up" catalog="system" id="edD-ea-Kpd" userLabel="Export"/>
+                            <barButtonItem title="Item" image="plus" catalog="system" id="ffg-AP-LTH" userLabel="Add">
+                                <connections>
+                                    <action selector="onAddDataButtonPressed:" destination="e5K-88-RHN" id="hlT-IL-dkH"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <connections>
+                        <outlet property="vtkView" destination="UxD-LD-F6G" id="ulc-yY-XEZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OMY-8p-Fdf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="585.50724637681162" y="600"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+    </resources>
+</document>
