@@ -22,6 +22,9 @@ final class PointCloudCaptureViewModel {
     private (set) var rendererIsCapturing: Bool = false
 
     @Published
+    var currentPointCount: Int = 0
+    
+    @Published
     var samplePerFrameMetric: String = "-"
     @Published
     var currentPointMetric: String = "-"
@@ -83,7 +86,7 @@ final class PointCloudCaptureViewModel {
         maxPoints = rendererService.renderer.maxPoints
         particleSize = rendererService.renderer.particleSize
         rgbRadius = rendererService.renderer.rgbRadius
-        
+
         $confidenceThreshold.assign(to: &rendererService.renderer.$confidenceThreshold)
         $numGridPoints.assign(to: &rendererService.renderer.$numGridPoints)
         $maxPoints.assign(to: &rendererService.renderer.$maxPoints)
@@ -101,6 +104,7 @@ final class PointCloudCaptureViewModel {
             .throttle(for: 0.33, scheduler: DispatchQueue.global(qos: .utility), latest: false)
             .sink { [weak self] (currentPointCount) in
                 self?.currentPointMetric = "Captured points: \(currentPointCount / 1000)k"
+                self?.currentPointCount = currentPointCount
             }
             .store(in: &cancellable)
 
@@ -183,6 +187,26 @@ final class PointCloudCaptureViewModel {
     }
     
     var particlesBuffer: MTLBuffer {
-        rendererService.renderer.particlesBuffer.rawMtlBuffer
+//        / Either convert everything to CPU memory here - 0.5sec per 100k point in debug mod -- TO STUDY
+//        / Other option is to pass an unsafe MTLBuffer and the count, and do some processing in the VTkLoader
+//        print(Date().timeIntervalSince1970)
+//        let test = rendererService.renderer.particlesBuffer.extractMembers(memberID: 0,
+//                                                                           expectedType: ParticleUniforms.self,
+//                                                                           upperBound: currentPointCount)
+//        print(Date().timeIntervalSince1970)
+//        print(test.count)
+//        
+//        var index = 0
+//        while index < 10 {
+//            print("Before cast point (%d) %f, %f, %f -- and confidence %f",
+//                  index,
+//                  test[index].position.x,
+//                  test[index].position.y,
+//                  test[index].position.z,
+//                  test[index].confidence)
+//            index += 1
+//        }
+    
+    return rendererService.renderer.particlesBuffer.rawMtlBuffer
     }
 }

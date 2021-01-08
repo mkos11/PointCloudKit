@@ -10,10 +10,14 @@
 #import <Foundation/Foundation.h>
 #import <MetalKit/MetalKit.h>
 
+#include "ShaderTypes.h"
+
 @interface VTKViewerViewController
 : UIViewController<UIGestureRecognizerDelegate, UIDocumentPickerDelegate>
 
-- (instancetype _Nonnull)initWithCoder:(NSCoder *_Nonnull)coder particlesBuffer:(id<MTLBuffer>_Nonnull)particlesBuffer;
+- (instancetype _Nonnull)initWithCoder:(NSCoder *_Nonnull)coder
+                       particlesBuffer:(id<MTLBuffer>_Nullable)particlesBuffer
+                           captureSize:(int)captureSize;
 
 - (void)loadFiles:(nonnull NSArray<NSURL*>*)urls;
 

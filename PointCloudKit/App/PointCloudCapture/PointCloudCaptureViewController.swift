@@ -121,7 +121,9 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
 //        let viewerViewController = SCNViewerViewController(viewModel: viewModel)
         let coderBlock: ((NSCoder) -> VTKViewerViewController?) = { [weak self] (coder) -> VTKViewerViewController? in
             guard let self = self else { return nil }
-            return VTKViewerViewController.init(coder: coder, particlesBuffer: self.viewModel.particlesBuffer)
+            return VTKViewerViewController.init(coder: coder,
+                                                particlesBuffer: self.viewModel.particlesBuffer,
+                                                captureSize: Int32(self.viewModel.currentPointCount))
         }
         guard let viewController = UIStoryboard(name: "VTKViewer", bundle: nil).instantiateInitialViewController(creator: coderBlock) else {
             return

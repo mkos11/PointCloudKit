@@ -34,7 +34,7 @@ struct MetalBuffer<Element>: Resource {
 
     /// Initializes the buffer with zeros, the buffer is given an appropriate length based on the provided element count.
     init(device: MTLDevice, count: Int, index: UInt32, label: String? = nil, options: MTLResourceOptions = []) {
-
+        // Maybe need to add a .storageModeShared to sync between GPU and CPU if cannot do GPU -> GPU between Metal and OpenGL
         guard let buffer = device.makeBuffer(length: MemoryLayout<Element>.stride * count, options: options) else {
             fatalError("Failed to create MTLBuffer.")
         }
@@ -122,3 +122,69 @@ struct Texture: Resource {
     let texture: MTLTexture
     let index: Int
 }
+
+// MARK: - C compatible -- see https://stackoverflow.com/questions/63606753/reading-contents-from-a-generic-mtlbuffer
+
+// MARK: Convenience
+typealias MTLCStructMemberFormat = MTLVertexFormat
+
+@_functionBuilder
+struct ArrayLayout { static func buildBlock<T>(_ arr: T...) -> [T] { arr } }
+
+extension MTLCStructMemberFormat {
+    var stride: Int {
+        switch self {
+        case .float2:  return MemoryLayout<simd_float2>.stride
+        case .float3:  return MemoryLayout<simd_float3>.stride
+        default:       fatalError("Case unaccounted for")
+        }
+    }
+}
+
+// MARK: Custom Protocol
+protocol CMetalStruct {
+    /// Returns the type of the `ith` member
+    static var memoryLayouts: [MTLCStructMemberFormat] { get }
+}
+
+extension MetalBuffer where Element: CMetalStruct {
+    func readBufferContents<T>(elementPositionInArray index: Int, memberID: Int, expectedType type: T.Type = T.self)
+        -> T {
+        let pointerAddition = index * MemoryLayout<Element>.stride
+            let valueToIncrement = Element.memoryLayouts[0..<memberID].reduce(0) { $0 + $1.stride }
+        return buffer.contents().advanced(by: pointerAddition + valueToIncrement).bindMemory(to: T.self, capacity: 1).pointee
+    }
+    
+    func extractMembers<T>(memberID: Int, expectedType type: T.Type = T.self, upperBound: Int = 0) -> [T] {
+        var array: [T] = []
+        let endIndex = upperBound == 0 ? count : upperBound
+        for index in 0..<endIndex {
+            let pointerAddition = index * MemoryLayout<Element>.stride
+            let valueToIncrement = Element.memoryLayouts[0..<memberID].reduce(0) { $0 + $1.stride }
+            let contents = buffer.contents().advanced(by: pointerAddition + valueToIncrement).bindMemory(to: T.self, capacity: 1).pointee
+            array.append(contents)
+        }
+        
+        return array
+    }
+}
+
+extension ParticleUniforms: CMetalStruct {
+    @ArrayLayout static var memoryLayouts: [MTLCStructMemberFormat] {
+        MTLCStructMemberFormat.float3
+        MTLCStructMemberFormat.float3
+    }
+}
+
+//var CTypes = [CustomC(testA: .init(59, 99, 0), testB: .init(102, 111, 52)), CustomC(testA: .init(10, 11, 5), testB: .one), CustomC(testA: .zero, testB: .init(5, 5, 5))]
+//
+//let allocator = CustomBufferAllocator<CustomC>(bytes: &CTypes, count: 3)
+//let value = allocator.readBufferContents(element_position_in_array: 1, memberID: 0, expectedType: simd_float3.self)
+//print(value)
+//
+//// Prints SIMD3<Float>(10.0, 11.0, 5.0)
+//
+//let group = allocator.extractMembers(memberID: 1, expectedType: simd_float3.self)
+//print(group)
+//
+//// Prints [SIMD3<Float>(102.0, 111.0, 52.0), SIMD3<Float>(1.0, 1.0, 1.0), SIMD3<Float>(5.0, 5.0, 5.0)]

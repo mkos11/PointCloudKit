@@ -32,7 +32,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ttx-by-24l">
                         <rightBarButtonItems>
-                            <barButtonItem title="Esport" image="square.and.arrow.up" catalog="system" id="edD-ea-Kpd" userLabel="Export"/>
+                            <barButtonItem title="Esport" image="square.and.arrow.up" catalog="system" id="edD-ea-Kpd" userLabel="Export">
+                                <connections>
+                                    <action selector="onExportButtonPressed:" destination="e5K-88-RHN" id="wFy-Cm-iY9"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Item" image="plus" catalog="system" id="ffg-AP-LTH" userLabel="Add">
                                 <connections>
                                     <action selector="onAddDataButtonPressed:" destination="e5K-88-RHN" id="hlT-IL-dkH"/>

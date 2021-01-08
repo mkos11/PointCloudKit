@@ -41,7 +41,8 @@
     Using ivars instead of properties to avoid any performance penalities with
     the Objective-C runtime.
 */
-id<MTLBuffer> _particlesBuffer;
+id<MTLBuffer> _particlesBuffer = nil;
+int _captureSize;
 //id<MTLTexture> _diffuseTexture;
 
 // MARK: UIViewController
@@ -50,9 +51,11 @@ id<MTLBuffer> _particlesBuffer;
 
 - (BOOL)prefersHomeIndicatorAutoHidden { return TRUE; }
 
-- (instancetype)initWithCoder:(NSCoder *)coder particlesBuffer:(id<MTLBuffer>)particlesBuffer
+- (instancetype)initWithCoder:(NSCoder *)coder particlesBuffer:(id<MTLBuffer>)particlesBuffer captureSize:(int)captureSize
 {
+    // We pass the capture size because the MTL buffer is often not fully filled by the capture
     _particlesBuffer = particlesBuffer;
+    _captureSize = captureSize;
     return [super initWithCoder:coder];
 }
 
@@ -89,7 +92,11 @@ id<MTLBuffer> _particlesBuffer;
     self.vtkView.renderWindow->AddRenderer(self.renderer);
     
     // Load initial data
-    if (self.initialUrls)
+    if (_particlesBuffer != nil)
+    {
+        [self loadPointCloudFromBuffer: _particlesBuffer captureSize: _captureSize];
+    }
+    else if (self.initialUrls)
     {
         // If URL given when launching app,
         // load that file
@@ -106,10 +113,10 @@ id<MTLBuffer> _particlesBuffer;
         auto actor = vtkSmartPointer<vtkActor>::New();
         actor->SetMapper(mapper);
         self.renderer->AddActor(actor);
-        self.renderer->GetActiveCamera()->Azimuth(120);
-        self.renderer->GetActiveCamera()->Elevation(30);
-        self.renderer->GetActiveCamera()->Dolly(1.0);
-        self.renderer->ResetCameraClippingRange();
+//        self.renderer->GetActiveCamera()->Azimuth(120);
+//        self.renderer->GetActiveCamera()->Elevation(30);
+//        self.renderer->GetActiveCamera()->Dolly(1.0);
+//        self.renderer->ResetCameraClippingRange();
         self.renderer->ResetCamera();
     }
 }
@@ -231,10 +238,10 @@ didPickDocumentsAtURLs:(nonnull NSArray<NSURL*>*)urls
     if (actor)
     {
         self.renderer->AddActor(actor);
-        self.renderer->GetActiveCamera()->Azimuth(120);
-        self.renderer->GetActiveCamera()->Elevation(30);
-        self.renderer->GetActiveCamera()->Dolly(1.0);
-        self.renderer->ResetCameraClippingRange();
+//        self.renderer->GetActiveCamera()->Azimuth(120);
+//        self.renderer->GetActiveCamera()->Elevation(30);
+//        self.renderer->GetActiveCamera()->Dolly(1.0);
+//        self.renderer->ResetCameraClippingRange();
         self.renderer->ResetCamera();
         [self.vtkView setNeedsDisplay];
         alertTitle = @"Import";
@@ -256,6 +263,43 @@ didPickDocumentsAtURLs:(nonnull NSArray<NSURL*>*)urls
                                                           handler:nil]];
         [self presentViewController:alertController animated:YES completion:nil];
     });
+}
+
+- (void)loadPointCloudFromBuffer:(id<MTLBuffer>)particlesBuffer captureSize:(int)captureSize
+{
+    vtkSmartPointer<vtkActor> actor = [VTKLoader loadPointCloudFromBuffer:particlesBuffer captureSize:captureSize];
+    NSString* alertTitle;
+    NSString* alertMessage;
+    if (actor)
+    {
+        self.renderer->AddActor(actor);
+//        self.renderer->GetActiveCamera()->Azimuth(120);
+//        self.renderer->GetActiveCamera()->Elevation(30);
+//        self.renderer->GetActiveCamera()->Dolly(1.0);
+//        self.renderer->ResetCameraClippingRange();
+        self.renderer->ResetCamera();
+        [self.vtkView setNeedsDisplay];
+//        alertTitle = @"Import";
+//        alertMessage = @"Successfully imported capture";
+    }
+    else
+    {
+        alertTitle = @"Import Failed";
+        alertMessage = @"Could not load capture";
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertController* alertController =
+            [UIAlertController alertControllerWithTitle:alertTitle
+                                                message:alertMessage
+                                         preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Ok"
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:nil]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
+    }
+
 }
 
 @end
