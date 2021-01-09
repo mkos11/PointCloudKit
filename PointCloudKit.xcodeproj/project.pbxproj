@@ -22,6 +22,7 @@
 		8E5B4709259AC20400FE4AF7 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5B4708259AC20400FE4AF7 /* About.storyboard */; };
 		8E5B470E259AC20E00FE4AF7 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */; };
 		8E5B4716259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */; };
+		8EE6553925A9873400CB4BF3 /* UIButton+IBDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */; };
 		EE0122912589E07B006AEC97 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122902589E07B006AEC97 /* Vertex.swift */; };
 		EE0122962589E083006AEC97 /* PolygonFileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122952589E083006AEC97 /* PolygonFileFormat.swift */; };
 		EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */; };
@@ -95,6 +96,7 @@
 		8E5B4708259AC20400FE4AF7 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 		8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ARKitSupportCheck.swift"; sourceTree = "<group>"; };
+		8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+IBDesignable.swift"; sourceTree = "<group>"; };
 		EE0122902589E07B006AEC97 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		EE0122952589E083006AEC97 /* PolygonFileFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonFileFormat.swift; sourceTree = "<group>"; };
 		EE01F86325873A5F0044A160 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Metra/Resources/Base.lproj/PointCloudCapture.storyboard; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				EE01F87425873D360044A160 /* UIColor+Palette.swift */,
 				EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */,
 				EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */,
+				8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */,
 				EE68759B25A4693100FDAA7C /* C++ */,
 				EEE9034B257DD41700A682D8 /* Metal */,
 			);
@@ -586,6 +589,7 @@
 				EE0122962589E083006AEC97 /* PolygonFileFormat.swift in Sources */,
 				EEBA7B592583432C0000AD1A /* SCNViewerViewModel+SCN.swift in Sources */,
 				EE67529F2588BB1500F6FF89 /* MeshCaptureViewController.swift in Sources */,
+				8EE6553925A9873400CB4BF3 /* UIButton+IBDesignable.swift in Sources */,
 				8E26BAEC257DACA400978446 /* Renderer.swift in Sources */,
 				EE5843922589EF740026F6FA /* UTType+PolygonFileFormat.swift in Sources */,
 				EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */,
