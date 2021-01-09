@@ -86,7 +86,7 @@ int _captureSize;
 - (void)setupRenderer
 {
     self.renderer = vtkSmartPointer<vtkRenderer>::New();
-    self.renderer->SetBackground(0.3, 0.12, 0.25);
+    self.renderer->SetBackground(0.3, 0.12, 0.3);
     self.renderer->SetBackground2(0.12, 0.12, 0.25);
     self.renderer->GradientBackgroundOn();
     self.vtkView.renderWindow->AddRenderer(self.renderer);
@@ -113,11 +113,10 @@ int _captureSize;
         auto actor = vtkSmartPointer<vtkActor>::New();
         actor->SetMapper(mapper);
         self.renderer->AddActor(actor);
-//        self.renderer->GetActiveCamera()->Azimuth(120);
-//        self.renderer->GetActiveCamera()->Elevation(30);
-//        self.renderer->GetActiveCamera()->Dolly(1.0);
-//        self.renderer->ResetCameraClippingRange();
-        self.renderer->ResetCamera();
+        // Position the camera better, should move the cube tho
+        self.renderer->GetActiveCamera()->Azimuth(30);
+        self.renderer->GetActiveCamera()->Elevation(30);
+        self.renderer->GetActiveCamera()->Dolly(0.142);
     }
 }
 
@@ -166,6 +165,10 @@ int _captureSize;
     documentPicker.delegate = self;
     documentPicker.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:documentPicker animated:YES completion:nil];
+}
+
+- (IBAction)resetCameraButtonPressed:(id)sender {
+    [self resetCamera];
 }
 
 - (void)documentPicker:(UIDocumentPickerViewController*)controller
@@ -238,12 +241,7 @@ didPickDocumentsAtURLs:(nonnull NSArray<NSURL*>*)urls
     if (actor)
     {
         self.renderer->AddActor(actor);
-//        self.renderer->GetActiveCamera()->Azimuth(120);
-//        self.renderer->GetActiveCamera()->Elevation(30);
-//        self.renderer->GetActiveCamera()->Dolly(1.0);
-//        self.renderer->ResetCameraClippingRange();
-        self.renderer->ResetCamera();
-        [self.vtkView setNeedsDisplay];
+        [self resetCamera];
         alertTitle = @"Import";
         alertMessage = [NSString stringWithFormat:@"Imported %@", [url lastPathComponent]];
     }
@@ -273,12 +271,7 @@ didPickDocumentsAtURLs:(nonnull NSArray<NSURL*>*)urls
     if (actor)
     {
         self.renderer->AddActor(actor);
-//        self.renderer->GetActiveCamera()->Azimuth(120);
-//        self.renderer->GetActiveCamera()->Elevation(30);
-//        self.renderer->GetActiveCamera()->Dolly(1.0);
-//        self.renderer->ResetCameraClippingRange();
-        self.renderer->ResetCamera();
-        [self.vtkView setNeedsDisplay];
+        [self resetCamera];
 //        alertTitle = @"Import";
 //        alertMessage = @"Successfully imported capture";
     }
@@ -300,6 +293,14 @@ didPickDocumentsAtURLs:(nonnull NSArray<NSURL*>*)urls
         });
     }
 
+}
+
+- (void)resetCamera
+{
+    self.renderer->ResetCameraClippingRange();
+    self.renderer->ResetCamera();
+    [self.view setNeedsDisplay];
+    [self.vtkView setNeedsDisplay];
 }
 
 @end
