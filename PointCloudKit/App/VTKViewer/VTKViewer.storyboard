@@ -20,6 +20,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DIW-Kk-Ld2">
+                                <rect key="frame" x="204" y="453" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" name="Amazon"/>
+                            </activityIndicatorView>
                             <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" enableSetNeedsDisplay="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UxD-LD-F6G" userLabel="vtkView" customClass="VTKView">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <subviews>
@@ -71,14 +76,14 @@
                     <navigationItem key="navigationItem" id="Ttx-by-24l">
                         <rightBarButtonItems>
                             <barButtonItem title="Export" id="edD-ea-Kpd" userLabel="Export">
-                                <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="default"/>
+                                <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="large"/>
                                 <color key="tintColor" name="Amazon"/>
                                 <connections>
                                     <action selector="onExportButtonPressed:" destination="e5K-88-RHN" id="wFy-Cm-iY9"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" id="ffg-AP-LTH" userLabel="Add">
-                                <imageReference key="image" image="plus" catalog="system" symbolScale="default"/>
+                                <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
                                 <color key="tintColor" name="Amazon"/>
                                 <connections>
                                     <action selector="onAddDataButtonPressed:" destination="e5K-88-RHN" id="hlT-IL-dkH"/>
@@ -88,6 +93,8 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="DIW-Kk-Ld2" id="aht-2X-YKY"/>
+                        <outlet property="exportBarButtonItem" destination="edD-ea-Kpd" id="0F7-Yr-nyS"/>
                         <outlet property="vtkView" destination="UxD-LD-F6G" id="ulc-yY-XEZ"/>
                     </connections>
                 </viewController>

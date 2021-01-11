@@ -10,10 +10,8 @@
 #import <Foundation/Foundation.h>
 #import <MetalKit/MetalKit.h>
 
-#include "ShaderTypes.h"
-
 @interface VTKViewerViewController
-: UIViewController<UIGestureRecognizerDelegate, UIDocumentPickerDelegate>
+: UIViewController<UIGestureRecognizerDelegate, UIDocumentPickerDelegate, UIDocumentInteractionControllerDelegate>
 
 - (instancetype _Nonnull)initWithCoder:(NSCoder *_Nonnull)coder
                        particlesBuffer:(id<MTLBuffer>_Nullable)particlesBuffer
