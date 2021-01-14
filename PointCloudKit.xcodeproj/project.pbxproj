@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E258BAB25B0A42100DC916B /* UIViewController+SceneDepthSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E258BAA25B0A42100DC916B /* UIViewController+SceneDepthSupport.swift */; };
 		8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAB1257DAC0200978446 /* AppDelegate.swift */; };
 		8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */; };
 		8E26BAB9257DAC0200978446 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E26BAB7257DAC0200978446 /* Main.storyboard */; };
@@ -21,7 +22,6 @@
 		8E4F2DF82597145C001553B2 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F2DF72597145C001553B2 /* AboutViewModel.swift */; };
 		8E5B4709259AC20400FE4AF7 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5B4708259AC20400FE4AF7 /* About.storyboard */; };
 		8E5B470E259AC20E00FE4AF7 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */; };
-		8E5B4716259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */; };
 		8EE6553925A9873400CB4BF3 /* UIButton+IBDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */; };
 		8EE6554D25A9BACD00CB4BF3 /* VTKExporter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8EE6554C25A9BACD00CB4BF3 /* VTKExporter.mm */; };
 		EE0122912589E07B006AEC97 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122902589E07B006AEC97 /* Vertex.swift */; };
@@ -78,6 +78,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E258BAA25B0A42100DC916B /* UIViewController+SceneDepthSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SceneDepthSupport.swift"; sourceTree = "<group>"; };
 		8E26BAAE257DAC0200978446 /* PointCloudKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PointCloudKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E26BAB1257DAC0200978446 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudCaptureViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 		8E4F2DF72597145C001553B2 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		8E5B4708259AC20400FE4AF7 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 		8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ARKitSupportCheck.swift"; sourceTree = "<group>"; };
 		8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+IBDesignable.swift"; sourceTree = "<group>"; };
 		8EE6554C25A9BACD00CB4BF3 /* VTKExporter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKExporter.mm; sourceTree = "<group>"; };
 		8EE6555425A9BAFB00CB4BF3 /* VTKExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKExporter.h; sourceTree = "<group>"; };
@@ -251,13 +251,13 @@
 			isa = PBXGroup;
 			children = (
 				EEE90369257E02C100A682D8 /* UIView+blur.swift */,
-				8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */,
 				EE01F87425873D360044A160 /* UIColor+Palette.swift */,
 				EE2919AB25885DF7003E9C7C /* MTKView+RenderDestinationProvider.swift */,
 				EE5843912589EF740026F6FA /* UTType+PolygonFileFormat.swift */,
 				8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */,
 				EE68759B25A4693100FDAA7C /* C++ */,
 				EEE9034B257DD41700A682D8 /* Metal */,
+				8E258BAA25B0A42100DC916B /* UIViewController+SceneDepthSupport.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -629,6 +629,7 @@
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
 				8E5B470E259AC20E00FE4AF7 /* AboutViewController.swift in Sources */,
 				8EE6554D25A9BACD00CB4BF3 /* VTKExporter.mm in Sources */,
+				8E258BAB25B0A42100DC916B /* UIViewController+SceneDepthSupport.swift in Sources */,
 				8E4F2DF82597145C001553B2 /* AboutViewModel.swift in Sources */,
 				EE675FD225AD38FA00637ABE /* VTKPolyDataProcessors.mm in Sources */,
 				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
@@ -645,7 +646,6 @@
 				EE6752A42588BB4000F6FF89 /* MeshCaptureViewController+CoachingOverlay.swift in Sources */,
 				EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */,
 				EEE9036A257E02C100A682D8 /* UIView+blur.swift in Sources */,
-				8E5B4716259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift in Sources */,
 				EE01F87525873D360044A160 /* UIColor+Palette.swift in Sources */,
 				8E26BAB2257DAC0200978446 /* AppDelegate.swift in Sources */,
 				EE6875A125A4696700FDAA7C /* VTKGestureHandler.mm in Sources */,
