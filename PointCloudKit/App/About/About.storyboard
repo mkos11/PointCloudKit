@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="HKS-EM-c4U">
-                                <rect key="frame" x="20" y="282.5" width="374" height="420"/>
+                                <rect key="frame" x="20" y="182.5" width="374" height="483"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uZF-gB-rXv">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="150"/>
@@ -42,9 +43,9 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wah-y7-9DW">
-                                        <rect key="frame" x="0.0" y="320" width="374" height="100"/>
+                                        <rect key="frame" x="0.0" y="320" width="374" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="27g-55-nVA"/>
+                                            <constraint firstAttribute="height" constant="50" id="27g-55-nVA"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" name="Amazon"/>
@@ -55,17 +56,59 @@
                                             <action selector="contactUsTapped" destination="mef-aM-ogg" eventType="touchUpInside" id="O8v-bO-Qzn"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DmG-6e-7Vi">
+                                        <rect key="frame" x="0.0" y="390" width="374" height="10"/>
+                                        <color key="backgroundColor" name="Bone"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10" id="LNh-JH-Tqz"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LB1-xs-hCL">
+                                        <rect key="frame" x="0.0" y="420" width="374" height="19"/>
+                                        <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="12"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="  0xe60A29283577Be7843Beb2886fC762603492a89b" image="suit.diamond" catalog="system">
+                                            <color key="titleColor" name="CyberGrape"/>
+                                        </state>
+                                        <state key="selected" title="Copied to pasteboard!">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="highlighted" title=" ✅ Copied to Pastboard ✅">
+                                            <color key="titleColor" name="Amazon"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapEthDonateButton:" destination="mef-aM-ogg" eventType="touchUpInside" id="918-P7-vOx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zmO-wx-jY7">
+                                        <rect key="frame" x="0.0" y="459" width="374" height="24"/>
+                                        <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="12"/>
+                                        <color key="tintColor" red="1" green="0.89664049213435371" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="  35qmxVALkJFvyycJpeNk9rXZ2o2RXQTnfP">
+                                            <color key="titleColor" name="CyberGrape"/>
+                                            <imageReference key="image" image="bitcoinsign.circle.fill" catalog="system" symbolScale="large"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="1" green="0.89664049209999996" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted" title=" ✅ Copied to Pastboard ✅">
+                                            <color key="titleColor" name="Amazon"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapBtcDonateButton:" destination="mef-aM-ogg" eventType="touchUpInside" id="cyq-Uw-s5g"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" name="Bone"/>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PointCloud" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y8y-mq-Lne">
-                                <rect key="frame" x="144" y="144" width="126.5" height="24.5"/>
+                                <rect key="frame" x="144" y="94" width="126.5" height="24.5"/>
                                 <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="21"/>
                                 <color key="textColor" name="Amazon"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVU-cL-mLH">
-                                <rect key="frame" x="192.5" y="163.5" width="29" height="19"/>
+                                <rect key="frame" x="192.5" y="113.5" width="29" height="19"/>
                                 <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="16"/>
                                 <color key="textColor" name="CyberGrape"/>
                                 <nil key="highlightedColor"/>
@@ -78,8 +121,8 @@
                             <constraint firstItem="8ul-Y1-DKg" firstAttribute="trailing" secondItem="HKS-EM-c4U" secondAttribute="trailing" constant="20" id="a5r-AB-kLq"/>
                             <constraint firstItem="HKS-EM-c4U" firstAttribute="leading" secondItem="8ul-Y1-DKg" secondAttribute="leading" constant="20" id="iMw-jT-dJ4"/>
                             <constraint firstItem="fVU-cL-mLH" firstAttribute="top" secondItem="y8y-mq-Lne" secondAttribute="bottom" constant="-5" id="sh8-b7-hR4"/>
-                            <constraint firstItem="HKS-EM-c4U" firstAttribute="top" secondItem="fVU-cL-mLH" secondAttribute="bottom" constant="100" id="t5P-hq-sdK"/>
-                            <constraint firstItem="y8y-mq-Lne" firstAttribute="top" secondItem="8ul-Y1-DKg" secondAttribute="top" constant="100" id="tuo-Mc-JR6"/>
+                            <constraint firstItem="HKS-EM-c4U" firstAttribute="top" secondItem="fVU-cL-mLH" secondAttribute="bottom" constant="50" id="t5P-hq-sdK"/>
+                            <constraint firstItem="y8y-mq-Lne" firstAttribute="top" secondItem="8ul-Y1-DKg" secondAttribute="top" constant="50" id="tuo-Mc-JR6"/>
                             <constraint firstItem="fVU-cL-mLH" firstAttribute="centerX" secondItem="Rpy-Nl-Eol" secondAttribute="centerX" id="w3Q-gw-rIS"/>
                         </constraints>
                     </view>
@@ -91,7 +134,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bitcoinsign.circle.fill" catalog="system" width="128" height="121"/>
         <image name="paperplane" catalog="system" width="128" height="118"/>
+        <image name="suit.diamond" catalog="system" width="107" height="128"/>
         <namedColor name="Amazon">
             <color red="0.25499999523162842" green="0.48199999332427979" blue="0.3529999852180481" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

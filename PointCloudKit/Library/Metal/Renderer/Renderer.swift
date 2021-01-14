@@ -42,17 +42,17 @@ struct Constants {}
 
 extension Constants {
     struct Renderer {
-        static let defaultConfidence = 1
+        static let defaultConfidence = 0
 
-        static let defaultNumGridPoints = 750
+        static let defaultNumGridPoints = 2500
         static let minNumGridPoints = 100
         static let maxNumGridPoints = 10000
         
-        static let defaultMaxPoints = 2_000_000
+        static let defaultMaxPoints = 1_000_000
         static let minMaxPoints = 10_000
         static let maxMaxPoints = 15_000_000
         
-        static let defaultParticleSize: Float = 6.0
+        static let defaultParticleSize: Float = 5.0
         static let minParticleSize: Float = 0.0
         static let maxParticleSize: Float = 10.0
         
@@ -67,8 +67,8 @@ final class Renderer {
     // We only use portrait
     private let orientation = UIInterfaceOrientation.portrait
     // Camera's threshold values for detecting when the camera moves so that we can accumulate the points
-    private let cameraRotationThreshold = cos(2 * .degreesToRadian)
-    private let cameraTranslationThreshold: Float = pow(0.02, 2)   // (meter-squared)
+    private let cameraRotationThreshold = cos(5 * .degreesToRadian)
+    private let cameraTranslationThreshold: Float = pow(0.05, 2)   // (meter-squared)
     // The max number of command buffers in flight
     private let maxInFlightBuffers = 3
 
