@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cOt-2P-gQV">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home-->
+        <scene sceneID="CT1-bm-7wJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Home" id="qDB-X6-0gW" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="hxk-p6-4C0"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gX5-uk-Wyr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="825" y="-241"/>
+        </scene>
+        <!--App Navigation Controller-->
+        <scene sceneID="UwL-IF-tz6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" interfaceStyle="dark" id="cOt-2P-gQV" customClass="AppNavigationController" customModule="PointCloudKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tJH-d2-9Ax" customClass="App">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qDB-X6-0gW" kind="relationship" relationship="rootViewController" id="5F0-S1-U5X"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="goB-jL-0HD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="202.89855072463769" y="-241.07142857142856"/>
+        </scene>
+        <!--Unsupported View Controller-->
+        <scene sceneID="sfi-pn-e2B">
+            <objects>
+                <viewController storyboardIdentifier="unsupportedDeviceMessage" modalPresentationStyle="fullScreen" id="Tks-fj-2fV" userLabel="Unsupported View Controller" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="E2u-2e-Bgh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unsupported Device" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZe-et-rWG">
+                                <rect key="frame" x="26" y="363.5" width="362.5" height="33.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXh-Zp-bzm">
+                                <rect key="frame" x="26" y="405" width="362.5" height="86.5"/>
+                                <string key="text">To capture data, this app requires a LiDAR-capable device, such as the iPhone 12, the second-generation iPad Pro 11-inch and fourth-generation iPad Pro 12.9-inch.</string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="7Ph-2p-J1v"/>
+                        <color key="backgroundColor" name="Bone"/>
+                        <constraints>
+                            <constraint firstItem="GXh-Zp-bzm" firstAttribute="top" secondItem="YZe-et-rWG" secondAttribute="bottom" constant="8" symbolic="YES" id="2Sc-AA-Bct"/>
+                            <constraint firstItem="GXh-Zp-bzm" firstAttribute="centerX" secondItem="E2u-2e-Bgh" secondAttribute="centerX" id="LmD-oT-OF7"/>
+                            <constraint firstItem="GXh-Zp-bzm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="E2u-2e-Bgh" secondAttribute="leading" constant="20" symbolic="YES" id="Qe5-gP-zUK"/>
+                            <constraint firstItem="YZe-et-rWG" firstAttribute="centerX" secondItem="E2u-2e-Bgh" secondAttribute="centerX" id="QfX-vM-oi0"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GXh-Zp-bzm" secondAttribute="trailing" constant="20" symbolic="YES" id="TQd-OI-nKi"/>
+                            <constraint firstItem="YZe-et-rWG" firstAttribute="width" secondItem="GXh-Zp-bzm" secondAttribute="width" id="l1X-CB-B9i"/>
+                            <constraint firstItem="GXh-Zp-bzm" firstAttribute="centerY" secondItem="E2u-2e-Bgh" secondAttribute="centerY" id="zXb-cc-FjC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="LnO-2v-kEH"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sEC-f4-dcV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2497.1014492753625" y="-252.45535714285714"/>
+        </scene>
+        <!--About-->
+        <scene sceneID="nim-ER-vO3">
+            <objects>
+                <viewControllerPlaceholder storyboardName="About" id="UaW-LU-Vc1" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="t0A-kh-heE"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PGh-Id-Wmq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3222" y="-505"/>
+        </scene>
+        <!--App Navigation Controller-->
+        <scene sceneID="xY1-7m-IUW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" interfaceStyle="dark" navigationBarHidden="YES" id="Hv5-XE-GXb" customClass="AppNavigationController" customModule="PointCloudKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XeR-gS-VcE">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Tks-fj-2fV" kind="relationship" relationship="rootViewController" id="6US-Sz-P0q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wv4-PT-Ogg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1586.9565217391305" y="-252.45535714285714"/>
+        </scene>
+        <!--VTKViewer-->
+        <scene sceneID="4VQ-u5-B3Y">
+            <objects>
+                <viewControllerPlaceholder storyboardName="VTKViewer" id="yTc-jS-vMP" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Ab1-DB-JDO"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I4y-Nk-wYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3244" y="-544"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="Bone">
+            <color red="0.81599998474121094" green="0.80800002813339233" blue="0.72899997234344482" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
