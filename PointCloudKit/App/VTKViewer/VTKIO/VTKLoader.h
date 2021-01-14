@@ -11,10 +11,12 @@
 
 #include <vtk/vtkActor.h>
 #include <vtk/vtkSmartPointer.h>
+#include <vtk/vtkPolyData.h>
 
 @interface VTKLoader : NSObject
 
-+ (vtkSmartPointer<vtkActor>)loadFromURL:(NSURL*)url;
-+ (vtkSmartPointer<vtkActor>)loadPointCloudFromBuffer:(id<MTLBuffer>)particlesBuffer captureSize:(int)captureSize;
++ (vtkSmartPointer<vtkPolyData>)loadDefaultPointCloud;
++ (vtkSmartPointer<vtkPolyData>)loadFromURL:(NSURL*)url;
++ (vtkSmartPointer<vtkPolyData>)loadPointCloudFromBuffer:(id<MTLBuffer>)particlesBuffer captureSize:(int)captureSize;
 
 @end

@@ -23,7 +23,7 @@
 		8E5B470E259AC20E00FE4AF7 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */; };
 		8E5B4716259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */; };
 		8EE6553925A9873400CB4BF3 /* UIButton+IBDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */; };
-		8EE6554D25A9BACD00CB4BF3 /* VTKExportService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8EE6554C25A9BACD00CB4BF3 /* VTKExportService.mm */; };
+		8EE6554D25A9BACD00CB4BF3 /* VTKExporter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8EE6554C25A9BACD00CB4BF3 /* VTKExporter.mm */; };
 		EE0122912589E07B006AEC97 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122902589E07B006AEC97 /* Vertex.swift */; };
 		EE0122962589E083006AEC97 /* PolygonFileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0122952589E083006AEC97 /* PolygonFileFormat.swift */; };
 		EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */; };
@@ -41,6 +41,7 @@
 		EE6752A92588BB5F00F6FF89 /* ExtensionForMeshCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */; };
 		EE6752B12588BE3500F6FF89 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */; };
 		EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */; };
+		EE675FD225AD38FA00637ABE /* VTKPolyDataProcessors.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE675FD125AD38FA00637ABE /* VTKPolyDataProcessors.mm */; };
 		EE68749F258C708400FDAA7C /* Wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE68749E258C708400FDAA7C /* Wrapper.cpp */; };
 		EE68756325A42AFC00FDAA7C /* vtk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE68756225A42AFC00FDAA7C /* vtk.framework */; };
 		EE68759125A4681B00FDAA7C /* VTKLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE68759025A4681B00FDAA7C /* VTKLoader.mm */; };
@@ -48,6 +49,8 @@
 		EE6875A125A4696700FDAA7C /* VTKGestureHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE6875A025A4696700FDAA7C /* VTKGestureHandler.mm */; };
 		EE6875A725A4698700FDAA7C /* VTKView.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE6875A525A4698700FDAA7C /* VTKView.mm */; };
 		EE6875B125A5453800FDAA7C /* VTKViewer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6875B025A5453800FDAA7C /* VTKViewer.storyboard */; };
+		EE864EDC25ABEE7400494C19 /* VTKPointsProcessors.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE864EDB25ABEE7400494C19 /* VTKPointsProcessors.mm */; };
+		EE92B11625AF0B1000627DF9 /* keyboard_capture.ply in Resources */ = {isa = PBXBuildFile; fileRef = EE92B11225AF0AAC00627DF9 /* keyboard_capture.ply */; };
 		EEB0BE74258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */; };
 		EEBA7B592583432C0000AD1A /* SCNViewerViewModel+SCN.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */; };
 		EEBA7B6125835F700000AD1A /* SCNViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */; };
@@ -98,9 +101,8 @@
 		8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		8E5B4715259C085800FE4AF7 /* UIViewController+ARKitSupportCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ARKitSupportCheck.swift"; sourceTree = "<group>"; };
 		8EE6553825A9873400CB4BF3 /* UIButton+IBDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+IBDesignable.swift"; sourceTree = "<group>"; };
-		8EE6554C25A9BACD00CB4BF3 /* VTKExportService.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKExportService.mm; sourceTree = "<group>"; };
-		8EE6555425A9BAFB00CB4BF3 /* VTKExportService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKExportService.h; sourceTree = "<group>"; };
-		8EE6555825A9CA0000CB4BF3 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		8EE6554C25A9BACD00CB4BF3 /* VTKExporter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKExporter.mm; sourceTree = "<group>"; };
+		8EE6555425A9BAFB00CB4BF3 /* VTKExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKExporter.h; sourceTree = "<group>"; };
 		EE0122902589E07B006AEC97 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		EE0122952589E083006AEC97 /* PolygonFileFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonFileFormat.swift; sourceTree = "<group>"; };
 		EE01F86325873A5F0044A160 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Metra/Resources/Base.lproj/PointCloudCapture.storyboard; sourceTree = "<group>"; };
@@ -120,6 +122,8 @@
 		EE6752A82588BB5F00F6FF89 /* ExtensionForMeshCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForMeshCapture.swift; sourceTree = "<group>"; };
 		EE6752B02588BE3500F6FF89 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		EE6752BE2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+PLY.swift"; sourceTree = "<group>"; };
+		EE675FD125AD38FA00637ABE /* VTKPolyDataProcessors.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKPolyDataProcessors.mm; sourceTree = "<group>"; };
+		EE675FD625AD397000637ABE /* VTKPolyDataProcessors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKPolyDataProcessors.h; sourceTree = "<group>"; };
 		EE68749E258C708400FDAA7C /* Wrapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wrapper.cpp; sourceTree = "<group>"; };
 		EE68756225A42AFC00FDAA7C /* vtk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vtk.framework; path = ../../../../usr/local/Frameworks/vtk.framework; sourceTree = "<group>"; };
 		EE68758F25A4681B00FDAA7C /* VTKLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKLoader.h; sourceTree = "<group>"; };
@@ -131,10 +135,19 @@
 		EE6875A525A4698700FDAA7C /* VTKView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKView.mm; sourceTree = "<group>"; };
 		EE6875A625A4698700FDAA7C /* VTKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKView.h; sourceTree = "<group>"; };
 		EE6875B025A5453800FDAA7C /* VTKViewer.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = VTKViewer.storyboard; sourceTree = "<group>"; };
+		EE864ED725ABEDE700494C19 /* VTKPointsProcessors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKPointsProcessors.h; sourceTree = "<group>"; };
+		EE864EDB25ABEE7400494C19 /* VTKPointsProcessors.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VTKPointsProcessors.mm; sourceTree = "<group>"; };
+		EE92B11225AF0AAC00627DF9 /* keyboard_capture.ply */ = {isa = PBXFileReference; lastKnownFileType = file; path = keyboard_capture.ply; sourceTree = "<group>"; };
 		EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointCloudCaptureViewController+CoachingOverlay.swift"; sourceTree = "<group>"; };
 		EEBA7B582583432C0000AD1A /* SCNViewerViewModel+SCN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNViewerViewModel+SCN.swift"; sourceTree = "<group>"; };
 		EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewController.swift; sourceTree = "<group>"; };
 		EEBA7B692583607B0000AD1A /* SCNViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewerViewModel.swift; sourceTree = "<group>"; };
+		EECB604B25AED0FE00B40EE4 /* dude_small_point_cloud.ply */ = {isa = PBXFileReference; lastKnownFileType = file; path = dude_small_point_cloud.ply; sourceTree = "<group>"; };
+		EECB604D25AED0FE00B40EE4 /* glucose.xyz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = glucose.xyz; sourceTree = "<group>"; };
+		EECB604E25AED0FE00B40EE4 /* cube.vtk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.vtk; sourceTree = "<group>"; };
+		EECB604F25AED0FF00B40EE4 /* dice.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dice.obj; sourceTree = "<group>"; };
+		EECB605125AED0FF00B40EE4 /* Menger_sponge_sample.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Menger_sponge_sample.stl; sourceTree = "<group>"; };
+		EECB607C25AEDC9800B40EE4 /* Menger_sponge_cloud_640.ply */ = {isa = PBXFileReference; lastKnownFileType = file; path = Menger_sponge_cloud_640.ply; sourceTree = "<group>"; };
 		EECF26252589BEE20007746A /* PolygonFileFormat+Ascii.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PolygonFileFormat+Ascii.swift"; sourceTree = "<group>"; };
 		EEE90314257DCE9800A682D8 /* PointCloudKit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PointCloudKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		EEE90369257E02C100A682D8 /* UIView+blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+blur.swift"; sourceTree = "<group>"; };
@@ -252,6 +265,7 @@
 		8E26BAF8257DAD2200978446 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EECB604A25AED0D000B40EE4 /* test3dFiles */,
 				EE5A4D7F25A69F3C00601B6F /* PointCloudKit-Swift.h */,
 				EEE90314257DCE9800A682D8 /* PointCloudKit-Bridging-Header.h */,
 				EE17E8A125821BA200F6DADF /* PointCloudKit.entitlements */,
@@ -270,15 +284,6 @@
 				8E5B470D259AC20E00FE4AF7 /* AboutViewController.swift */,
 			);
 			path = About;
-			sourceTree = "<group>";
-		};
-		8EE6556825A9CD8600CB4BF3 /* Export */ = {
-			isa = PBXGroup;
-			children = (
-				8EE6555425A9BAFB00CB4BF3 /* VTKExportService.h */,
-				8EE6554C25A9BACD00CB4BF3 /* VTKExportService.mm */,
-			);
-			path = Export;
 			sourceTree = "<group>";
 		};
 		EE0122882589E04A006AEC97 /* Model */ = {
@@ -321,8 +326,9 @@
 		EE06878225A695C800A8FD4E /* VTKViewer */ = {
 			isa = PBXGroup;
 			children = (
+				EE864ECE25ABEDB100494C19 /* VTKProcessors */,
 				EE06878525A6960000A8FD4E /* VTKGestureHandler */,
-				EE06878425A695F800A8FD4E /* VTKLoader */,
+				EE06878425A695F800A8FD4E /* VTKIO */,
 				EE06878325A695E500A8FD4E /* VTKView */,
 				EE68759625A4692B00FDAA7C /* VTKViewerViewController.h */,
 				EE68759525A4692B00FDAA7C /* VTKViewerViewController.mm */,
@@ -340,13 +346,15 @@
 			path = VTKView;
 			sourceTree = "<group>";
 		};
-		EE06878425A695F800A8FD4E /* VTKLoader */ = {
+		EE06878425A695F800A8FD4E /* VTKIO */ = {
 			isa = PBXGroup;
 			children = (
+				8EE6555425A9BAFB00CB4BF3 /* VTKExporter.h */,
+				8EE6554C25A9BACD00CB4BF3 /* VTKExporter.mm */,
 				EE68758F25A4681B00FDAA7C /* VTKLoader.h */,
 				EE68759025A4681B00FDAA7C /* VTKLoader.mm */,
 			);
-			path = VTKLoader;
+			path = VTKIO;
 			sourceTree = "<group>";
 		};
 		EE06878525A6960000A8FD4E /* VTKGestureHandler */ = {
@@ -361,7 +369,6 @@
 		EE29199425885366003E9C7C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8EE6556825A9CD8600CB4BF3 /* Export */,
 				EE29198F25884116003E9C7C /* PointCloudCaptureRenderingService.swift */,
 			);
 			path = Services;
@@ -370,7 +377,6 @@
 		EE34F6BE258C5D130028EC3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8EE6555825A9CA0000CB4BF3 /* libc++.tbd */,
 				EE68756225A42AFC00FDAA7C /* vtk.framework */,
 			);
 			name = Frameworks;
@@ -384,6 +390,17 @@
 			path = "C++";
 			sourceTree = "<group>";
 		};
+		EE864ECE25ABEDB100494C19 /* VTKProcessors */ = {
+			isa = PBXGroup;
+			children = (
+				EE864ED725ABEDE700494C19 /* VTKPointsProcessors.h */,
+				EE864EDB25ABEE7400494C19 /* VTKPointsProcessors.mm */,
+				EE675FD625AD397000637ABE /* VTKPolyDataProcessors.h */,
+				EE675FD125AD38FA00637ABE /* VTKPolyDataProcessors.mm */,
+			);
+			path = VTKProcessors;
+			sourceTree = "<group>";
+		};
 		EEBA7B6525835F8A0000AD1A /* SCNViewer */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +411,20 @@
 				EEBA7B6025835F700000AD1A /* SCNViewerViewController.swift */,
 			);
 			path = SCNViewer;
+			sourceTree = "<group>";
+		};
+		EECB604A25AED0D000B40EE4 /* test3dFiles */ = {
+			isa = PBXGroup;
+			children = (
+				EE92B11225AF0AAC00627DF9 /* keyboard_capture.ply */,
+				EECB607C25AEDC9800B40EE4 /* Menger_sponge_cloud_640.ply */,
+				EECB604E25AED0FE00B40EE4 /* cube.vtk */,
+				EECB604F25AED0FF00B40EE4 /* dice.obj */,
+				EECB604B25AED0FE00B40EE4 /* dude_small_point_cloud.ply */,
+				EECB604D25AED0FE00B40EE4 /* glucose.xyz */,
+				EECB605125AED0FF00B40EE4 /* Menger_sponge_sample.stl */,
+			);
+			path = test3dFiles;
 			sourceTree = "<group>";
 		};
 		EEE9034B257DD41700A682D8 /* Metal */ = {
@@ -537,6 +568,7 @@
 				8E26BABE257DAC0500978446 /* LaunchScreen.storyboard in Resources */,
 				8E26BABB257DAC0500978446 /* Assets.xcassets in Resources */,
 				EE01F86425873A5F0044A160 /* PointCloudCapture.storyboard in Resources */,
+				EE92B11625AF0B1000627DF9 /* keyboard_capture.ply in Resources */,
 				8E26BAB9257DAC0200978446 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -590,13 +622,15 @@
 				8E26BAE9257DACA400978446 /* Shaders.metal in Sources */,
 				EE2919A325885BC7003E9C7C /* PointCloudCaptureViewModel.swift in Sources */,
 				EE0122912589E07B006AEC97 /* Vertex.swift in Sources */,
+				EE864EDC25ABEE7400494C19 /* VTKPointsProcessors.mm in Sources */,
 				8E26BAEA257DACA400978446 /* MetalBuffer.swift in Sources */,
 				EE68749F258C708400FDAA7C /* Wrapper.cpp in Sources */,
 				EE6752BF2589962D00F6FF89 /* SCNViewerViewModel+PLY.swift in Sources */,
 				8E26BAB6257DAC0200978446 /* PointCloudCaptureViewController.swift in Sources */,
 				8E5B470E259AC20E00FE4AF7 /* AboutViewController.swift in Sources */,
-				8EE6554D25A9BACD00CB4BF3 /* VTKExportService.mm in Sources */,
+				8EE6554D25A9BACD00CB4BF3 /* VTKExporter.mm in Sources */,
 				8E4F2DF82597145C001553B2 /* AboutViewModel.swift in Sources */,
+				EE675FD225AD38FA00637ABE /* VTKPolyDataProcessors.mm in Sources */,
 				EE29199B258857F5003E9C7C /* PointCloudCaptureRenderingService.swift in Sources */,
 				EEBA7B6A2583607B0000AD1A /* SCNViewerViewModel.swift in Sources */,
 				8E26BAEB257DACA400978446 /* Helpers.swift in Sources */,
@@ -827,13 +861,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PointCloudKit/Resources/PointCloudKit-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -859,13 +893,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metra.Metra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PointCloudKit/Resources/PointCloudKit-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;

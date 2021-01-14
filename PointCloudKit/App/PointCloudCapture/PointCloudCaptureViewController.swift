@@ -117,8 +117,6 @@ final class PointCloudCaptureViewController: UIViewController, ARSessionDelegate
     
     // Move to a viewModel/coordinator
     private func navigateToVtkViewer() {
-//        let viewModel = SCNViewerViewModel(verticesFuture: self.viewModel.vertices)
-//        let viewerViewController = SCNViewerViewController(viewModel: viewModel)
         let coderBlock: ((NSCoder) -> VTKViewerViewController?) = { [weak self] (coder) -> VTKViewerViewController? in
             guard let self = self else { return nil }
             return VTKViewerViewController.init(coder: coder,
@@ -139,7 +137,7 @@ extension PointCloudCaptureViewController {
         setupMetricsOverlay()
         setupControlsOverlay()
         #if DEBUG
-//        viewModel.resumeCapture()
+        viewModel.resumeCapture()
         viewModel.shouldShowUI.send(true)
         #else
         setupCoachingOverlay()

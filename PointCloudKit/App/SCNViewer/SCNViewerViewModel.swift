@@ -36,13 +36,6 @@ final class SCNViewerViewModel {
     
     var filename: String { "metraPointCloud_\(Date().humanReadableTimestamp)" }
 
-//    init(nodes: [SCNNode], presentedContent: ViewerContentType) {
-//        self.presentedContent = presentedContent
-//        generateScene(using: nodes)
-//            .compactMap { $0 }
-//            .assign(to: &$scene)
-//    }
-
     init(verticesFuture: Future<[Vertex], Error>) {
         presentedContent = .pointCloud
         // Wait for vertice export from renderer...

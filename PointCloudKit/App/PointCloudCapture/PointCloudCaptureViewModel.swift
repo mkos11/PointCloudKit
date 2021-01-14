@@ -187,26 +187,6 @@ final class PointCloudCaptureViewModel {
     }
     
     var particlesBuffer: MTLBuffer {
-//        / Either convert everything to CPU memory here - 0.5sec per 100k point in debug mod -- TO STUDY
-//        / Other option is to pass an unsafe MTLBuffer and the count, and do some processing in the VTkLoader
-//        print(Date().timeIntervalSince1970)
-//        let test = rendererService.renderer.particlesBuffer.extractMembers(memberID: 0,
-//                                                                           expectedType: ParticleUniforms.self,
-//                                                                           upperBound: currentPointCount)
-//        print(Date().timeIntervalSince1970)
-//        print(test.count)
-//        
-//        var index = 0
-//        while index < 10 {
-//            print("Before cast point (%d) %f, %f, %f -- and confidence %f",
-//                  index,
-//                  test[index].position.x,
-//                  test[index].position.y,
-//                  test[index].position.z,
-//                  test[index].confidence)
-//            index += 1
-//        }
-    
-    return rendererService.renderer.particlesBuffer.rawMtlBuffer
+        rendererService.renderer.particlesBuffer.rawMtlBuffer
     }
 }

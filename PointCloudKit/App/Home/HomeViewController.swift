@@ -20,6 +20,14 @@ final class HomeViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        assertSceneDepthSupport()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "capturePoint", "captureSegue":
+            assertSceneDepthSupport()
+        default:
+            return
+        }
     }
 }
