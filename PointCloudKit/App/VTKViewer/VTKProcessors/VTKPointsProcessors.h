@@ -20,9 +20,14 @@
 
 #include <vtk/vtkStatisticalOutlierRemoval.h>
 
+#include <vtk/vtkMaskPoints.h>
+
 @interface VTKPointsProcessors : NSObject
 
-+ (vtkSmartPointer<vtkPolyDataAlgorithm>)glyphingWith:(double)sphereRadius inputAlgorithm:(vtkAlgorithm*)inputAlgorithm;
++ (vtkSmartPointer<vtkPolyDataAlgorithm>)glyphingWith:(double)sphereRadius
+                                       inputAlgorithm:(vtkAlgorithm*)inputAlgorithm;
++ (vtkSmartPointer<vtkPolyDataAlgorithm>)maskingWithRatio:(int)ratio
+                                          inputAlgorithm:(vtkAlgorithm*)inputAlgorithm;
 + (vtkSmartPointer<vtkPolyDataAlgorithm>)statisticalOutlierRemovalWithSampleSize:(int)sampleSize
                                                                   inputAlgorithm:(vtkAlgorithm*)inputAlgorithm;
 

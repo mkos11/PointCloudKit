@@ -11,7 +11,7 @@
         <!--VTK View Controller-->
         <scene sceneID="Gik-ib-Klh">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="e5K-88-RHN" userLabel="VTK View Controller" customClass="VTKViewerViewController" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" interfaceStyle="dark" id="e5K-88-RHN" userLabel="VTK View Controller" customClass="VTKViewerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cgm-0q-x7R"/>
                         <viewControllerLayoutGuide type="bottom" id="JOC-In-Jga"/>
@@ -20,7 +20,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DIW-Kk-Ld2">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="DIW-Kk-Ld2">
                                 <rect key="frame" x="204" y="453" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" name="Amazon"/>
@@ -330,7 +330,12 @@
                     <connections>
                         <outlet property="activityIndicator" destination="DIW-Kk-Ld2" id="aht-2X-YKY"/>
                         <outlet property="exportBarButtonItem" destination="edD-ea-Kpd" id="0F7-Yr-nyS"/>
+                        <outlet property="importButton" destination="ffg-AP-LTH" id="aSn-eK-xR2"/>
+                        <outlet property="outlierFilterButton" destination="Gsi-3p-rU7" id="fkz-P8-bWe"/>
+                        <outlet property="resetCameraPositionButton" destination="1JQ-c2-Y0D" id="sod-8H-niy"/>
                         <outlet property="revertButton" destination="L3l-ks-6yo" id="RdV-PJ-XDU"/>
+                        <outlet property="simplifyCloudButton" destination="ywD-SP-QO6" id="Zic-V4-q63"/>
+                        <outlet property="surfaceReconstructionButton" destination="B0U-c3-fNH" id="gbd-Xn-Upe"/>
                         <outlet property="vtkView" destination="UxD-LD-F6G" id="ulc-yY-XEZ"/>
                     </connections>
                 </viewController>

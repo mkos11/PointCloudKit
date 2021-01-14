@@ -29,15 +29,32 @@
     glyph3D->SetSourceConnection(sphereSource->GetOutputPort());
     glyph3D->SetColorModeToColorByScalar();
     glyph3D->ScalingOff();
+    glyph3D->OrientOff();
     glyph3D->Update();
     std::cout << "  -< Completed in " << (double)(clock() - tStart) / CLOCKS_PER_SEC << std::endl;
     return glyph3D;
 }
 
+// Mask points (generating vertices on or off)
++ (vtkSmartPointer<vtkPolyDataAlgorithm>)maskingWithRatio:(int)ratio
+                                          inputAlgorithm:(vtkAlgorithm*)inputAlgorithm
+{
+    clock_t tStart = clock();
+    std::cout << "> Starting masking points..." << std::endl;
+    auto maskPoints = vtkSmartPointer<vtkMaskPoints>::New();
+    maskPoints->SetInputConnection(inputAlgorithm->GetOutputPort());
+//    maskPoints->SetGenerateVertices(true);
+//    maskPoints->SetRandomMode(true);
+//    maskPoints->SetRandomModeType(type);
+    maskPoints->SetOnRatio(ratio);
+    maskPoints->RandomModeOn();
+    maskPoints->Update();
+    std::cout << "   -- # POLYDATA now have " << maskPoints->GetOutput()->GetNumberOfPoints() << std::endl;
+    std::cout << "  -< Completed in " << (double)(clock() - tStart) / CLOCKS_PER_SEC << std::endl;
+    return maskPoints;
+}
 
 /// Takes points and return points
-/// @param sampleSize
-/// @param inputAlgorithm 
 + (vtkSmartPointer<vtkPolyDataAlgorithm>)statisticalOutlierRemovalWithSampleSize:(int)sampleSize
                                                                   inputAlgorithm:(vtkAlgorithm*)inputAlgorithm
 {
@@ -50,7 +67,7 @@
     statisticalRemoval->Update();
     
     std::cout << "   -- # of removed points: " << statisticalRemoval->GetNumberOfPointsRemoved() << std::endl;
-    std::cout << "   -- # POLYDATA Now have " << statisticalRemoval->GetOutput()->GetNumberOfPoints() << " points" << std::endl;
+    std::cout << "   -- # POLYDATA now have " << statisticalRemoval->GetOutput()->GetNumberOfPoints() << " points" << std::endl;
     
     std::cout << "  -< Completed in " << (double)(clock() - tStart) / CLOCKS_PER_SEC << std::endl;
     return statisticalRemoval;
