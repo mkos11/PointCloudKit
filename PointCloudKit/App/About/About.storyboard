@@ -17,31 +17,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="HKS-EM-c4U">
-                                <rect key="frame" x="20" y="282.5" width="374" height="360"/>
+                                <rect key="frame" x="20" y="282.5" width="374" height="420"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Simple app derived from Apple's provided test applications to allow a (hopefully crashless!) LiDAR exploration." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uZF-gB-rXv">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="90"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uZF-gB-rXv">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="150"/>
                                         <color key="backgroundColor" name="Bone"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="90" id="17q-Mz-u4X"/>
+                                            <constraint firstAttribute="height" constant="150" id="17q-Mz-u4X"/>
                                         </constraints>
+                                        <string key="text">Update: Thanks a lot to VTK c++ lib and KitWare for their amazing lib! It wasn't easy to compile for ARM64 but it's working well! A lot of improvments and processing coming now that the foundations have been laid down. Cheers, thanks for your support!</string>
                                         <color key="textColor" name="Amazon"/>
                                         <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="58B-IY-qVh">
-                                        <rect key="frame" x="0.0" y="110" width="374" height="130"/>
+                                        <rect key="frame" x="0.0" y="170" width="374" height="130"/>
                                         <color key="backgroundColor" name="Bone"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="130" id="qWL-GI-iul"/>
                                         </constraints>
-                                        <string key="text">Currently supports PLY (PolygonFileFormat) and SCN (SceneKit) export, but point cloud is dense. Working with VTK c++ lib to implement Voxel Grid filtering in a future version if anyone requests it.</string>
+                                        <string key="text">Next release will bring new tool for editing and processing points clouds. If you want to support please follow @opales_hk on instagram or visit www.opales.hk</string>
                                         <color key="textColor" name="Amazon"/>
                                         <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wah-y7-9DW">
-                                        <rect key="frame" x="0.0" y="260" width="374" height="100"/>
+                                        <rect key="frame" x="0.0" y="320" width="374" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="27g-55-nVA"/>
                                         </constraints>
