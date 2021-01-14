@@ -330,9 +330,9 @@
 				EE06878525A6960000A8FD4E /* VTKGestureHandler */,
 				EE06878425A695F800A8FD4E /* VTKIO */,
 				EE06878325A695E500A8FD4E /* VTKView */,
+				EE6875B025A5453800FDAA7C /* VTKViewer.storyboard */,
 				EE68759625A4692B00FDAA7C /* VTKViewerViewController.h */,
 				EE68759525A4692B00FDAA7C /* VTKViewerViewController.mm */,
-				EE6875B025A5453800FDAA7C /* VTKViewer.storyboard */,
 			);
 			path = VTKViewer;
 			sourceTree = "<group>";
@@ -445,8 +445,8 @@
 				EE01F86225873A5F0044A160 /* PointCloudCapture.storyboard */,
 				EE2919A225885BC7003E9C7C /* PointCloudCaptureViewModel.swift */,
 				8E26BAB5257DAC0200978446 /* PointCloudCaptureViewController.swift */,
-				EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */,
 				EE2919B325885F7A003E9C7C /* PointCloudCaptureViewController+ARSessionDelegate.swift */,
+				EEB0BE73258762C9008D1D0B /* PointCloudCaptureViewController+CoachingOverlay.swift */,
 			);
 			path = PointCloudCapture;
 			sourceTree = "<group>";

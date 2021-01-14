@@ -21,6 +21,8 @@
     auto cleanPolyData = vtkSmartPointer<vtkCleanPolyData>::New();
     cleanPolyData->SetInputConnection(inputAlgorithm->GetOutputPort());
     cleanPolyData->SetTolerance(tolerance);
+    cleanPolyData->SetAbsoluteTolerance(tolerance);
+    cleanPolyData->SetToleranceIsAbsolute(true);
     cleanPolyData->Update();
     std::cout << "   -- # POLYDATA Now have " << cleanPolyData->GetOutput()->GetNumberOfPoints() << " points" << std::endl;
     
@@ -34,7 +36,7 @@
     std::cout << "Starting SURFACE RECONSTRUCT..." << std::endl;
     
     auto namedColor = vtkSmartPointer<vtkNamedColors>::New();
-    int sampleSize = inputAlgorithm->GetOutput()->GetNumberOfPoints() * .00005;
+    int sampleSize = inputAlgorithm->GetOutput()->GetNumberOfPoints() * 0.001;
     if (sampleSize < 10) {
         sampleSize = 10;
     }
@@ -65,8 +67,8 @@
     }
     auto maxRange = std::max(std::max(range[0], range[1]), range[2]);
     
-    int dimension = 512;
-    double radius = maxRange / static_cast<double>(dimension) * 3; // ~3 voxels
+    int dimension = 1024;
+    double radius = maxRange / static_cast<double>(dimension) * 4; // ~4 voxels
     
     std::cout << "    -  Radius: " << radius << std::endl;
     
@@ -81,8 +83,8 @@
                         bounds[5] + range[2] * .1);
     
     auto surface = vtkSmartPointer<vtkExtractSurface>::New();
-    surface->SetInputConnection (distance->GetOutputPort());
-    surface->SetRadius(radius * .99);
+    surface->SetInputConnection(distance->GetOutputPort());
+    surface->SetRadius(radius * 0.99);
     surface->HoleFillingOn();
     surface->Update();
     

@@ -82,11 +82,6 @@
     return polyData;
 }
 
-+ (vtkSmartPointer<vtkPolyData>)loadDefaultPointCloud
-{
-    return [self loadFromURL:nil];
-}
-
 + (vtkSmartPointer<vtkPolyData>)loadPointCloudFromBuffer:(id<MTLBuffer>)particlesBuffer captureSize:(int)captureSize
 {
     auto polyData = vtkSmartPointer<vtkPolyData>::New();

@@ -89,7 +89,7 @@
         <!--App Navigation Controller-->
         <scene sceneID="xY1-7m-IUW">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Hv5-XE-GXb" customClass="AppNavigationController" customModule="PointCloudKit" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" interfaceStyle="dark" navigationBarHidden="YES" id="Hv5-XE-GXb" customClass="AppNavigationController" customModule="PointCloudKit" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="XeR-gS-VcE">
                         <autoresizingMask key="autoresizingMask"/>

@@ -35,6 +35,16 @@
 #include <vtk/vtkProperty.h>
 #include <vtk/vtkNamedColors.h>
 
+#include <vtk/vtkCornerAnnotation.h>
+
+#include <vtk/vtkProgressBarWidget.h>
+#include <vtk/vtkProgressBarRepresentation.h>
+
+#include <vtk/vtkVertexGlyphFilter.h>
+#include <vtk/vtkMaskPoints.h>
+#include <vtk/vtkCallbackCommand.h>
+#include <vtk/vtkTextProperty.h>
+
 // SupportedExportType defined in VTKExporter.h
 const char* pathExtensionFor(const SupportedExportType exportType) {
     switch (exportType) {
@@ -76,10 +86,16 @@ const std::string utiFor(const SupportedExportType exportType) {
 @property (strong, nonatomic) IBOutlet VTKView* vtkView;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *exportBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *importButton;
 
 @property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
 
+
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *resetCameraPositionButton;
+@property (weak, nonatomic) IBOutlet UIButton *outlierFilterButton;
+@property (weak, nonatomic) IBOutlet UIButton *simplifyCloudButton;
+@property (weak, nonatomic) IBOutlet UIButton *surfaceReconstructionButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *revertButton;
 
@@ -87,8 +103,11 @@ const std::string utiFor(const SupportedExportType exportType) {
 @property (nonatomic) vtkSmartPointer<vtkRenderer> renderer;
 
 @property (nonatomic) vtkSmartPointer<vtkPolyData> revertablePolyData;
-
 @property (nonatomic) vtkSmartPointer<vtkPolyData> polyData;
+
+@property (nonatomic) vtkSmartPointer<vtkPolyData> polyDataGlyphed;
+
+@property (nonatomic) vtkSmartPointer<vtkProgressBarRepresentation> progressBarVtk;
 
 // VTK Logic
 @property (nonatomic) VTKGestureHandler* vtkGestureHandler;
@@ -103,7 +122,8 @@ const std::string utiFor(const SupportedExportType exportType) {
  */
 id<MTLBuffer> _particlesBuffer = nil;
 int _captureSize;
-
+vtkSmartPointer<vtkCornerAnnotation> cornerAnnotation;
+dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
 
 //id<MTLTexture> _diffuseTexture;
 
@@ -126,15 +146,38 @@ int _captureSize;
     [super viewDidLoad];
     
     [self.navigationController setNavigationBarHidden:FALSE animated:TRUE];
-
-    // UI Gestures
-    [self setupGestures];
     
     // Rendering
     [self setupRenderer];
     
+    // CornerANnotation
+    cornerAnnotation = [self createCornerAnnotation];
+    
+    // setup FPS
+    auto fpsUpdateCallback = [self setupFpsCounterCallback];
+    self.renderer->AddObserver(vtkCommand::EndEvent, fpsUpdateCallback);
+    
+    // setup progress bar
+    self.progressBarVtk = vtkSmartPointer<vtkProgressBarRepresentation>::New();
+    
+    self.progressBarVtk->SetProgressRate(0.4);
+    self.progressBarVtk->SetPosition(0.4, 0.4);
+    self.progressBarVtk->SetProgressBarColor(0.2, 0.4, 0);
+    self.progressBarVtk->SetBackgroundColor(1, 1, 0.5);
+    self.progressBarVtk->DrawBackgroundOn();
+    
     // VTK Logic
     self.vtkGestureHandler = [[VTKGestureHandler alloc] initWithVtkView:self.vtkView];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+//     Load object
+    [self setupInitialRenderContent];
+}
+
+- (void)dealloc {
+    self.renderer->RemoveAllObservers();
 }
 
 - (void)didReceiveMemoryWarning
@@ -146,7 +189,9 @@ int _captureSize;
 /// DidSet for revertablePolyData
 - (void)setRevertablePolyData:(vtkSmartPointer<vtkPolyData>)revertablePolyData {
     _revertablePolyData = revertablePolyData;
-    [self.revertButton setEnabled:true];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.revertButton setEnabled:true];
+    });
 }
 
 // MARK: Renderer
@@ -157,69 +202,24 @@ int _captureSize;
     self.renderer->SetBackground(0.3, 0.12, 0.3);
     self.renderer->SetBackground2(0.12, 0.12, 0.40);
     self.renderer->GradientBackgroundOn();
-    [self resetCamera];
     self.vtkView.renderWindow->AddRenderer(self.renderer);
-    
+}
+
+- (void)setupInitialRenderContent
+{
     // Load initial data
-    if (_particlesBuffer != nil)
-    {
-        [self loadPointCloudFromBuffer: _particlesBuffer captureSize: _captureSize];
-    }
-    else if (self.initialUrl)
-    {
-        // If URL given when launching app,
-        // load that file
+    if (_particlesBuffer != nil) {
+        [self loadPointCloudFromBuffer:_particlesBuffer captureSize:_captureSize];
+    } else if (self.initialUrl) {
         [self loadFile:self.initialUrl];
         self.initialUrl = nil;
-    }
-    else
-    {
-        self.polyData = [VTKLoader loadDefaultPointCloud];
-        auto actor = [self actorFromPolydata:self.polyData];
-        self.renderer->AddActor(actor);
-        [self resetCamera];
+    } else {
+        // load default point cloud by passing nil
+        [self loadFileInternal:nil];
     }
 }
 
 // MARK: Gestures
-
-- (void)setupGestures
-{
-    // Add the double tap gesture recognizer
-    UITapGestureRecognizer* doubleTapRecognizer =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleTap:)];
-    [doubleTapRecognizer setNumberOfTapsRequired:2];
-    [self.view addGestureRecognizer:doubleTapRecognizer];
-    doubleTapRecognizer.delegate = self;
-}
-
-- (void)onDoubleTap:(UITapGestureRecognizer*)sender
-{
-}
-
-//// MARK: Files
-////
-//- (NSArray<UTType*>*)supportedFileTypes
-//{
-//    auto vtkUtiString = [NSString stringWithUTF8String:utiFor(::visualisationToolKit).c_str()];
-//    auto xyzUtiString = [NSString stringWithUTF8String:utiFor(::xyz).c_str()];
-//    auto publicDataTypeString = [NSString stringWithUTF8String:"public.data"];
-////    auto publicDataType = [UTType typeWithFilenameExtension:<#(nonnull NSString *)#>]
-//    return [[NSArray<UTType*> alloc ] initWithObjects:
-//            [UTType typeWithIdentifier:kUTTypePolygon],
-//            [UTType typeWithIdentifier:kUTTypeStereolithography],
-//            [UTType typeWithIdentifier:kUTType3dObject],
-//            [UTType typeWithFilenameExtension: [NSString stringWithUTF8String: "xyz"]],
-//            [UTType typeWithFilenameExtension: [NSString stringWithUTF8String: "XYZ"]],
-//            [UTType typeWithFilenameExtension: [NSString stringWithUTF8String: "xyzrgb"]],
-//            [UTType typeWithFilenameExtension: [NSString stringWithUTF8String: "XYZRGB"]],
-//            [UTType typeWithFilenameExtension: [NSString stringWithUTF8String: "vtk"]],
-//            [UTType typeWithFilenameExtension: [NSString stringWithUTF8String: "VTK"]],
-////            [UTType exportedTypeWithIdentifier:vtkUtiString],
-////            [UTType exportedTypeWithIdentifier:xyzUtiString],
-//            nil
-//            ];
-//}
 
 - (IBAction)onAddDataButtonPressed:(id)sender
 {
@@ -231,9 +231,7 @@ int _captureSize;
         @"public.geometry-definition-format",
         @"com.pointcloudkit.vtk",
         @"com.kitware.vtk"
-//        @"public.data"
     ] inMode:UIDocumentPickerModeImport];
-    //[[UIDocumentPickerViewController alloc]  initForOpeningContentTypes:supportedFileTypes asCopy:true];
     documentPicker.shouldShowFileExtensions = true;
     documentPicker.delegate = self;
     documentPicker.allowsMultipleSelection = false;
@@ -301,7 +299,7 @@ int _captureSize;
 }
 
 - (IBAction)resetCameraButtonPressed:(id)sender {
-    [self resetCamera];
+    [self resetCameraAndUpdate];
 }
 
 - (IBAction)statisticalOutlierRemovalFilteringButtonPressed:(id)sender {
@@ -338,181 +336,162 @@ int _captureSize;
 {
     // If the view is not yet loaded, keep track of the url
     // and load it after everything is initialized
-    if (!self.isViewLoaded)
-    {
+    if (!self.isViewLoaded) {
         self.initialUrl = url;
         return;
     }
     
     // First Check if scene is empty.
-    if (self.renderer->GetViewProps()->GetNumberOfItems() == 0)
-    {
+    if (self.renderer->GetActors()->GetNumberOfItems() == 0) {
         // Directly load the file. Not necessary to reset the scene as there's nothing to reset.
         [self loadFileInternal:url];
     }
-    else
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertController* alertController =
-            [UIAlertController alertControllerWithTitle:@"Import"
-                                                message:@"There are other objects in the scene."
-                                         preferredStyle:UIAlertControllerStyleAlert];
-
-            // Completion handler for selected action in alertController.
-            void (^onSelectedAction)(UIAlertAction*) = ^(UIAlertAction* action) {
-                // Reset the scene if "Replace" was selected.
-                if (action.style == UIAlertActionStyleCancel)
-                {
-                    self.renderer->RemoveAllViewProps();
-                }
-                [self loadFileInternal:url];
-            };
-
-            // Two actions : Insert file in scene and Reset the scene.
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Add"
-                                                                style:UIAlertActionStyleDefault
-                                                              handler:onSelectedAction]];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Replace"
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:onSelectedAction]];
-
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
+    else {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"Import"
+                                                                                 message:@"There are other objects in the scene."
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        // Completion handler for selected action in alertController.
+        void (^onSelectedAction)(UIAlertAction*) = ^(UIAlertAction* action) {
+            // Reset the scene if "Replace" was selected.
+            if (action.style == UIAlertActionStyleCancel) {
+                self.renderer->RemoveAllViewProps();
+                // save current in previous
+                self.revertablePolyData = self.polyData;
+                // make current empty
+                self.polyData = vtkSmartPointer<vtkPolyData>::New();
+                // render nothing to flush
+                [self renderAndDisplay:self.polyData];
+            }
+            [self loadFileInternal:url];
+        };
+        
+        // Two actions : Insert file in scene and Reset the scene.
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Add"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:onSelectedAction]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Replace"
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:onSelectedAction]];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
 - (void)loadFileInternal:(NSURL*)url
 {
-    self.polyData = [VTKLoader loadFromURL: url];
-    auto actor = [self actorFromPolydata: self.polyData];
-    
-    if (actor)
-    {
-        self.renderer->AddActor(actor);
-        [self resetCamera];
-    }
-    else
-    {
-        NSString *alertTitle = @"Import Failed";
-        NSString *alertMessage = [NSString stringWithFormat:@"Could not load %@", [url lastPathComponent]];
-        [self showAlertWithTitle:alertTitle andMesage:alertMessage additionalAtions:nil];
-    }
+    [self showActivityIndicator:true];
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_async(backgroundQueue, ^{
+        self.revertablePolyData = self.polyData;
+        self.polyData = [VTKLoader loadFromURL: url];
+        // is pure points, requiers glyphing
+        if (self.polyData->GetNumberOfPolys() == 0) {
+            auto renderablePointCloudPolyData = [self maskAndGlyphPointCloudPolydata:self.polyData];
+            [self renderSync:renderablePointCloudPolyData];
+        } else {
+            [self renderSync:self.polyData];
+        }
+        [self showActivityIndicator:false];
+        [self resetCameraAndUpdate]; // trigger the update
+    });
 }
 
 // MARK: - Opening MTL Buffer
 
 - (void)loadPointCloudFromBuffer:(id<MTLBuffer>)particlesBuffer captureSize:(int)captureSize
 {
-    self.polyData = [VTKLoader loadPointCloudFromBuffer:particlesBuffer captureSize:captureSize];
-    auto actor = [self actorFromPolydata:self.polyData];
-    if (actor)
-    {
-        self.renderer->AddActor(actor);
-        [self resetCamera];
-    }
-    else
-    {
-        NSString* alertTitle = @"Import Failed";
-        NSString* alertMessage = @"Could not load capture";
-        [self showAlertWithTitle:alertTitle andMesage:alertMessage additionalAtions:nil];
-    }
-
+    [self showActivityIndicator:true];
+    dispatch_async(highPriorityDispatchQueue, ^{
+        auto pointCloudPolyDataFromMTLBuffer = [VTKLoader loadPointCloudFromBuffer:particlesBuffer captureSize:captureSize];
+        self.revertablePolyData = nil;
+        self.polyData = pointCloudPolyDataFromMTLBuffer;
+        auto renderablePointCloudPolyData = [self maskAndGlyphPointCloudPolydata:self.polyData];
+        [self showActivityIndicator:false];
+        [self renderSync:renderablePointCloudPolyData];
+        [self resetCameraAndUpdate]; // trigger the update
+    });
 }
 
 // MARK: - Button actions
-- (void)resetCamera
+- (void)resetCameraAndUpdate
 {
-    self.renderer->ResetCameraClippingRange();
-    self.renderer->ResetCamera();
-    [self.view setNeedsDisplay];
-    [self.vtkView setNeedsDisplay];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.renderer->ResetCameraClippingRange();
+        self.renderer->ResetCamera();
+        [self.view setNeedsDisplay];
+        [self.vtkView setNeedsDisplay];
+    });
 }
 
 - (void)statisticalOutlierRemovalFiltering
 {
-    auto polydataAlgorithm = vtkSmartPointer<vtkAppendPolyData>::New();
-
-    // Transform polyData to algorythm to streamline processors
-    polydataAlgorithm->AddInputData(self.polyData);
-    polydataAlgorithm->Update();
-    
-    std::cout << "Number of points being Filtered " << polydataAlgorithm->GetOutput()->GetNumberOfPoints() << std::endl;
-    std::cout << "Number of poly being Filtered " << polydataAlgorithm->GetOutput()->GetNumberOfPolys() << std::endl;
-    std::cout << "Number of line being Filtered " << polydataAlgorithm->GetOutput()->GetNumberOfLines() << std::endl;
-    std::cout << "Number of vet being Filtered " << polydataAlgorithm->GetOutput()->GetNumberOfVerts() << std::endl;
-    std::cout << "Number of cells being Filtered " << polydataAlgorithm->GetOutput()->GetNumberOfCells() << std::endl;
-    
-    auto statisticalRemovalPolyDataAlgorithm = [VTKPointsProcessors statisticalOutlierRemovalWithSampleSize:80
-                                                                                     inputAlgorithm:polydataAlgorithm];
-
-    self.renderer->RemoveAllViewProps();
-    self.revertablePolyData = self.polyData;
-    self.polyData = statisticalRemovalPolyDataAlgorithm->GetOutput();
-    auto actor = [self actorFromPolydata:self.polyData];
-    self.renderer->AddActor(actor);
-    [self.view setNeedsDisplay];
-    [self.vtkView setNeedsDisplay];
+    [self showActivityIndicator:true];
+    dispatch_async(highPriorityDispatchQueue, ^{
+        auto vertexGlyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+        vertexGlyphFilter->SetInputData(self.polyData);
+        vertexGlyphFilter->Update();
+        
+        auto statisticalRemovalPolyDataAlgorithm = [VTKPointsProcessors statisticalOutlierRemovalWithSampleSize:80
+                                                                                                 inputAlgorithm:vertexGlyphFilter];
+        
+        self.revertablePolyData = self.polyData;
+        self.polyData = statisticalRemovalPolyDataAlgorithm->GetOutput();
+        
+        auto renderablePointCloudPolydata = [self maskAndGlyphPointCloudPolydata:self.polyData];
+        [self showActivityIndicator:false];
+        [self renderAndDisplaySync:renderablePointCloudPolydata];
+    });
 }
 
 - (void)cellDownSampling
 {
-    auto polydataAlgorithm = vtkSmartPointer<vtkAppendPolyData>::New();
-
-    // Transform polyData to algorythm to streamline processors
-    polydataAlgorithm->AddInputData(self.polyData);
-    polydataAlgorithm->Update();
-    
-    auto cleanedPolyDataAlgorithm = [VTKPolyDataProcessors cleanPolyDataWithTolerance:0.00001 inputAlgorithm:polydataAlgorithm];
-    
-    self.renderer->RemoveAllViewProps();
-    self.revertablePolyData = self.polyData;
-    self.polyData = cleanedPolyDataAlgorithm->GetOutput();
-    auto actor = [self actorFromPolydata:self.polyData];
-    self.renderer->AddActor(actor);
-    [self.view setNeedsDisplay];
-    [self.vtkView setNeedsDisplay];
+    [self showActivityIndicator:true];
+    dispatch_async(highPriorityDispatchQueue, ^{
+        auto vertexGlyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+        vertexGlyphFilter->SetInputData(self.polyData);
+        vertexGlyphFilter->Update();
+        
+        auto cleanedPolyDataAlgorithm = [VTKPolyDataProcessors cleanPolyDataWithTolerance:0.005 inputAlgorithm:vertexGlyphFilter];
+        self.revertablePolyData = self.polyData;
+        self.polyData = cleanedPolyDataAlgorithm->GetOutput();
+        
+        auto renderablePointCloudPolydata = [self maskAndGlyphPointCloudPolydata:self.polyData];
+        [self renderAndDisplaySync:renderablePointCloudPolydata];
+        [self showActivityIndicator:false];
+//        [self renderAndDisplaySync:self.polyData];
+    });
 }
 
 - (void)surfaceReconstruction
 {
-    auto polydataAlgorithm = vtkSmartPointer<vtkAppendPolyData>::New();
-
-    // Transform polyData to algorythm to streamline processors
-    polydataAlgorithm->AddInputData(self.polyData);
-    polydataAlgorithm->Update();
-    
-    auto surfaceReconstructionAlgorithm = [VTKPolyDataProcessors surfaceReconstruction:polydataAlgorithm];
-    auto namedColor = vtkSmartPointer<vtkNamedColors>::New();
-    vtkSmartPointer<vtkProperty> back = vtkSmartPointer<vtkProperty>::New();
-    back->SetColor(namedColor->GetColor3d("banana").GetData());
-    
-    self.renderer->RemoveAllViewProps();
-    self.revertablePolyData = self.polyData;
-    self.polyData = surfaceReconstructionAlgorithm->GetOutput();
-    auto actor = [self actorFromPolydata:self.polyData];
-    
-    actor->SetBackfaceProperty(back);
-    
-    self.renderer->AddActor(actor);
-    [self.view setNeedsDisplay];
-    [self.vtkView setNeedsDisplay];
+    [self showActivityIndicator:true];
+    dispatch_async(highPriorityDispatchQueue, ^{
+        auto vertexGlyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+        vertexGlyphFilter->SetInputData(self.polyData);
+        vertexGlyphFilter->Update();
+        
+        auto surfaceReconstructionAlgorithm = [VTKPolyDataProcessors surfaceReconstruction:vertexGlyphFilter];
+        self.revertablePolyData = self.polyData;
+        self.polyData = surfaceReconstructionAlgorithm->GetOutput();
+        [self showActivityIndicator:false];
+        [self renderAndDisplaySync:self.polyData];
+    });
 }
 
 - (void)revert
 {
-    // remove curently presented actors
-    self.renderer->RemoveAllViewProps();
     // Swap
     auto swapHolder = self.revertablePolyData;
     self.revertablePolyData = self.polyData;
     self.polyData = swapHolder;
-    
-    
-    auto actor = [self actorFromPolydata:self.polyData];
-    self.renderer->AddActor(actor);
-    
-    [self.view setNeedsDisplay];
-    [self.vtkView setNeedsDisplay];
+    // is pure points, requiers glyphing
+    if (self.polyData->GetNumberOfPolys() == 0) {
+        auto renderablePointCloudPolyData = [self maskAndGlyphPointCloudPolydata:self.polyData];
+        [self renderAndDisplay:renderablePointCloudPolyData];
+    } else {
+        [self renderAndDisplay:self.polyData];
+    }
 }
 
 - (void)exportWithType:(SupportedExportType)type
@@ -520,40 +499,143 @@ int _captureSize;
 - (void)exportWithType:(SupportedExportType)type binary:(bool)binary
 {
     auto fileManager = [NSFileManager defaultManager];
-    auto timestamp = [[[NSUUID UUID] UUIDString] substringToIndex:6];
-    auto fileName = [NSString stringWithFormat:@"pointCloudKit_export_%@", timestamp];
+    auto timestamp = [[[NSUUID UUID] UUIDString] substringToIndex:4];
+    auto fileName = [NSString stringWithFormat:@"pointCloudKit_%@", timestamp];
     auto fileExtension = [NSString stringWithUTF8String:pathExtensionFor(type)];
     auto fileUti = [NSString stringWithUTF8String:utiFor(type).c_str()];
-    auto temporaryUrl = [[[fileManager temporaryDirectory]
-                          URLByAppendingPathComponent:fileName]
+    auto temporaryUrl = [[[fileManager temporaryDirectory] URLByAppendingPathComponent:fileName]
                          URLByAppendingPathExtension:fileExtension];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.activityIndicator startAnimating];
-    });
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul);
-    dispatch_async(queue, ^{
-        
+    [self showActivityIndicator:true];
+    dispatch_async(highPriorityDispatchQueue, ^{
         [VTKExporter writeTo:temporaryUrl.path polyData:self.polyData type:type binary:binary];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.activityIndicator stopAnimating];
-            // Show export location picker
-            if (self.documentInteractionController == nil) {
-                self.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:temporaryUrl];
-                [self.documentInteractionController setDelegate:self];
-            } else {
-                [self.documentInteractionController setURL:temporaryUrl];
-            }
-            [self.documentInteractionController setName:fileName];
-            [self.documentInteractionController setUTI:fileUti];
-            [self.documentInteractionController presentOptionsMenuFromBarButtonItem:self.exportBarButtonItem animated:true];
-        });
+        // configure export location picker
+        if (self.documentInteractionController == nil) {
+            self.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:temporaryUrl];
+            [self.documentInteractionController setDelegate:self];
+        } else {
+            [self.documentInteractionController setURL:temporaryUrl];
+        }
+        [self.documentInteractionController setName:fileName];
+        [self.documentInteractionController setUTI:fileUti];
+        [self showActivityIndicator:false];
+        [self presentDocumentInteractionController];
     });
 }
 
-
 // MARK: - Helpers
+
+// Get polydata, clean it if too big (mask), glyph it, and return the glyphed polydata ready to be rendered
+- (vtkSmartPointer<vtkPolyData>)maskAndGlyphPointCloudPolydata:(vtkPolyData*)polyData
+{
+    // hack to start with algo instead data to streamline the processors
+    auto polydataAlgorithm = vtkSmartPointer<vtkAppendPolyData>::New();
+    polydataAlgorithm->AddInputData(polyData);
+    polydataAlgorithm->Update();
+    
+    [self showActivityIndicator:true];
+    vtkSmartPointer<vtkPolyDataAlgorithm> pointsPolyDataAlgorithm;
+    /// Masking ---------------------------------------------------------------------------
+    if (polyData->GetNumberOfPoints() > 250000) {
+        int ratio = (int)(polyData->GetNumberOfPoints() / 250000);
+        auto maskingAlgorithm = [VTKPointsProcessors maskingWithRatio:ratio
+                                                       inputAlgorithm:polydataAlgorithm];
+        // Filtered input to reduce size and not kill the memory
+        pointsPolyDataAlgorithm = maskingAlgorithm;
+        
+        NSString *message = [NSString stringWithFormat:@"The points cloud is a bit heavy for a mobile device, hence it's been downsampled by a factor of %d (initially %lld points, now %lld). \n This is only affecting the rendering, processors on the left and export will still take the original dataset as input.",
+                              ratio,
+                              polyData->GetNumberOfPoints(),
+                              maskingAlgorithm->GetOutput()->GetNumberOfPoints()];
+        [self showAlertWithTitle:@"Warning" andMesage:message additionalAtions:nil];
+    } else {
+        // Raw input
+        pointsPolyDataAlgorithm = polydataAlgorithm;
+    }
+    
+    /// GLYPHING ---------------------------------------------------------------------------
+    // Calculate Bounds and Range of PolyData
+    double bounds[6];
+    double range[3];
+    pointsPolyDataAlgorithm->GetOutput()->GetBounds(bounds);
+    for (int i = 0; i < 3; ++i) {
+        range[i] = bounds[2 * i + 1] - bounds[2 * i];
+    }
+    auto maxRange = std::max(std::max(range[0], range[1]), range[2]);
+    double sphereRadius = maxRange * .0015;
+    auto glyphedAlgorithm = [VTKPointsProcessors glyphingWith:sphereRadius
+                                               inputAlgorithm:pointsPolyDataAlgorithm];
+    [self showActivityIndicator:false];
+    return glyphedAlgorithm->GetOutput();
+}
+
+- (void)render:(vtkPolyData*)polyData
+{
+    auto mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    auto actor  = vtkSmartPointer<vtkActor>::New();
+    // MAPPER
+    mapper->SetInputData(polyData);
+    // Polydata ACTOR
+    actor->SetMapper(mapper);
+    // Cleanup
+    self.renderer->RemoveAllViewProps();
+    // Add new stuff
+    self.renderer->AddActor(actor);
+    // Re add static elements
+    self.renderer->AddViewProp(cornerAnnotation);
+    self.renderer->AddViewProp(self.progressBarVtk);
+}
+
+- (void)renderSync:(vtkPolyData*)polyData
+{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self render:polyData];
+    });
+}
+
+- (void)renderAndDisplay:(vtkPolyData*)polyData
+{
+    [self render:polyData];
+    // request redraw
+    [self.view setNeedsDisplay];
+    [self.vtkView setNeedsDisplay];
+}
+
+- (void)renderAndDisplaySync:(vtkPolyData*)polyData
+{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self renderAndDisplay:polyData];
+        [self.view setNeedsDisplay];
+        [self.vtkView setNeedsDisplay];
+    });
+}
+
+- (vtkSmartPointer<vtkCallbackCommand>)setupFpsCounterCallback
+{
+    auto callback = vtkSmartPointer<vtkCallbackCommand>::New();
+    callback->SetCallback(CallbackFunction);
+    return callback;
+}
+void CallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId), void* vtkNotUsed(clientData), void* vtkNotUsed(callData))
+{
+    vtkRenderer* renderer = static_cast<vtkRenderer*>(caller);
+    double timeInSeconds = renderer->GetLastRenderTimeInSeconds();
+    std::string fpsString;
+    fpsString = std::to_string((int)(1.0 / timeInSeconds)) + "fps";
+    auto position = vtkCornerAnnotation::TextPosition::LowerEdge;
+    cornerAnnotation->SetText(position, fpsString.c_str());
+    
+}
+
+- (vtkSmartPointer<vtkCornerAnnotation>)createCornerAnnotation
+{
+    auto cornerAnnotation = vtkSmartPointer<vtkCornerAnnotation>::New();
+    cornerAnnotation->SetLinearFontScaleFactor(8);
+    cornerAnnotation->SetNonlinearFontScaleFactor(4);
+    cornerAnnotation->SetMaximumFontSize(32);
+    cornerAnnotation->GetTextProperty()->SetColor(0.2, 0.6, 0.2);
+    return cornerAnnotation;
+}
 
 - (void)showAlertWithTitle:(NSString*)title andMesage:(NSString*)message additionalAtions:(NSArray<UIAlertAction*>*)actions
 {
@@ -561,7 +643,6 @@ int _captureSize;
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle:title
                                                                                  message:message
                                                                           preferredStyle:UIAlertControllerStyleAlert];
-
         for (id action in actions) {
             [alertController addAction: action];
         }
@@ -573,45 +654,46 @@ int _captureSize;
     });
 }
 
-- (vtkSmartPointer<vtkActor>)actorFromPolydata:(vtkPolyData*)polyData
+- (void) showActivityIndicator:(bool)show
 {
-    auto mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-    auto actor  = vtkSmartPointer<vtkActor>::New();
-    auto colors = vtkSmartPointer<vtkNamedColors>::New();
-    
-    // hack to start with algo instead data to streamline the processors
-    auto polydataAlgorithm = vtkSmartPointer<vtkAppendPolyData>::New();
-    polydataAlgorithm->AddInputData(polyData);
-    polydataAlgorithm->Update();
-    
-    if (polyData->GetNumberOfPolys() == 0 && polyData->GetNumberOfLines() == 0) {
-        // MARK: - POINT CLOUD
-        // Calculate Bounds and Range of PolyData
-        double bounds[6];
-        double range[3];
-        polyData->GetBounds(bounds);
-        for (int i = 0; i < 3; ++i) {
-            range[i] = bounds[2 * i + 1] - bounds[2 * i];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.progressBarVtk->SetVisibility(show);
+        [UIView animateWithDuration:0.5 animations:^{
+            [self enabledVtkControls:!show];
+            if (show) {
+                self.activityIndicator.hidden = NO;
+                [self.activityIndicator startAnimating];
+                [self.view bringSubviewToFront:self.activityIndicator];
+            } else {
+                self.activityIndicator.hidden = YES;
+                [self.activityIndicator stopAnimating];
+            }
+        }];
+    });
+}
+
+- (void) presentDocumentInteractionController
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Present document interaction controller
+        [self.documentInteractionController presentOptionsMenuFromBarButtonItem:self.exportBarButtonItem animated:true];
+    });
+}
+
+- (void) enabledVtkControls:(bool)enable
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.importButton setEnabled:enable];
+        [self.exportBarButtonItem setEnabled:enable];
+        [self.resetCameraPositionButton setEnabled:enable];
+        [self.outlierFilterButton setEnabled:enable];
+//        [self.simplifyCloudButton setEnabled:enable];
+//        [self.surfaceReconstructionButton setEnabled:enable];
+        if (self.revertablePolyData != nil) {
+            [self.revertButton setEnabled:enable];
         }
-        auto maxRange = std::max(std::max(range[0], range[1]), range[2]);
-        
-        /// GLYPHING ---------------------------------------------------------------------------
-        double sphereRadius = maxRange * .002;
-        auto glyphedAlgorithm = [VTKPointsProcessors glyphingWith:sphereRadius
-                                                   inputAlgorithm:polydataAlgorithm];
-        
-        // MAPPER
-        auto mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-        mapper->SetInputConnection(glyphedAlgorithm->GetOutputPort());
-        // ACTOR
-        actor->SetMapper(mapper);
-    } else {
-        // MARK: - REGULAR 3D MODEL
-        mapper->SetInputConnection(polydataAlgorithm->GetOutputPort());
-        actor->SetMapper(mapper);
-        actor->GetProperty()->SetColor(colors->GetColor3d("Chartreuse").GetData());
-    }
-    return actor;
+    });
 }
 
 @end
+
