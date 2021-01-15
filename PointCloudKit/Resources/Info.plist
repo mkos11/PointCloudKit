@@ -8,85 +8,25 @@
 	<string>PointCloudKit</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
-        <dict>
-            <key>CFBundleTypeIconFiles</key>
-            <array/>
-            <key>CFBundleTypeName</key>
-            <string>VTK Viewer Supported Files</string>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>LSHandlerRank</key>
-            <string>Owner</string>
-            <key>LSItemContentTypes</key>
-            <array>
-                <string>com.pointcloudkit.vtk</string>
-                <string>com.kitware.vtk</string>
-                <string>com.pointcloudkit.xyz</string>
-                <string>public.geometry-definition-format</string>
-                <string>public.polygon-file-format</string>
-                <string>public.standard-tesselated-geometry-format</string>
-            </array>
-        </dict>
-<!--		<dict>-->
-<!--			<key>CFBundleTypeName</key>-->
-<!--			<string>Visualisation Toolkit Format</string>-->
-<!--			<key>CFBundleTypeRole</key>-->
-<!--			<string>Editor</string>-->
-<!--			<key>LSHandlerRank</key>-->
-<!--			<string>Owner</string>-->
-<!--			<key>LSItemContentTypes</key>-->
-<!--			<array>-->
-<!--				<string>com.pointcloudkit.xyz</string>-->
-<!--			</array>-->
-<!--		</dict>-->
-<!--		<dict>-->
-<!--			<key>CFBundleTypeName</key>-->
-<!--			<string>Geometry Definition File Format</string>-->
-<!--			<key>CFBundleTypeRole</key>-->
-<!--			<string>Editor</string>-->
-<!--			<key>LSHandlerRank</key>-->
-<!--			<string>Alternate</string>-->
-<!--			<key>LSItemContentTypes</key>-->
-<!--			<array>-->
-<!--				<string>public.geometry-definition-format</string>-->
-<!--			</array>-->
-<!--		</dict>-->
-<!--		<dict>-->
-<!--			<key>CFBundleTypeName</key>-->
-<!--			<string>Polygon File Format</string>-->
-<!--			<key>CFBundleTypeRole</key>-->
-<!--			<string>Editor</string>-->
-<!--			<key>LSHandlerRank</key>-->
-<!--			<string>Alternate</string>-->
-<!--			<key>LSItemContentTypes</key>-->
-<!--			<array>-->
-<!--				<string>public.polygon-file-format</string>-->
-<!--			</array>-->
-<!--		</dict>-->
-<!--		<dict>-->
-<!--			<key>CFBundleTypeName</key>-->
-<!--			<string>Standard Tesselated Geometry File Format</string>-->
-<!--			<key>CFBundleTypeRole</key>-->
-<!--			<string>Editor</string>-->
-<!--			<key>LSHandlerRank</key>-->
-<!--			<string>Alternate</string>-->
-<!--			<key>LSItemContentTypes</key>-->
-<!--			<array>-->
-<!--				<string>public.standard-tesselated-geometry-format</string>-->
-<!--			</array>-->
-<!--		</dict>-->
-<!--		<dict>-->
-<!--			<key>CFBundleTypeName</key>-->
-<!--			<string>Simple Points File</string>-->
-<!--			<key>CFBundleTypeRole</key>-->
-<!--			<string>Editor</string>-->
-<!--			<key>LSHandlerRank</key>-->
-<!--			<string>Owner</string>-->
-<!--			<key>LSItemContentTypes</key>-->
-<!--			<array>-->
-<!--				<string>com.pointcloudkit.xyz</string>-->
-<!--			</array>-->
-<!--		</dict>-->
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>VTK Viewer Supported Files</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.pointcloudkit.vtk</string>
+				<string>com.kitware.vtk</string>
+				<string>com.pointcloudkit.xyz</string>
+				<string>public.geometry-definition-format</string>
+				<string>public.polygon-file-format</string>
+				<string>public.standard-tesselated-geometry-format</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -101,7 +41,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>11</string>
+	<string>13</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -130,54 +70,54 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-    <key>UISupportsDocumentBrowser</key>
-    <true/>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
-        <dict>
-            <key>UTTypeConformsTo</key>
-            <array>
-                <string>public.3d-content</string>
-                <string>public.data</string>
-            </array>
-            <key>UTTypeDescription</key>
-            <string>VTK File Format</string>
-            <key>UTTypeIdentifier</key>
-            <string>com.kitware.vtk</string>
-            <key>UTTypeTagSpecification</key>
-            <dict>
-                <key>public.filename-extension</key>
-                <array>
-                    <string>vtk</string>
-                    <string>vti</string>
-                    <string>vtp</string>
-                    <string>vtr</string>
-                    <string>vts</string>
-                    <string>vtu</string>
-                </array>
-            </dict>
-        </dict>
-        <dict>
-            <key>UTTypeConformsTo</key>
-            <array>
-                <string>public.3d-content</string>
-                <string>public.data</string>
-            </array>
-            <key>UTTypeDescription</key>
-            <string>XYZ File Format</string>
-            <key>UTTypeIdentifier</key>
-            <string>com.pointcloudkit.xyz</string>
-            <key>UTTypeTagSpecification</key>
-            <dict>
-                <key>public.filename-extension</key>
-                <array>
-                    <string>xyz</string>
-                    <string>XYZ</string>
-                    <string>xyzrgb</string>
-                    <string>XYZRGB</string>
-                </array>
-            </dict>
-        </dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.3d-content</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>VTK File Format</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.kitware.vtk</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>vtk</string>
+					<string>vti</string>
+					<string>vtp</string>
+					<string>vtr</string>
+					<string>vts</string>
+					<string>vtu</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.3d-content</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>XYZ File Format</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.pointcloudkit.xyz</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>xyz</string>
+					<string>XYZ</string>
+					<string>xyzrgb</string>
+					<string>XYZRGB</string>
+				</array>
+			</dict>
+		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>

@@ -184,8 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				8E26BAB0257DAC0200978446 /* PointCloudKit */,
-				8E26BAC7257DAC0500978446 /* MetraTests */,
-				8E26BAD2257DAC0500978446 /* MetraUITests */,
+				8E26BAC7257DAC0500978446 /* PointCloudKitTests */,
+				8E26BAD2257DAC0500978446 /* PointCloudKitUITests */,
 				8E26BAAF257DAC0200978446 /* Products */,
 				EE34F6BE258C5D130028EC3F /* Frameworks */,
 			);
@@ -213,22 +213,22 @@
 			path = PointCloudKit;
 			sourceTree = "<group>";
 		};
-		8E26BAC7257DAC0500978446 /* MetraTests */ = {
+		8E26BAC7257DAC0500978446 /* PointCloudKitTests */ = {
 			isa = PBXGroup;
 			children = (
 				8E26BAC8257DAC0500978446 /* MetraTests.swift */,
 				8E26BACA257DAC0500978446 /* Info.plist */,
 			);
-			path = MetraTests;
+			path = PointCloudKitTests;
 			sourceTree = "<group>";
 		};
-		8E26BAD2257DAC0500978446 /* MetraUITests */ = {
+		8E26BAD2257DAC0500978446 /* PointCloudKitUITests */ = {
 			isa = PBXGroup;
 			children = (
 				8E26BAD3257DAC0500978446 /* MetraUITests.swift */,
 				8E26BAD5257DAC0500978446 /* Info.plist */,
 			);
-			path = MetraUITests;
+			path = PointCloudKitUITests;
 			sourceTree = "<group>";
 		};
 		8E26BAF5257DAD0500978446 /* App */ = {
@@ -847,7 +847,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = PointCloudKit/Resources/PointCloudKit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -868,6 +868,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -877,7 +878,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = Amazon;
 				CODE_SIGN_ENTITLEMENTS = PointCloudKit/Resources/PointCloudKit.entitlements;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = H2694FBVFN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -898,6 +899,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

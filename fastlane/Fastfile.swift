@@ -11,7 +11,7 @@ import Foundation
 class Fastfile: LaneFile {
 	func releaseLane() {
 	desc("Push a new release build to the App Store")
-		incrementBuildNumber(xcodeproj: "Metra.xcodeproj")
+		incrementBuildNumber(xcodeproj: "PointCloudKit.xcodeproj")
 		buildApp(scheme: "Prod")
 		uploadToAppStore(username: "raydonovan01@protonmail.com", app: "com.metra.Metra")
 	}
