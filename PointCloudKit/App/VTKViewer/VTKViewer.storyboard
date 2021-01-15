@@ -20,11 +20,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="DIW-Kk-Ld2">
-                                <rect key="frame" x="204" y="453" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="color" name="Amazon"/>
-                            </activityIndicatorView>
                             <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" enableSetNeedsDisplay="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UxD-LD-F6G" userLabel="vtkView" customClass="VTKView">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <subviews>
@@ -291,12 +286,31 @@
                                             <action selector="revertButtonPressed:" destination="e5K-88-RHN" eventType="touchUpInside" id="y5b-ws-bLv"/>
                                         </connections>
                                     </button>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="xxx in proress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvA-rn-dyc">
+                                        <rect key="frame" x="70" y="491.66666666666669" width="348" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="2xW-6p-OvC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" name="Amazon"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="DIW-Kk-Ld2">
+                                        <rect key="frame" x="70" y="444.66666666666669" width="348" height="37"/>
+                                        <color key="color" name="Amazon"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="hvA-rn-dyc" firstAttribute="top" secondItem="DIW-Kk-Ld2" secondAttribute="bottom" constant="10" id="BWB-5b-TD4"/>
                                     <constraint firstItem="gLc-0f-J3G" firstAttribute="top" secondItem="UxD-LD-F6G" secondAttribute="top" constant="120" id="BdL-IK-LQb"/>
+                                    <constraint firstAttribute="trailing" secondItem="hvA-rn-dyc" secondAttribute="trailing" constant="10" id="OQK-Mc-8VU"/>
+                                    <constraint firstAttribute="trailing" secondItem="DIW-Kk-Ld2" secondAttribute="trailing" constant="10" id="OhJ-FC-KIs"/>
                                     <constraint firstItem="gLc-0f-J3G" firstAttribute="leading" secondItem="UxD-LD-F6G" secondAttribute="leading" constant="10" id="ezK-in-SW5"/>
+                                    <constraint firstItem="DIW-Kk-Ld2" firstAttribute="centerY" secondItem="UxD-LD-F6G" secondAttribute="centerY" id="mvf-J4-e4G"/>
                                     <constraint firstItem="L3l-ks-6yo" firstAttribute="leading" secondItem="UxD-LD-F6G" secondAttribute="leading" constant="10" id="pXu-aJ-nWR"/>
                                     <constraint firstAttribute="bottom" secondItem="L3l-ks-6yo" secondAttribute="bottom" constant="40" id="sWC-hz-M6L"/>
+                                    <constraint firstItem="hvA-rn-dyc" firstAttribute="leading" secondItem="gLc-0f-J3G" secondAttribute="trailing" constant="10" id="wzs-gq-Ho6"/>
+                                    <constraint firstItem="DIW-Kk-Ld2" firstAttribute="leading" secondItem="gLc-0f-J3G" secondAttribute="trailing" constant="10" id="xld-g1-r4d"/>
                                 </constraints>
                             </glkView>
                         </subviews>
@@ -331,6 +345,7 @@
                         <outlet property="activityIndicator" destination="DIW-Kk-Ld2" id="aht-2X-YKY"/>
                         <outlet property="exportBarButtonItem" destination="edD-ea-Kpd" id="0F7-Yr-nyS"/>
                         <outlet property="importButton" destination="ffg-AP-LTH" id="aSn-eK-xR2"/>
+                        <outlet property="inProgressLabel" destination="hvA-rn-dyc" id="0Io-tC-gU3"/>
                         <outlet property="outlierFilterButton" destination="Gsi-3p-rU7" id="fkz-P8-bWe"/>
                         <outlet property="resetCameraPositionButton" destination="1JQ-c2-Y0D" id="sod-8H-niy"/>
                         <outlet property="revertButton" destination="L3l-ks-6yo" id="RdV-PJ-XDU"/>

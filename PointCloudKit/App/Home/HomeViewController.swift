@@ -30,8 +30,9 @@ final class HomeViewController: UIViewController {
                 let unsupportedDeviceViewController = storyboard.instantiateViewController(withIdentifier: "unsupportedDeviceMessage")
                 navigationController?.setNavigationBarHidden(false, animated: true)
                 navigationController?.show(unsupportedDeviceViewController, sender: nil)
+                return false
             }
-            return false
+            fallthrough
         default:
             return true
         }

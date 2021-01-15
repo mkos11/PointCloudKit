@@ -123,14 +123,26 @@
                                 <color key="textColor" name="CyberGrape"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="soe-mS-ikq">
+                                <rect key="frame" x="10" y="705.5" width="394" height="166.5"/>
+                                <color key="backgroundColor" name="Bone"/>
+                                <string key="text">Old-school changelog : New visualizer/editor, only rolled-in the Outlier-filter as it's hard to manoeuver VTK without blowing up the memory on mobile device. Work in progress !</string>
+                                <color key="textColor" name="CyberGrape"/>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ENo-4N-5NF"/>
                         <color key="backgroundColor" name="Bone"/>
                         <constraints>
                             <constraint firstItem="XqW-zZ-FDu" firstAttribute="top" secondItem="pgI-J8-gXr" secondAttribute="bottom" constant="-5" id="BWT-Zf-TKY"/>
+                            <constraint firstItem="soe-mS-ikq" firstAttribute="top" secondItem="Jmh-s1-vwZ" secondAttribute="bottom" constant="50" id="DGj-gt-7we"/>
+                            <constraint firstItem="ENo-4N-5NF" firstAttribute="trailing" secondItem="soe-mS-ikq" secondAttribute="trailing" constant="10" id="DQQ-lC-9t2"/>
                             <constraint firstItem="Jmh-s1-vwZ" firstAttribute="top" secondItem="XqW-zZ-FDu" secondAttribute="bottom" constant="100" id="EPD-Jx-q5S"/>
                             <constraint firstItem="XqW-zZ-FDu" firstAttribute="centerX" secondItem="ovO-7o-eKy" secondAttribute="centerX" id="Jbm-hx-dVs"/>
                             <constraint firstItem="pgI-J8-gXr" firstAttribute="top" secondItem="ENo-4N-5NF" secondAttribute="top" constant="100" id="KYo-ba-aaZ"/>
+                            <constraint firstItem="soe-mS-ikq" firstAttribute="bottom" secondItem="ENo-4N-5NF" secondAttribute="bottom" constant="10" id="NiO-KF-3xI"/>
+                            <constraint firstItem="soe-mS-ikq" firstAttribute="leading" secondItem="ENo-4N-5NF" secondAttribute="leading" constant="10" id="QIL-Yi-Hs4"/>
                             <constraint firstItem="Jmh-s1-vwZ" firstAttribute="centerX" secondItem="ovO-7o-eKy" secondAttribute="centerX" id="bS5-bz-M0s"/>
                             <constraint firstItem="pgI-J8-gXr" firstAttribute="centerX" secondItem="ovO-7o-eKy" secondAttribute="centerX" id="qLI-12-jxf"/>
                         </constraints>

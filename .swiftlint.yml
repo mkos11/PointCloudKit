@@ -12,6 +12,7 @@ opt_in_rules: # some rules are only opt-in
   - empty_count
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - fastlane
+  - vendor
   - Gemfile
   - Gemfile.lock
   - README.md

@@ -38,6 +38,7 @@ import Combine
 // cx: 322.18
 // cy: 240.03
 
+
 struct Constants {}
 
 extension Constants {
@@ -56,7 +57,7 @@ extension Constants {
         static let minParticleSize: Float = 0.0
         static let maxParticleSize: Float = 10.0
         
-        static let defaultRgbRadius: Float = 0.0
+        static let defaultRgbRadius: Float = 0.25
         static let minRgbRadius: Float = 0.0
         static let maxRgbRadius: Float = 1.5
     }
@@ -139,40 +140,45 @@ final class Renderer {
     // interfaces
 
     // Number of sample points on the grid
-    @Published var numGridPoints = Constants.Renderer.defaultNumGridPoints {
+    @Published var numGridPoints = UserDefaults.standard.integer(forKey: "numGridPoints") {
         didSet {
             // reset gridPointBuffer
             gridPointsBuffer = MetalBuffer<Float2>(device: device,
                                                    array: makeGridPoints(),
                                                    index: kGridPoints.rawValue, options: [])
+            UserDefaults.standard.set(numGridPoints, forKey: "numGridPoints")
         }
     }
 
-    @Published var confidenceThreshold = Constants.Renderer.defaultConfidence {
+    @Published var confidenceThreshold = UserDefaults.standard.integer(forKey: "confidenceThreshold") {
         didSet {
             // apply the change for the shader
             pointCloudUniforms.confidenceThreshold = Int32(confidenceThreshold)
+            UserDefaults.standard.set(confidenceThreshold, forKey: "confidenceThreshold")
         }
     }
 
-    @Published var rgbRadius: Float = Float(Constants.Renderer.defaultRgbRadius) {
+    @Published var rgbRadius: Float = UserDefaults.standard.float(forKey: "rgbRadius") {
         didSet {
             // apply the change for the shader
             rgbUniforms.radius = rgbRadius
+            UserDefaults.standard.set(rgbRadius, forKey: "rgbRadius")
         }
     }
     
     // Maximum number of points we store in the point cloud
-    @Published var maxPoints = Constants.Renderer.defaultMaxPoints {
+    @Published var maxPoints = UserDefaults.standard.integer(forKey: "maxPoints") {
         didSet {
             pointCloudUniforms.maxPoints = Int32(maxPoints)
+            UserDefaults.standard.set(maxPoints, forKey: "maxPoints")
         }
     }
     
     // Particle's size in pixels
-    @Published var particleSize: Float = Float(Constants.Renderer.defaultParticleSize) {
+    @Published var particleSize = UserDefaults.standard.float(forKey: "particleSize") {
         didSet {
             pointCloudUniforms.particleSize = particleSize
+            UserDefaults.standard.set(particleSize, forKey: "particleSize")
         }
     }
 
@@ -200,6 +206,17 @@ final class Renderer {
         inFlightSemaphore = DispatchSemaphore(value: maxInFlightBuffers)
         
         initializeBuffers()
+        initializeUserDefaults() // Nasty move that somewhere else, need to impl quick rn
+    }
+
+    private func initializeUserDefaults() {
+        if UserDefaults.standard.integer(forKey: "numGridPoints") == 0 {
+            numGridPoints = Constants.Renderer.defaultNumGridPoints
+            confidenceThreshold = Constants.Renderer.defaultConfidence
+            rgbRadius = Constants.Renderer.defaultRgbRadius
+            maxPoints = Constants.Renderer.defaultMaxPoints
+            particleSize = Constants.Renderer.defaultParticleSize
+        }
     }
 
     func drawRectResized(size: CGSize) {

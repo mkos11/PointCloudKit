@@ -97,6 +97,7 @@ const std::string utiFor(const SupportedExportType exportType) {
 @property (weak, nonatomic) IBOutlet UIButton *simplifyCloudButton;
 @property (weak, nonatomic) IBOutlet UIButton *surfaceReconstructionButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *inProgressLabel;
 @property (weak, nonatomic) IBOutlet UIButton *revertButton;
 
 // VTK
@@ -380,7 +381,7 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
 
 - (void)loadFileInternal:(NSURL*)url
 {
-    [self showActivityIndicator:true];
+    [self showActivityIndicator:true info:@"Loading file..."];
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(backgroundQueue, ^{
         self.revertablePolyData = self.polyData;
@@ -401,7 +402,7 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
 
 - (void)loadPointCloudFromBuffer:(id<MTLBuffer>)particlesBuffer captureSize:(int)captureSize
 {
-    [self showActivityIndicator:true];
+    [self showActivityIndicator:true info:@"Loading capture..."];
     dispatch_async(highPriorityDispatchQueue, ^{
         auto pointCloudPolyDataFromMTLBuffer = [VTKLoader loadPointCloudFromBuffer:particlesBuffer captureSize:captureSize];
         self.revertablePolyData = nil;
@@ -426,7 +427,7 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
 
 - (void)statisticalOutlierRemovalFiltering
 {
-    [self showActivityIndicator:true];
+    [self showActivityIndicator:true info:@"Outlier filtering..."];
     dispatch_async(highPriorityDispatchQueue, ^{
         auto vertexGlyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
         vertexGlyphFilter->SetInputData(self.polyData);
@@ -446,7 +447,7 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
 
 - (void)cellDownSampling
 {
-    [self showActivityIndicator:true];
+    [self showActivityIndicator:true info:@"Cell downsampling..."];
     dispatch_async(highPriorityDispatchQueue, ^{
         auto vertexGlyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
         vertexGlyphFilter->SetInputData(self.polyData);
@@ -465,7 +466,7 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
 
 - (void)surfaceReconstruction
 {
-    [self showActivityIndicator:true];
+    [self showActivityIndicator:true info:@"Surface reconstruction..."];
     dispatch_async(highPriorityDispatchQueue, ^{
         auto vertexGlyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
         vertexGlyphFilter->SetInputData(self.polyData);
@@ -481,6 +482,9 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
 
 - (void)revert
 {
+    if (self.revertablePolyData == nil) {
+        return;
+    }
     // Swap
     auto swapHolder = self.revertablePolyData;
     self.revertablePolyData = self.polyData;
@@ -506,7 +510,7 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
     auto temporaryUrl = [[[fileManager temporaryDirectory] URLByAppendingPathComponent:fileName]
                          URLByAppendingPathExtension:fileExtension];
     
-    [self showActivityIndicator:true];
+    [self showActivityIndicator:true info:@"Exporting..."];
     dispatch_async(highPriorityDispatchQueue, ^{
         [VTKExporter writeTo:temporaryUrl.path polyData:self.polyData type:type binary:binary];
         // configure export location picker
@@ -533,7 +537,7 @@ dispatch_queue_t highPriorityDispatchQueue = dispatch_get_global_queue(DISPATCH_
     polydataAlgorithm->AddInputData(polyData);
     polydataAlgorithm->Update();
     
-    [self showActivityIndicator:true];
+    [self showActivityIndicator:true info:@"Rendering point cloud..."];
     vtkSmartPointer<vtkPolyDataAlgorithm> pointsPolyDataAlgorithm;
     /// Masking ---------------------------------------------------------------------------
     if (polyData->GetNumberOfPoints() > 250000) {
@@ -654,11 +658,14 @@ void CallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId), 
     });
 }
 
-- (void) showActivityIndicator:(bool)show
+- (void) showActivityIndicator:(bool)show { [self showActivityIndicator:show info:@""]; }
+- (void) showActivityIndicator:(bool)show info:(NSString*)info
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.progressBarVtk->SetVisibility(show);
         [UIView animateWithDuration:0.5 animations:^{
+            self.inProgressLabel.text = info;
+            self.inProgressLabel.hidden = !show;
             [self enabledVtkControls:!show];
             if (show) {
                 self.activityIndicator.hidden = NO;
@@ -689,9 +696,7 @@ void CallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId), 
         [self.outlierFilterButton setEnabled:enable];
 //        [self.simplifyCloudButton setEnabled:enable];
 //        [self.surfaceReconstructionButton setEnabled:enable];
-        if (self.revertablePolyData != nil) {
-            [self.revertButton setEnabled:enable];
-        }
+        [self.revertButton setEnabled:(self.revertablePolyData != nil)];
     });
 }
 
