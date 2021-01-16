@@ -206,17 +206,6 @@ final class Renderer {
         inFlightSemaphore = DispatchSemaphore(value: maxInFlightBuffers)
         
         initializeBuffers()
-        initializeUserDefaults() // Nasty move that somewhere else, need to impl quick rn
-    }
-
-    private func initializeUserDefaults() {
-        if UserDefaults.standard.integer(forKey: "numGridPoints") == 0 {
-            numGridPoints = Constants.Renderer.defaultNumGridPoints
-            confidenceThreshold = Constants.Renderer.defaultConfidence
-            rgbRadius = Constants.Renderer.defaultRgbRadius
-            maxPoints = Constants.Renderer.defaultMaxPoints
-            particleSize = Constants.Renderer.defaultParticleSize
-        }
     }
 
     func drawRectResized(size: CGSize) {

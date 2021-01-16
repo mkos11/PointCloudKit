@@ -98,6 +98,7 @@ const std::string utiFor(const SupportedExportType exportType) {
 @property (weak, nonatomic) IBOutlet UIButton *surfaceReconstructionButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *inProgressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *informationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *revertButton;
 
 // VTK

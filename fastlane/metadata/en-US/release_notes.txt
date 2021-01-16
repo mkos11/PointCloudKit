@@ -1,1 +1,8 @@
-First release! Will ship next ones with your feedback and our progress. Merry Christmas and Happy New Year!
+New Model Viewer: explore app created or external files
+New format supported for import and export (PLY ASCII, PLY Binary, XYZ, OBJ, STL, VTK)
+Added possibility to add or replace when opening a 3d file and having a rendered object already
+Added Processors: you can now post process your capture or an external file (Might crash as there was a lot of issue handling the memory, will refine)
+Added Outlier Filter Processor: remove the points that statistically differ the most from others. Allow for a cheap cleaning of point clouds
+Added parameter save between sessions in the PointCloutCapture section
+Updates textes
+Added crypto adresses

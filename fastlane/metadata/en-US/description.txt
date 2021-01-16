@@ -1,5 +1,9 @@
-Using latest LiDAR compatible devices from Apple, explore and capture your surrounding in a new way!
+Using latest LiDAR compatible devices from Apple, explore and capture your surrounding in a new way! 
+Open Model in PLY/XYZ/STL/OBJ/VTK format, or export your captures in these.
 
-Enjoy for free, contact for feature request or feedback.
 
-Merry Christmas
+The app is on progress and using a C++ library that was not made for mobile device, there is a lot of constraints with memory and as such it might crash. Please bear with me as I'm working on these. In the meantime please enjoy this free tool, I hope it can be of some use for you.
+
+Contact for feature request or feedback
+
+Thanks for using!
