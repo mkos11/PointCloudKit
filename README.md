@@ -1,4 +1,4 @@
-# Metra
+# PointCloudKit
 
 LiDAR point cloud prototype
 
